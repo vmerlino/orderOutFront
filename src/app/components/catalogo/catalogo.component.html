@@ -1,0 +1,65 @@
+<!--<h5>Lazy Loading</h5>
+<p-virtualScroller
+  [value]="virtualProducts"
+  scrollHeight="450px"
+  [itemSize]="10"
+  [lazy]="true"
+  (onLazyLoad)="loadCarsLazy($event)"
+>
+  <ng-template pTemplate="header"> List of Products </ng-template>
+  <ng-template let-product pTemplate="item">
+    <div class="product-item">
+      <div class="product-list-detail">
+        <h5 class="mb-2">{{ product.name }}</h5>
+        <i class="pi pi-tag product-category-icon"></i>
+        <span class="product-category">{{ product.category }}</span>
+      </div>
+      <div class="product-list-action">
+        <h6 class="mb-2">${{ product.price }}</h6>
+        <span
+          [class]="
+            'product-badge status-' + product.inventoryStatus.toLowerCase()
+          "
+          >{{ product.inventoryStatus }}</span
+        >
+      </div>
+    </div>
+  </ng-template>
+  <ng-template let-product pTemplate="loadingItem">
+    <p-skeleton height="90px" [style]="{ 'margin-top': '10px' }"></p-skeleton>
+  </ng-template>
+</p-virtualScroller>
+//<h5>Prepopulated List</h5>
+-->
+<div class="avatar-list">
+  <div class="avatar-container">
+    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
+  </div>
+  <div class="avatar-container">
+    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
+  </div>
+  <div class="avatar-container">
+    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
+  </div>
+</div>
+
+<p-virtualScroller [value]="products" scrollHeight="500px" [itemSize]="100">
+ 
+  <ng-template let-product pTemplate="item">
+    <div class="product-item">
+      <div class="image-container">
+        <img src="assets/images/{{product.imageUrl}}" [alt]="product.name" class="product-image" />
+    </div>
+      <div class="product-list-detail">
+        <h5 class="mb-2">{{ product.name }}</h5>
+        <i class="pi pi-tag product-category-icon"></i>
+        <span class="product-category">{{ product.category }}</span>
+      </div>
+      <div class="product-list-action">
+        <h6 class="mb-2">${{ product.price }}</h6>
+        <span [class]="'product-badge status-' + 'INSTOCK' ">INSTOCK</span>
+
+      </div>
+    </div>
+  </ng-template>
+</p-virtualScroller>

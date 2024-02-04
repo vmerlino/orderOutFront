@@ -1,0 +1,33 @@
+.titulo{
+    color: white; // Color de letra blanco
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600; // Semibold
+  font-size: 28px; 
+}
+.custom-button {
+    background-color: #644AB5; // Color de texto igual al color de fondo
+    border-radius: 20px; // Bordes redondeados
+    border: 2px solid white; // Borde blanco
+    width: 50%;
+    font-size: 20px;
+    font-weight: 600; // Semibold
+  }
+.p-button-label{
+    visibility: hidden;
+}
+  
+.container {
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    height: 100vh; /* Utiliza el 100% del alto de la pantalla */
+  }
+  
+  .content {
+    text-align: center; /* Alinea el texto al centro */
+  }
+
+  *, html, .container{
+    background-color: #644AB5;
+  }
+  
