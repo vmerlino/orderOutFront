@@ -68,13 +68,19 @@
   .avatar-container {
     width: 70px; /* Tamaño del contenedor */
     height: 70px; /* Tamaño del contenedor */
-    background-color: blueviolet; /* Color de fondo */
+    background-color: lightgray; /* Color de fondo */
     border-radius: 10px; /* Bordes redondeados */
     display: flex; /* Para centrar la imagen verticalmente */
     justify-content: center; /* Para centrar la imagen horizontalmente */
     align-items: center; /* Para centrar la imagen verticalmente */
     overflow: hidden; /* Ocultar partes de la imagen que se salgan del contenedor */
   }
+  .avatar-container:hover,
+  .avatar-container:active,
+  .avatar-container:focus {
+    background-color: #644AB5; 
+  }
+
   .avatar-list {
     display: flex; /* Cambia el comportamiento de diseño a una fila */
     gap: 10px; /* Espacio entre los elementos */

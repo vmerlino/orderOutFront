@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProductService } from './services/ProductService';
 import { HttpClientModule } from '@angular/common/http';
+import {TabViewModule} from 'primeng/tabview';
 
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup'; 
@@ -32,6 +33,7 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
     OrderListModule,
     VirtualScrollerModule,
     FormsModule,
+    TabViewModule,
     HttpClientModule,
     SkeletonModule,
     AvatarModule,
