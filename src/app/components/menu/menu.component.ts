@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-menu',
@@ -8,17 +8,18 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuComponent implements OnInit {
   items!: MenuItem[];
-  constructor() { }
+  items2!: MenuItem[];
 
-  ngOnInit(): void {
+    constructor(private messageService: MessageService,private primengConfig: PrimeNGConfig) {}
 
+    ngOnInit() {
+  
     this.items = [
-      {icon: 'pi pi-fw pi-home'},
-      {icon: 'pi pi-search'},
-      {icon: 'pi pi-shopping-cart'},
-      {icon: 'pi pi-wallet'},
-  ];
-}
+      { icon: 'pi pi-fw pi-home', routerLink: '/home' },
+      { icon: 'pi pi-search', routerLink: '/search' },
+      { icon: 'pi pi-shopping-cart', routerLink: '/cart' },
+      { icon: 'pi pi-wallet', routerLink: '/wallet' },
+    ];
   }
 
-
+}

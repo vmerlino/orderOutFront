@@ -52,7 +52,7 @@ export class ProductService {
             isGlutenFree: true
         };
         console.log(product)
-        product.imageUrl = product.name.toLocaleLowerCase().split(/[ ,]+/).join('-')+".jpg";;
+        product.imageUrl = "../../assets/images/burguer.jpg";
         return product;
     }
 

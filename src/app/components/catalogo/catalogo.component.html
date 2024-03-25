@@ -31,46 +31,95 @@
 </p-virtualScroller>
 //<h5>Prepopulated List</h5>
 -->
-<div class="avatar-list">
-  <div class="avatar-container">
-    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
+<div class="container">
+  <div class="title">
+    <span class="title-text">Mesa 9</span>
   </div>
-  <div class="avatar-container">
-    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
+  <div class="icon">
+    <p-button icon="pi pi-user" class="icon-button"></p-button>
+    <span class="icon-text">Pedir mozo</span>
   </div>
-  <div class="avatar-container">
-    <p-avatar class="avatar" image="assets/images/cocacola.jpg"></p-avatar>
-  </div>
-</div>
-<div>
-  <p-tabView color="primary">
-    <p-tabPanel header="Bebidas">
-       Bebidas
-    </p-tabPanel>
-    <p-tabPanel header="Platos">
-        Platos
-    </p-tabPanel>
-    <p-tabPanel header="Postres">
-        Postres
-    </p-tabPanel>
-  </p-tabView>
 </div>
 
+<div class="avatar-list">
+  <!-- Grupos arriba -->
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/todo.jpg"></p-avatar>
+    </div>
+    <span class="category">Todo</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/burguer.jpg"></p-avatar>
+    </div>
+    <span class="category">Burguers</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/pizza.jpg"></p-avatar>
+    </div>
+    <span class="category">Pizza</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/pastas.jpg"></p-avatar>
+    </div>
+    <span class="category">Pastas</span>
+  </div>
+  <!-- Grupos abajo -->
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/postres.jpg"></p-avatar>
+    </div>
+    <span class="category">Postres</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/bebidas.jpg"></p-avatar>
+    </div>
+    <span class="category">Bebidas</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
+    </div>
+    <span class="category">Cafeteria</span>
+  </div>
+  <div class="avatar-container-group">
+    <div class="avatar-container">
+      <p-avatar class="avatar" image="assets/images/tapeo.jpg"></p-avatar>
+    </div>
+    <span class="category">Tapeo</span>
+  </div>
+</div>
+
+
+
+
 <p-virtualScroller [value]="products" scrollHeight="500px" [itemSize]="100">
- 
+
   <ng-template let-product pTemplate="item">
     <div class="product-item">
       <div class="image-container">
-        <img src="assets/images/{{product.imageUrl}}" [alt]="product.name" class="product-image" />
-    </div>
+        <div class="avatar-container">
+          <p-avatar class="avatar" image="assets/images/{{product.imageUrl}}"></p-avatar>
+        </div>
+      </div>
       <div class="product-list-detail">
         <h5 class="mb-2">{{ product.name }}</h5>
-        <i class="pi pi-tag product-category-icon"></i>
-        <span class="product-category">{{ product.category }}</span>
+        <div class="quantity-control">
+          <button (click)="addToCart(product)" class="quantity-btn">-</button>
+          <span class="quantity-text">1</span>
+          <button (click)="removeFromCart(product)" class="quantity-btn">+</button>
+        </div>
       </div>
       <div class="product-list-action">
-        <h6 class="mb-2">${{ product.price }}</h6>
-        <span [class]="'product-badge status-' + 'INSTOCK' ">INSTOCK</span>
+        <h6 class="mb-2-price">${{ product.price }}</h6>
+        <div class="chips-container">
+          <p-chip label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
+          <p-chip label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>
+        </div>
 
       </div>
     </div>

@@ -1,0 +1,61 @@
+.title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    font-weight: 500; /* Poppins Medium */
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+  .container {
+    margin-left: 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin-top: 10px;
+    display: grid;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: #80869A;
+}
+::ng-deep .input{
+    width: 100%;
+    height: 90%;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-radius: '20px'
+}
+::ng-deep .p-button {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 500; 
+}
+::ng-deep .p-inputnumber {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.productName {
+    font-weight: 400; /* Regular */
+}
+
+.total {
+    margin-top: 20px;
+}
+
+.label {
+    font-weight: 700; /* Bold */
+}
+
+  .tabClass{
+    color: #80869A;
+  }
+
+  ::ng-deep .p-tabview .p-tabview-nav{
+    justify-content: space-around;
+  }

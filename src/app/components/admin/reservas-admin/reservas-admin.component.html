@@ -1,0 +1,37 @@
+
+<body>
+    <div class="product-management">
+        <h1>Administrar Reservas</h1>
+        <div class="button-container">
+            <button pButton type="button" class="p-button p-button-raised p-button-rounded add">
+                <i class="pi pi-plus-circle"></i> Agregar
+              </button>
+              <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
+                <i class="pi pi-minus-circle"></i> Borrar
+              </button>
+              <button pButton type="button" class="p-button p-button-raised p-button-rounded modify">
+                <i class="pi pi-info-circle"></i> Modificar
+              </button>  
+        </div>
+      </div>
+    <div>
+    <p-table [value]="products" selectionMode="multiple" [(selection)]="selectedProducts2" styleClass="mt-5" dataKey="code">
+        <ng-template pTemplate="header">
+            <tr [pSelectableRow]="product">
+                <th>Nombre</th>
+                <th>Dia</th>
+                <th>Cantidad de personas</th>
+                <th>Horario</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+                <td>{{product.code}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.category}}</td>
+                <td>{{product.quantity}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+</body>

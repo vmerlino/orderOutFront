@@ -12,9 +12,18 @@
     }
   
     .product-list-detail {
+      margin-left: 10px;
       flex: 1 1 0;
     }
-  
+    .mb-2-price{
+      font-weight: 1000;
+      color: #C9AA05;
+    }
+    .chips-container {
+      display: flex;
+      gap: 5px; /* Espacio entre los chips */
+    }
+    
     .product-list-action {
       display: flex;
       flex-direction: column;
@@ -65,9 +74,16 @@
       }
     }
   }
+
+  .mb-2{
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
   .avatar-container {
-    width: 70px; /* Tamaño del contenedor */
-    height: 70px; /* Tamaño del contenedor */
+    padding: 2px;
+    margin-bottom: 5px;
+    width: 60px; /* Tamaño del contenedor */
+    height: 60px; /* Tamaño del contenedor */
     background-color: lightgray; /* Color de fondo */
     border-radius: 10px; /* Bordes redondeados */
     display: flex; /* Para centrar la imagen verticalmente */
@@ -75,23 +91,97 @@
     align-items: center; /* Para centrar la imagen verticalmente */
     overflow: hidden; /* Ocultar partes de la imagen que se salgan del contenedor */
   }
-  .avatar-container:hover,
-  .avatar-container:active,
-  .avatar-container:focus {
-    background-color: #644AB5; 
+ ::ng-deep .p-avatar img {
+   object-fit: cover; /* Ajustar la imagen para que quepa completamente dentro del contenedor */
+
   }
 
-  .avatar-list {
-    display: flex; /* Cambia el comportamiento de diseño a una fila */
-    gap: 10px; /* Espacio entre los elementos */
-  }
-  .avatar {
-  //  width: 80px; /* Tamaño de la imagen */
-   // height: 80px; /* Tamaño de la imagen */
+  
+  .avatar-container p-avatar {
+    width: 100%; /* Tamaño de la imagen */
+    height: 100%; /* Tamaño de la imagen */
     border-radius: 50%; /* Hacer la imagen circular */
+    object-fit: cover; /* Ajustar la imagen para que ocupe todo el espacio disponible sin distorsión */
+  }
+  
+  .avatar-container-group:hover .avatar-container,
+  .avatar-container-group:active .avatar-container,
+  .avatar-container-group:focus .avatar-container {
+    background-color: #644AB5; /* Cambiar el color de fondo a violeta */
+  }
+  
+  .avatar-container-group:hover .category,
+  .avatar-container-group:active .category,
+  .avatar-container-group:focus .category {
+    color: #644AB5; /* Cambiar el color del texto a violeta */
+  }
+  
+  .category {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: #808080; /* Color gris */
+  }
+  
+  .avatar-container-group {
+    margin-bottom: 10px;
+    flex: 0 0 25%; /* Ocupa el 25% del ancho disponible */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar horizontalmente */
+    text-align: center; /* Centrar verticalmente */
+  }
+  
+  .container {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    font-weight: 500; /* Poppins Medium */
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    border-radius: 70%; /* Forma circular */
+
+    margin-left: auto; /* Mover hacia la derecha */
+  }
+  
+  .icon-button {
+    background-color: #644AB5; /* Fondo circular violeta */
+    color: #808080; /* Color gris */
+    border-radius: 70%; /* Forma circular */
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+  }
+  
+  .icon-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    color: #808080; /* Color gris */
+  }
+  
+  .avatar-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrar horizontalmente */
+  }
+  
+  .avatar {
+   border-radius: 50%; /* Hacer la imagen circular */
     overflow: hidden; /* Ocultar partes de la imagen que se salgan del círculo */
   }
   
+  
+  ::ng-deep .p-avatar.p-avatar-image{
+    width: 100% !important;
+    height: 100% !important;
+  }
   @media screen and (max-width: 960px) {
     .product-item {
       h5 {
@@ -109,3 +199,42 @@
     }
   }
   
+  .quantity-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-btn {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #644AB5;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #644AB5;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+  }
+  
+  .quantity-btn:hover {
+    background-color: #644AB5;
+    color: white;
+  }
+  
+  .quantity-text {
+    font-size: 14px;
+  }
+
+  ::ng-deep .p-chip{
+    width: max-content;
+    height: min-content;
+    font-size: smaller;
+    /* background: lightgreen; */
+    background-color: #8a65ff4f;
+    display: inline-flex;
+    align-items: center;
+    color: gray;
+  }

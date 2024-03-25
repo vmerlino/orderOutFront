@@ -4,4 +4,34 @@
     left: 0;
     width: 100%;
   }
+ 
   
+  app-menu {
+    flex: 0 0 20%; // El menú ocupa el 20% del espacio disponible
+  }
+  
+  router-outlet {
+   // flex: 1; // El contenido restante ocupa el 80% del espacio disponible
+    overflow-y: auto; // Añade scroll vertical si es necesario
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px; /* Ancho del menú */
+    height: 100%;
+    background-color: #333;
+    color: white;
+  }
+  
+  .content {
+    flex: 1;
+    margin-left: 200px; /* Ancho del menú */
+    /* Espacio alrededor del contenido */
+  }

@@ -9,6 +9,12 @@ import { ProductService } from 'src/app/services/ProductService';
   styleUrls: ['./catalogo.component.scss']
 })
 export class CatalogoComponent implements OnInit {
+addToCart(_t53: any) {
+throw new Error('Method not implemented.');
+}
+removeFromCart(_t53: any) {
+throw new Error('Method not implemented.');
+}
 
   products!: Product[];
 
