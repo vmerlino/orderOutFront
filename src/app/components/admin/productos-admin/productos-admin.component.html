@@ -15,9 +15,9 @@
         </div>
       </div>
     <div>
-    <p-table [value]="products" selectionMode="multiple" [(selection)]="selectedProducts2" styleClass="mt-5" dataKey="code">
+    <p-table [value]="products" selectionMode="multiple"  styleClass="mt-5" dataKey="code">
         <ng-template pTemplate="header">
-            <tr [pSelectableRow]="product">
+            <tr [pSelectableRow]="selectedProduct">
                 <th>Producto</th>
                 <th>imagen</th>
                 <th>Precio</th>

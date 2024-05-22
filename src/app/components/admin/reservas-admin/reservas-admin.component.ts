@@ -34,7 +34,6 @@ export class ReservasAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.productService.getProductsSmall().then(data => this.products = data);
   }
 
   selectProduct(product: Product) {

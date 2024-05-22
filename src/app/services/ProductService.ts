@@ -2,60 +2,41 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/Product';
 import { Category } from '../model/Category';
+import { Observable } from 'rxjs';
+import { BACKEND_URL } from 'src/constants';
 
 @Injectable({providedIn: 'root'})
 export class ProductService {
-
-    status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
-
-    productNames: string[] = [
-        "Bamboo Watch", 
-        "Black Watch", 
-        "Blue Band", 
-        "Blue T-Shirt", 
- 
-    ];
-
-    constructor(private http: HttpClient) { }
-
-    getProductsSmall() {
-        return this.http.get<any>('assets/products-small.json')
-        .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data => { return data; });
+  
+  status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
+  
+  productNames: string[] = [
+    "Bamboo Watch", 
+    "Black Watch", 
+    "Blue Band", 
+    "Blue T-Shirt", 
+    
+  ];
+  
+  
+  constructor(private http: HttpClient) { }
+  
+    deleteProduct(id: number): Observable<void>  {
+      return this.http.delete<void>(`${BACKEND_URL}/Product/${id}`);
     }
-
-    getProducts() {
-        return this.http.get<any>('assets/products.json')
-        .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data => { return data; });
+    getProduct(id: number): Observable<Product> {
+      return this.http.get<Product>(`${BACKEND_URL}/Product/GetProduct/${id}`);
     }
-
-    getProductsWithOrdersSmall() {
-        return this.http.get<any>('assets/products-orders-small.json')
-        .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data => { return data; });
+  
+    getAllProducts(): Observable<Product[]> {
+      return this.http.get<Product[]>(`${BACKEND_URL}/Product/AllProducts`);
     }
-
-    generatePrduct(): Product {
-        const product: Product =  {
-            id: 12345,
-            name:"Cocacola",
-            description: "Bebida gasificada cocacola",
-            price: 2200,
-            // quantity: this.generateQuantity(),
-            category: new Category(1, "Bebidas", "bebidas sin alcohol"),
-            imageUrl: '',
-            isVegan: false,
-            isGlutenFree: true
-        };
-        console.log(product)
-        product.imageUrl = "../../assets/images/burguer.jpg";
-        return product;
+  
+    createProduct(product: Product): Observable<Product> {
+      return this.http.post<Product>(`${BACKEND_URL}/Product`, product);
     }
-
-
-
+  
+    updateProduct(id: number, product: Product): Observable<Product> {
+      return this.http.put<Product>(`${BACKEND_URL}/Product/${id}`, product);
+    }
 }

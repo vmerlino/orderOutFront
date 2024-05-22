@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import {MenuModule} from 'primeng/menu';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProductService } from './services/ProductService';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {TabViewModule} from 'primeng/tabview';
 import { ChipModule } from 'primeng/chip';
 import {InputNumberModule} from 'primeng/inputnumber';
@@ -41,6 +41,9 @@ import { MozosAdminComponent } from './components/admin/mozos-admin/mozos-admin.
 import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-admin.component';
 import { CuentasAdminComponent } from './components/admin/cuentas-admin/cuentas-admin.component';
 import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.component';
+import { AuthInterceptor } from './components/HttpInterceptor';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +88,11 @@ import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
-  providers: [ProductService, MessageService],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },ProductService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -20,8 +20,7 @@ export class ProductosComponent implements OnInit {
   exportColumns!: any[];
 
   ngOnInit() {
-      this.productService.getProductsSmall().then((data: Product[]) => this.products = data);
-
+     
       this.cols = [
           { field: 'code', header: 'Code', customExportHeader: 'Product Code' },
           { field: 'name', header: 'Name' },

@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'order-out-front';
  
   isHomePage = false;
-  isLoggedIn = true
+  isLoggedIn = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {

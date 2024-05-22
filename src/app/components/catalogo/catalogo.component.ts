@@ -27,9 +27,9 @@ throw new Error('Method not implemented.');
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.products = Array.from({ length: 10 }).map(() =>
-      this.productService.generatePrduct()
-    );
+    this.productService.getAllProducts().subscribe(products => {
+      this.products = products;
+    });
     this.virtualProducts = Array.from({ length: 10 });
 
     this.sortOptions = [
