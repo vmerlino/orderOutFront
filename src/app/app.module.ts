@@ -42,7 +42,11 @@ import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-
 import { CuentasAdminComponent } from './components/admin/cuentas-admin/cuentas-admin.component';
 import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.component';
 import { AuthInterceptor } from './components/HttpInterceptor';
-
+import { CategoryCreateComponent } from './components/addNew/category-create/category-create.component';
+import { MozoCreateComponent } from './components/addNew/mozo-create/mozo-create.component';
+import { ProductoCreateComponent } from './components/addNew/producto-create/producto-create.component';
+import { MenuCreateComponent } from './components/addNew/menu-create/menu-create.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -61,32 +65,37 @@ import { AuthInterceptor } from './components/HttpInterceptor';
     MozosAdminComponent,
     PedidosAdminComponent,
     CuentasAdminComponent,
-    MenusAdminComponent
+    MenusAdminComponent,
+    CategoryCreateComponent,
+    MozoCreateComponent,
+    ProductoCreateComponent,
+    MenuCreateComponent
   ],
   imports: [
-    BrowserModule,
-    MenuModule,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-    TableModule,
-    InputNumberModule,
-    ChipModule,
-    DropdownModule,
-    TabMenuModule,
-    OrderListModule,
-    VirtualScrollerModule,
-    FormsModule,
-    TabViewModule,
-    HttpClientModule,
-    SkeletonModule,
-    AvatarModule,
-    AvatarGroupModule,
     AppRoutingModule,
+    AvatarGroupModule,
+    AvatarModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    ButtonModule,
+    ChipModule,
+    DialogModule,
+    DropdownModule,
+    FormsModule,
+    HttpClientModule,
+    InputNumberModule,
+    InputTextModule,
+    MenuModule,
+    OrderListModule,
+    PasswordModule,
     RippleModule,
+    SkeletonModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    TabMenuModule,
+    TabViewModule,
+    TableModule,
+    VirtualScrollerModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

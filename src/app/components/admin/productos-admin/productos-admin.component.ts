@@ -9,7 +9,7 @@ import { ProductService } from 'src/app/services/ProductService';
   styleUrls: ['./productos-admin.component.scss']
 })
 export class ProductosAdminComponent implements OnInit {
-  
+    displayDialog =false;
     products: Product[];
     selectedProduct: Product;
   
@@ -23,6 +23,7 @@ export class ProductosAdminComponent implements OnInit {
       this.productService.getAllProducts().subscribe(
         products => {
           this.products = products;
+          console.log(products);
         },
         error => {
           console.error('Error loading products: ', error);
@@ -42,9 +43,14 @@ export class ProductosAdminComponent implements OnInit {
         }
       );
     }
-  
+    cerrarDialogo() {
+      this.displayDialog = false;
+    }
+    abrirDialogo() {
+      this.displayDialog = true;
+    }
     updateProduct(product: Product) {
-      this.productService.updateProduct(product.id, product).subscribe(
+    /*  this.productService.updateProduct(product.id, product).subscribe(
         updatedProduct => {
           const index = this.products.findIndex(p => p.id === updatedProduct.id);
           if (index !== -1) {
@@ -56,11 +62,11 @@ export class ProductosAdminComponent implements OnInit {
           console.error('Error updating product: ', error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating product' });
         }
-      );
+      );*/
     }
   
     deleteProduct(product: Product) {
-      if (confirm('Are you sure you want to delete this product?')) {
+      /*if (confirm('Are you sure you want to delete this product?')) {
         this.productService.deleteProduct(product.id).subscribe(
           () => {
             this.products = this.products.filter(p => p.id !== product.id);
@@ -71,7 +77,7 @@ export class ProductosAdminComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting product' });
           }
         );
-      }
+      }*/
     }
   
     selectProduct(product: Product) {

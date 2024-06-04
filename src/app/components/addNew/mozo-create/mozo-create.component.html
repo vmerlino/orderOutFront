@@ -1,0 +1,12 @@
+<p-dialog header="{{accion}} Nueva Mozo" [modal]="true" [(visible)]="displayDialog" [style]="{ 'width': '600px' }" [baseZIndex]="10000" [closable]="false">
+    <div class="p-fluid">
+        <div class="p-field">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" pInputText [(ngModel)]="nombre" autofocus required>
+        </div>
+    </div>
+    <footer  style="display: flex;margin-top: 20px; justify-content: space-between;">
+        <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="guardar()"></button>
+        <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="cancelar()"></button>
+    </footer>
+</p-dialog>

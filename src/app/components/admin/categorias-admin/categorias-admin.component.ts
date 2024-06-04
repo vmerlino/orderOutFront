@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Category } from 'src/app/model/Category';
-import { CategoryService } from 'src/app/services/categoryService';
+import { CategoryService } from 'src/app/services/CategoryService';
 
 @Component({
   selector: 'app-categorias-admin',
@@ -9,7 +9,7 @@ import { CategoryService } from 'src/app/services/categoryService';
   styleUrls: ['./categorias-admin.component.scss']
 })
 export class CategoriasAdminComponent implements OnInit {
-
+    displayDialog: boolean = false;
     categories: Category[];
     category: Category;
     selectedCategory: Category;
@@ -24,57 +24,42 @@ export class CategoriasAdminComponent implements OnInit {
       this.categoryService.getAllCategories().subscribe(
         categories => {
           this.categories = categories;
+          console.log(categories);
         },
         error => {
           console.error('Error loading categories: ', error);
         }
       );
     }
-  
-    addCategory(category: Category) {
-      this.categoryService.createCategory(category).subscribe(
-        newCategory => {
-          this.categories.push(newCategory);
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category added successfully' });
-        },
-        error => {
-          console.error('Error adding category: ', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error adding category' });
-        }
-      );
+    
+    updateCategories() {
+      this.cerrarDialogo();
+      this.loadCategories();
     }
-  
-    updateCategory(category: Category) {
-      this.categoryService.updateCategory(category.id, category).subscribe(
-        updatedCategory => {
-          const index = this.categories.findIndex(c => c.id === updatedCategory.id);
-          if (index !== -1) {
-            this.categories[index] = updatedCategory;
-          }
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category updated successfully' });
-        },
-        error => {
-          console.error('Error updating category: ', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating category' });
-        }
-      );
+
+    modificarCategoria(){
+
     }
-  
-    deleteCategory(category: Category) {
-      if (confirm('Are you sure you want to delete this category?')) {
-        this.categoryService.deleteCategory(category.id).subscribe(
+
+    deleteCategory() {
+        this.categoryService.deleteCategory(this.selectedCategory.id).subscribe(
           () => {
-            this.categories = this.categories.filter(c => c.id !== category.id);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category deleted successfully' });
+            this.categories = this.categories.filter(c => c.id !== this.selectedCategory.id);
+            console.log({ severity: 'success', summary: 'Success', detail: 'Category deleted successfully' });
           },
           (error:any) => {
             console.error('Error deleting category: ', error);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting category' });
           }
         );
       }
+    
+    
+    cerrarDialogo() {
+      this.displayDialog = false;
     }
-  
+    abrirDialogo() {
+      this.displayDialog = true;
+    }
     selectCategory(category: Category) {
       this.selectedCategory = category;
       this.messageService.add({ severity: 'info', summary: 'Category Selected', detail: category.name });
@@ -87,13 +72,13 @@ export class CategoriasAdminComponent implements OnInit {
     onRowUnselect(event: any) {
       this.messageService.add({ severity: 'info', summary: 'Category Unselected', detail: event.data.name });
     }
-  
+    
     isRowSelectable(event: any) {
       return !this.isOutOfStock(event.data);
     }
-  
+    
     isOutOfStock(data: any) {
       return data.inventoryStatus === 'OUTOFSTOCK';
     }
-
+    
 }

@@ -12,6 +12,7 @@ import { MenuesService } from 'src/app/services/menues.service';
 export class MenusAdminComponent implements OnInit {
   menus: Menu[];
   selectedMenu: Menu;
+  displayDialog: boolean = false;
 
   constructor(private menuService: MenuesService, private messageService: MessageService) {}
 
@@ -29,7 +30,13 @@ export class MenusAdminComponent implements OnInit {
       }
     );
   }
-
+  cerrarDialogo() {
+    this.displayDialog = false;
+  }
+  abrirDialogo() {
+    this.displayDialog = true;
+    console.log("entro")
+  }
   addMenu(menu: Menu) {
     this.menuService.createMenu(menu).subscribe(
         (  newMenu) => {
@@ -44,7 +51,7 @@ export class MenusAdminComponent implements OnInit {
   }
 
   updateMenu(menu: Menu) {
-    this.menuService.updateMenu(menu.id, menu).subscribe(
+    /*this.menuService.updateMenu(menu.id, menu).subscribe(
         (      updatedMenu: Menu) => {
         const index = this.menus.findIndex(m => m.id === updatedMenu.id);
         if (index !== -1) {
@@ -56,7 +63,7 @@ export class MenusAdminComponent implements OnInit {
         console.error('Error updating menu: ', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating menu' });
       }
-    );
+    );*/
   }
 
   deleteMenu(menu: Menu) {

@@ -1,16 +1,17 @@
 import { Category } from "./Category";
 
 export class Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    category: Category
-    imageUrl: string;
-    isVegan: boolean;
-    isGlutenFree: boolean;
+  id: number|null;
+  name: string;
+  description: string;
+  imageUrl: string | null;
+  isVegan: boolean;
+  isGlutenFree: boolean;
+  price: number;
+  category: Category;
+
   
-    constructor(id: number, name: string, description: string,price: number,category:Category, imageUrl: string, isVegan: boolean, isGlutenFree: boolean) {
+    constructor(id: number | null, name: string,price: number, category: Category, description: string, imageUrl: string | null, isVegan: boolean, isGlutenFree: boolean) {
       this.id = id;
       this.name = name;
       this.description = description;

@@ -1,0 +1,34 @@
+<p-dialog header="{{accion}} Nuevo Producto" [modal]="true" [(visible)]="displayDialog" [style]="{ 'width': '600px'}" [baseZIndex]="10000" [closable]="false">
+    <div class="p-fluid">
+        <div class="p-field" style="margin-top: 10px;">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" pInputText [(ngModel)]="nombre" autofocus required>
+        </div>
+        <div class="p-field">
+            <label for="description">Descripcion</label>
+            <input type="text" id="description" pInputText [(ngModel)]="descripcion" autofocus required>
+        </div>
+        <div class="p-field">
+            <label for="category">Categoria</label>
+            <p-dropdown [options]="categories" [(ngModel)]="category" optionLabel="name" placeholder="Seleccione una categoría" [autoDisplayFirst]="false"></p-dropdown>
+          </div>
+        <div class="p-field">
+            <label for="price">Precio</label>
+            <input type="text" id="price" pInputText [(ngModel)]="precio" autofocus required>
+        </div>
+        <div class="checkbox-container">
+            <div class="checkbox-item">
+              <input type="checkbox" id="vegano" [(ngModel)]="isVegan">
+              <label for="vegano">¿Es vegano?</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="libreGluten" [(ngModel)]="isGluteenFree">
+              <label for="libreGluten">¿Es libre de gluten?</label>
+            </div>
+          </div>
+    </div>
+    <footer  style="display: flex;margin-top: 20px; justify-content: space-between;">
+        <button type="button" pButton label="Guardar" icon="pi pi-check" (click)="guardar()"></button>
+        <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="cancelar()"></button>
+    </footer>
+</p-dialog>

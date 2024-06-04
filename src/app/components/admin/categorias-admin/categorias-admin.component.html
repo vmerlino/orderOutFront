@@ -1,37 +1,38 @@
-
 <body>
     <div class="category-management">
         <h1>Administrar Categorias</h1>
         <div class="button-container">
-            <button pButton type="button" class="p-button p-button-raised p-button-rounded add">
+            <button [disabled]="selectedCategory" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
                 <i class="pi pi-plus-circle"></i> Agregar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
+            </button>
+            <button [disabled]="!selectedCategory" pButton type="button" (click)="deleteCategory()" class="p-button p-button-raised p-button-rounded delete">
                 <i class="pi pi-minus-circle"></i> Borrar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded modify">
-                <i class="pi pi-info-circle"></i> Modificar
-              </button>  
+            </button>
+            <button [disabled]="!selectedCategory" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded modify">
+                <i class="pi pi-info-circle" ></i> Modificar
+            </button>
         </div>
-      </div>
+    </div>
     <div>
-    <p-table [value]="categories" selectionMode="multiple" styleClass="mt-5" dataKey="code">
-        <ng-template pTemplate="header">
-            <tr [pSelectableRow]="selectCategory">
-                <th>Categoria</th>
-                <th>imagen</th>
-                <th>Precio</th>
-                <th>Estado</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-category let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="category" [pSelectableRowIndex]="rowIndex">
-                <td>{{category.code}}</td>
-                <td>{{category.name}}</td>
-                <td>{{category.category}}</td>
-                <td>{{category.quantity}}</td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
+        <app-category-create [displayDialog]="displayDialog" [categorySelect]="selectedCategory" (onClose)="cerrarDialogo()" (updateCategories)="updateCategories()">
+        </app-category-create>
+        <p-table [value]="categories" selectionMode="single" [(selection)]="selectedCategory" (selectionChange)="selectCategory(selectedCategory)" styleClass="mt-5" dataKey="id">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>codigo</th>
+                    <th>nombre</th>
+                    <th>-</th>
+                    <th>-</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-category let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="category" [pSelectableRowIndex]="rowIndex">
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>        
+    </div>
 </body>

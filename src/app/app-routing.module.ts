@@ -14,6 +14,7 @@ import { CuentasAdminComponent } from './components/admin/cuentas-admin/cuentas-
 import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-admin.component';
 import { MozosAdminComponent } from './components/admin/mozos-admin/mozos-admin.component';
 import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.component';
+import { CategoryCreateComponent } from './components/addNew/category-create/category-create.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'admin/pedidos', component: PedidosAdminComponent },
   { path: 'admin/cuentas', component: CuentasAdminComponent },
   { path: 'admin/menu', component: MenusAdminComponent },
+  { path: 'admin/crear/categoria', component: CategoryCreateComponent },
   //mobile
   { path: 'productos', component: ProductosComponent },
   { path: 'wallet', component: WalletComponent },

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Menu } from '../model/Menu';
+import { BACKEND_URL } from 'src/constants';
 
 @Injectable({
   providedIn: 'root'

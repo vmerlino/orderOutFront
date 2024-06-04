@@ -3,7 +3,7 @@
     <div class="menu-management">
         <h1>Administrar menu</h1>
         <div class="button-container">
-            <button pButton type="button" class="p-button p-button-raised p-button-rounded add">
+            <button pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
                 <i class="pi pi-plus-circle"></i> Agregar
               </button>
               <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
@@ -15,21 +15,23 @@
         </div>
       </div>
     <div>
+        <app-menu-create [displayDialog]="displayDialog" (onClose)="cerrarDialogo()">
+        </app-menu-create>
     <p-table [value]="menus" selectionMode="multiple"  styleClass="mt-5" dataKey="code">
         <ng-template pTemplate="header">
             <tr [pSelectableRow]="selectMenu">
-                <th>Menu</th>
-                <th>imagen</th>
-                <th>Precio</th>
+                <th>codigo</th>
+                <th>nombre</th>
+                <th>descripcion</th>
                 <th>Estado</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-menu let-rowIndex="rowIndex">
             <tr [pSelectableRow]="menu" [pSelectableRowIndex]="rowIndex">
-                <td>{{menu.code}}</td>
+                <td>{{menu.id}}</td>
                 <td>{{menu.name}}</td>
-                <td>{{menu.category}}</td>
-                <td>{{menu.quantity}}</td>
+                <td>{{menu.description}}</td>
+                <td>{{menu.status}}</td>
             </tr>
         </ng-template>
     </p-table>

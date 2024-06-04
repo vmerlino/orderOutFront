@@ -57,4 +57,7 @@
       }
     }
   }
-  
+  ::ng-deep .p-datatable .p-datatable-tbody > tr.p-highlight{
+    background: none !important;
+    color: black;
+  }

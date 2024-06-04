@@ -64,13 +64,13 @@ console.log(loadedProducts)
 
   sort(order: number): void {
     let products = [...this.products];
-    products.sort((data1, data2) => {
-      let value1 = data1.price;
-      let value2 = data2.price;
-      let result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+    //products.sort((data1, data2) => {
+      //let value1 = data1.price;
+      //let value2 = data2.price;
+      //let result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
-      return order * result;
-    });
+      //return order * result;
+    //});
 
     this.products = products;
   }

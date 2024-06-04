@@ -10,6 +10,7 @@ import { WaiterService } from 'src/app/services/waiter.service';
 })
 export class MozosAdminComponent implements OnInit {
     waiters: Waiter[];
+    displayDialog =false;
     selectedWaiter: Waiter;
   
     constructor(private waiterService: WaiterService, private messageService: MessageService) {}
@@ -41,9 +42,14 @@ export class MozosAdminComponent implements OnInit {
         }
       );
     }
-  
+    cerrarDialogo() {
+      this.displayDialog = false;
+    }
+    abrirDialogo() {
+      this.displayDialog = true;
+    }
     updateWaiter(waiter: Waiter) {
-      this.waiterService.updateWaiter(waiter.id, waiter).subscribe(
+    /*  this.waiterService.updateWaiter(waiter.id, waiter).subscribe(
         updatedWaiter => {
           const index = this.waiters.findIndex(w => w.id === updatedWaiter.id);
           if (index !== -1) {
@@ -55,11 +61,11 @@ export class MozosAdminComponent implements OnInit {
           console.error('Error updating waiter: ', error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating waiter' });
         }
-      );
+      );*/
     }
   
     deleteWaiter(waiter: Waiter) {
-      if (confirm('Are you sure you want to delete this waiter?')) {
+     /* if (confirm('Are you sure you want to delete this waiter?')) {
         this.waiterService.deleteWaiter(waiter.id).subscribe(
           () => {
             this.waiters = this.waiters.filter(w => w.id !== waiter.id);
@@ -70,7 +76,7 @@ export class MozosAdminComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting waiter' });
           }
         );
-      }
+      }*/
     }
   
     selectWaiter(waiter: Waiter) {
