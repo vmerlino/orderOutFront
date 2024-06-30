@@ -3,21 +3,21 @@
     <div class="waiter-management">
         <h1>Administrar mozos</h1>
         <div class="button-container">
-            <button pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
+            <button [disabled]="selectedWaiter" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
                 <i class="pi pi-plus-circle"></i> Agregar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
+            </button>
+            <button [disabled]="!selectedWaiter" pButton type="button" (click)="deleteWaiter()" class="p-button p-button-raised p-button-rounded delete">
                 <i class="pi pi-minus-circle"></i> Borrar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded modify">
-                <i class="pi pi-info-circle"></i> Modificar
-              </button>  
+            </button>
+            <button [disabled]="!selectedWaiter" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded modify">
+                <i class="pi pi-info-circle" ></i> Modificar
+            </button>  
         </div>
       </div>
     <div>
-        <app-mozo-create [displayDialog]="displayDialog" (onClose)="cerrarDialogo()">
+        <app-mozo-create [displayDialog]="displayDialog" [waiter]="selectedWaiter" (onClose)="cerrarDialogo()" (updateWaiters)="updateWaiter()">
         </app-mozo-create>
-    <p-table [value]="waiters" selectionMode="multiple" styleClass="mt-5" dataKey="code">
+    <p-table [value]="waiters" selectionMode="single" styleClass="mt-5" dataKey="code">
         <ng-template pTemplate="header">
             <tr [pSelectableRow]="selectWaiter">
                 <th>codigo</th>

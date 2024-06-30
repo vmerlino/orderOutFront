@@ -14,7 +14,7 @@ export class MenusAdminComponent implements OnInit {
   selectedMenu: Menu;
   displayDialog: boolean = false;
 
-  constructor(private menuService: MenuesService, private messageService: MessageService) {}
+  constructor(private menuService: MenuesService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.loadMenus();
@@ -22,10 +22,11 @@ export class MenusAdminComponent implements OnInit {
 
   loadMenus() {
     this.menuService.getAllMenus().subscribe(
-        (menus) => {
+      (menus) => {
         this.menus = menus;
+        console.log(menus);
       },
-        (      error: any) => {
+      (error: any) => {
         console.error('Error loading menus: ', error);
       }
     );
@@ -35,45 +36,34 @@ export class MenusAdminComponent implements OnInit {
   }
   abrirDialogo() {
     this.displayDialog = true;
-    console.log("entro")
   }
+
   addMenu(menu: Menu) {
     this.menuService.createMenu(menu).subscribe(
-        (  newMenu) => {
+      (newMenu) => {
         this.menus.push(newMenu);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu added successfully' });
       },
-        (      error: any) => {
+      (error: any) => {
         console.error('Error adding menu: ', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error adding menu' });
       }
     );
   }
 
-  updateMenu(menu: Menu) {
-    /*this.menuService.updateMenu(menu.id, menu).subscribe(
-        (      updatedMenu: Menu) => {
-        const index = this.menus.findIndex(m => m.id === updatedMenu.id);
-        if (index !== -1) {
-          this.menus[index] = updatedMenu;
-        }
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu updated successfully' });
-      },
-        (      error: any) => {
-        console.error('Error updating menu: ', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating menu' });
-      }
-    );*/
+  updateMenu() {
+    this.cerrarDialogo();
+    this.loadMenus();
   }
 
-  deleteMenu(menu: Menu) {
+  deleteMenu() {
     if (confirm('Are you sure you want to delete this menu?')) {
-      this.menuService.deleteMenu(menu.id).subscribe(
+      this.menuService.deleteMenu(this.selectedMenu.id).subscribe(
         () => {
-          this.menus = this.menus.filter(m => m.id !== menu.id);
+          this.menus = this.menus.filter(m => m.id !== this.selectedMenu.id);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Menu deleted successfully' });
         },
-          (        error: any) => {
+        (error: any) => {
           console.error('Error deleting menu: ', error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting menu' });
         }

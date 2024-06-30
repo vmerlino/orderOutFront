@@ -8,19 +8,26 @@ import { MenuesService } from 'src/app/services/menues.service';
   styleUrls: ['./menu-create.component.scss']
 })
 export class MenuCreateComponent implements OnInit {
-  @Input() displayDialog: boolean = false;
-  @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
-  @Input() menu: Menu;
-
+  private _menuSelect: Menu;
   accion = 'Agregar'
   nombre: string;
   descripcion: string;
+
+  @Input() displayDialog: boolean = false;
+  @Input() set menu(value: Menu) {
+    this._menuSelect = value;
+    if(value){
+      this.accion='Modificar';
+      this.nombre = value.name;
+      this.descripcion = value.description;
+    }   
+  } 
+  @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() updateCategories: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private menuService: MenuesService) { }
 
   ngOnInit(): void {
-    if(this.menu){
-      this.accion='Modificar';
-    }
   }
 
   guardar() {

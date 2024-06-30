@@ -10,7 +10,7 @@ import { WaiterService } from 'src/app/services/waiter.service';
 })
 export class MozosAdminComponent implements OnInit {
     waiters: Waiter[];
-    displayDialog =false;
+    displayDialog = false;
     selectedWaiter: Waiter;
   
     constructor(private waiterService: WaiterService, private messageService: MessageService) {}
@@ -23,6 +23,7 @@ export class MozosAdminComponent implements OnInit {
       this.waiterService.getAllWaiters().subscribe(
         waiters => {
           this.waiters = waiters;
+          console.log(waiters);
         },
         error => {
           console.error('Error loading waiters: ', error);
@@ -48,27 +49,15 @@ export class MozosAdminComponent implements OnInit {
     abrirDialogo() {
       this.displayDialog = true;
     }
-    updateWaiter(waiter: Waiter) {
-    /*  this.waiterService.updateWaiter(waiter.id, waiter).subscribe(
-        updatedWaiter => {
-          const index = this.waiters.findIndex(w => w.id === updatedWaiter.id);
-          if (index !== -1) {
-            this.waiters[index] = updatedWaiter;
-          }
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Waiter updated successfully' });
-        },
-        error => {
-          console.error('Error updating waiter: ', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating waiter' });
-        }
-      );*/
+    updateWaiter() {
+      this.cerrarDialogo();
+      this.loadWaiters();
     }
   
-    deleteWaiter(waiter: Waiter) {
-     /* if (confirm('Are you sure you want to delete this waiter?')) {
-        this.waiterService.deleteWaiter(waiter.id).subscribe(
+    deleteWaiter() {
+        this.waiterService.deleteWaiter(this.selectedWaiter.id).subscribe(
           () => {
-            this.waiters = this.waiters.filter(w => w.id !== waiter.id);
+            this.waiters = this.waiters.filter(w => w.id !== this.selectedWaiter.id);
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Waiter deleted successfully' });
           },
           error => {
@@ -76,8 +65,8 @@ export class MozosAdminComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting waiter' });
           }
         );
-      }*/
-    }
+      }
+  
   
     selectWaiter(waiter: Waiter) {
       this.selectedWaiter = waiter;

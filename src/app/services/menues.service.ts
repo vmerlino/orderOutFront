@@ -16,11 +16,11 @@ export class MenuesService {
     return this.http.delete<void>(`${BACKEND_URL}/${id}`);
   }
   getMenu(id: number): Observable<Menu> {
-    return this.http.get<Menu>(`${BACKEND_URL}/${id}`);
+    return this.http.get<Menu>(`${BACKEND_URL}/Menu/${id}`);
   }
 
   getAllMenus(): Observable<Menu[]> {
-    return this.http.get<Menu[]>(BACKEND_URL);
+    return this.http.get<Menu[]>(BACKEND_URL+"/Menu/AllMenus");
   }
 
   createMenu(menu: Menu): Observable<Menu> {

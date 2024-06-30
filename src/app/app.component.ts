@@ -10,12 +10,12 @@ export class AppComponent {
   title = 'order-out-front';
  
   isHomePage = false;
-  isLoggedIn = true;
+  isLoggedIn = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isHomePage = this.router.url === '/' || this.router.url === '/home' || this.router.url === '/**'|| this.router.url === '/login';
+        this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
       }
     });
   }

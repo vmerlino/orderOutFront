@@ -4,3 +4,13 @@
     border-width: 0 0 2px 0;
     justify-content: space-around;
 }
+
+.ui-panelmenu-header, .ui-menuitem {
+    position: relative;
+  }
+  .ui-menuitem-text .badge{
+    position: absolute;
+    right: 1.5em;
+    top: 1.4em;
+    top: calc(0.714em + 7px);
+  }  

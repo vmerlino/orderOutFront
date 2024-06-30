@@ -16,6 +16,10 @@
             <label for="price">Precio</label>
             <input type="text" id="price" pInputText [(ngModel)]="precio" autofocus required>
         </div>
+        <div class="p-field">
+          <label for="image">Imagen</label>
+          <input type="file" (change)="onImageSelected($event)" accept="image/*">
+        </div>
         <div class="checkbox-container">
             <div class="checkbox-item">
               <input type="checkbox" id="vegano" [(ngModel)]="isVegan">

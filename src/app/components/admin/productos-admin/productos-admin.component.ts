@@ -23,7 +23,7 @@ export class ProductosAdminComponent implements OnInit {
       this.productService.getAllProducts().subscribe(
         products => {
           this.products = products;
-          console.log(products);
+          console.log(products)
         },
         error => {
           console.error('Error loading products: ', error);
@@ -49,27 +49,15 @@ export class ProductosAdminComponent implements OnInit {
     abrirDialogo() {
       this.displayDialog = true;
     }
-    updateProduct(product: Product) {
-    /*  this.productService.updateProduct(product.id, product).subscribe(
-        updatedProduct => {
-          const index = this.products.findIndex(p => p.id === updatedProduct.id);
-          if (index !== -1) {
-            this.products[index] = updatedProduct;
-          }
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product updated successfully' });
-        },
-        error => {
-          console.error('Error updating product: ', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating product' });
-        }
-      );*/
+    updateProduct() {
+      this.cerrarDialogo();
+      this.loadProducts();
     }
   
-    deleteProduct(product: Product) {
-      /*if (confirm('Are you sure you want to delete this product?')) {
-        this.productService.deleteProduct(product.id).subscribe(
+    deleteProduct() {
+      this.productService.deleteProduct(this.selectedProduct.id).subscribe(
           () => {
-            this.products = this.products.filter(p => p.id !== product.id);
+            this.products = this.products.filter(p => p.id !== this.selectedProduct.id);
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product deleted successfully' });
           },
           error => {
@@ -77,8 +65,8 @@ export class ProductosAdminComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting product' });
           }
         );
-      }*/
-    }
+      }
+
   
     selectProduct(product: Product) {
       this.selectedProduct = product;

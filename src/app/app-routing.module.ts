@@ -15,6 +15,7 @@ import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-
 import { MozosAdminComponent } from './components/admin/mozos-admin/mozos-admin.component';
 import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.component';
 import { CategoryCreateComponent } from './components/addNew/category-create/category-create.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'catalogo', component: CatalogoComponent },
   { path: 'cart', component: CartComponent },
   { path: 'menu', component: MenuComponent },
+  { path: 'search', component: SearchComponent },
+  { path: 'home/:id', component: HomeComponent },
   //defult
   { path: '**', component: HomeComponent },
   { path: '', component: HomeComponent }

@@ -33,60 +33,60 @@
 -->
 <div class="container">
   <div class="title">
-    <span class="title-text">Mesa 9</span>
+    <span class="title-text">Mesa {{table.id}}</span>
   </div>
   <div class="icon">
-    <p-button icon="pi pi-user" class="icon-button"></p-button>
+    <p-button (onClick)="pedirMozo()" icon="pi pi-user" class="icon-button"></p-button>
     <span class="icon-text">Pedir mozo</span>
   </div>
 </div>
 
 <div class="avatar-list">
   <!-- Grupos arriba -->
-  <div class="avatar-container-group">
+  <div (click)="filtrarCategoria('todo')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/todo.jpg"></p-avatar>
     </div>
     <span class="category">Todo</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('hamburguesa')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/burguer.jpg"></p-avatar>
     </div>
     <span class="category">Burguers</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('pizza')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/pizza.jpg"></p-avatar>
     </div>
     <span class="category">Pizza</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('pastas')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/pastas.jpg"></p-avatar>
     </div>
     <span class="category">Pastas</span>
   </div>
   <!-- Grupos abajo -->
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('postres')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/postres.jpg"></p-avatar>
     </div>
     <span class="category">Postres</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('bebidas')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/bebidas.jpg"></p-avatar>
     </div>
     <span class="category">Bebidas</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('cafeteria')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
     </div>
     <span class="category">Cafeteria</span>
   </div>
-  <div class="avatar-container-group">
+  <div  (click)="filtrarCategoria('tapeo')" class="avatar-container-group">
     <div class="avatar-container">
       <p-avatar class="avatar" image="assets/images/tapeo.jpg"></p-avatar>
     </div>
@@ -97,28 +97,28 @@
 
 
 
-<p-virtualScroller [value]="products" scrollHeight="500px" [itemSize]="100">
+<p-virtualScroller #virtualScroller [value]="combinedProducts" scrollHeight="500px" [itemSize]="100">
 
   <ng-template let-product pTemplate="item">
     <div class="product-item">
       <div class="image-container">
         <div class="avatar-container">
-          <p-avatar class="avatar" image="assets/images/{{product.imageUrl}}"></p-avatar>
+          <p-avatar class="avatar" image="{{product.product.imageUrl}}"></p-avatar>
         </div>
       </div>
       <div class="product-list-detail">
-        <h5 class="mb-2">{{ product.name }}</h5>
+        <h5 class="mb-2">{{ product.product.name }}</h5>
         <div class="quantity-control">
-          <button (click)="addToCart(product)" class="quantity-btn">-</button>
-          <span class="quantity-text">1</span>
-          <button (click)="removeFromCart(product)" class="quantity-btn">+</button>
+          <button (click)="removeFromCart(product)" class="quantity-btn">-</button>
+          <span class="quantity-text">{{product.quantity}}</span>
+          <button (click)="addToCart(product)" class="quantity-btn">+</button>
         </div>
       </div>
       <div class="product-list-action">
-        <h6 class="mb-2-price">${{ product.price }}</h6>
+        <h6 class="mb-2-price">${{ product.product.price }}</h6>
         <div class="chips-container">
-          <p-chip label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
-          <p-chip label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>
+          <p-chip *ngIf="product.product.isVegan" label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
+          <p-chip *ngIf="product.product.isGlutenFree" label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>
         </div>
 
       </div>

@@ -12,7 +12,7 @@ export class WaiterService {
   
   constructor(private http: HttpClient) { }
   
-  deleteWaiter(id: number): Observable<void> {
+  deleteWaiter(id: number | null): Observable<void> {
     return this.http.delete<void>(`${BACKEND_URL}/${id}`);
   }
   getWaiter(id: number): Observable<Waiter> {
@@ -20,7 +20,7 @@ export class WaiterService {
   }
 
   getAllWaiters(): Observable<Waiter[]> {
-    return this.http.get<Waiter[]>(BACKEND_URL);
+    return this.http.get<Waiter[]>(BACKEND_URL+"/Waiter/AllWaiters");
   }
 
   createWaiter(waiter: Waiter): Observable<Waiter> {

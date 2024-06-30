@@ -25,7 +25,7 @@ export class ProductService {
     'Accept': 'text/plain'
   });
 
-  deleteProduct(id: number): Observable<void> {
+  deleteProduct(id: number | null): Observable<void> {
     return this.http.delete<void>(`${BACKEND_URL}/Product/${id}`, { headers: this.jsonHeaders });
   }
 

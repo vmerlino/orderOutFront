@@ -10,9 +10,15 @@
     flex: 0 0 20%; // El menú ocupa el 20% del espacio disponible
   }
   
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
   router-outlet {
-   // flex: 1; // El contenido restante ocupa el 80% del espacio disponible
-    overflow-y: auto; // Añade scroll vertical si es necesario
+    flex: 1;
+    overflow-y: auto; /* Añade scroll vertical si es necesario */
   }
 
   .container {

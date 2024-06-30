@@ -1,60 +1,192 @@
-::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    background-color: #E5E5E5; /* Color de fondo */
-    color: #644AB5; /* Color de texto */
+:host ::ng-deep {
+  .p-dropdown {
+      width: 14rem;
+      font-weight: normal;
+  }
+  
+  .order-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+  }
+  
+  .order-description {
+      margin: 0 0 1rem 0;
+  }
+  
+  .order-category-icon {
+      vertical-align: middle;
+      margin-right: .5rem;
+  }
+  
+  .order-category {
+      font-weight: 600;
+      vertical-align: middle;
+  }
+  
+  .order-list-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+  
+      img {
+          width: 150px;
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+          margin-right: 2rem;
+      }
+  
+      .order-list-detail {
+          flex: 1 1 0;
+      }
+  
+      .p-rating {
+          margin: 0 0 .5rem 0;
+      }
+  
+      .order-price {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-bottom: .5rem;
+          align-self: flex-end;
+      }
+  
+      .order-list-action {
+          display: flex;
+          flex-direction: column;
+      }
+  
+      .p-button {
+          margin-bottom: .5rem;
+      }
+  }
+  
+  .order-grid-item {
+      margin: .5em;
+      border: 1px solid #dee2e6;
+  
+      .order-grid-item-top,
+      .order-grid-item-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+      }
+  
+      img {
+          width: 75%;
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+          margin: 2rem 0;
+      }
+  
+      .order-grid-item-content {
+          text-align: center;
+      }
+  
+      .order-price {
+          font-size: 1.5rem;
+          font-weight: 600;
+      }
+  }
+}
+
+.card {
+  //padding: 2rem;
+  //box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  //border-radius: 4px;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 576px) {
+:host ::ng-deep .order-list-item {
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 75%;
+    margin: 2rem 0;
   }
 
-.order-management {
-    height: 17vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  
-    h1 {
-        font-family: 'Poppins', serif; // Aplica la fuente Poppins
-        color: #644AB5; // Aplica el color #644AB5
-        margin-left: 20px;
-        font-weight: normal;
-    }
-  
-    .button-container {
-      display: flex;
-  
-      button {
-        &.add {
-          background-color: #32B922;
-          border: none; // Quita el borde del botón
-          box-shadow: none;
-          .pi {
-            margin-right: 5px; // Espacio entre el icono y el texto
-          }
-        }
-  
-        &.delete {
-          background-color: #DD4B39;
-          border: none; // Quita el borde del botón
-          box-shadow: none;
-          .pi {
-            margin-right: 5px; // Espacio entre el icono y el texto
-          }
-        }
-  
-        &.modify {
-          background-color: #1473E6;
-          border: none; // Quita el borde del botón
-          box-shadow: none;
-          .pi {
-            margin-right: 5px; // Espacio entre el icono y el texto
-          }
-        }
-  
-        &.p-button {
-          &-raised {
-            &.p-button-rounded {
-              margin-left: 10px; // Espacio entre botones
-            }
-          }
-        }
-      }
-    }
+  .order-list-detail {
+    text-align: center;
   }
-  
+
+  .order-price {
+    align-self: center;
+  }
+
+  .order-list-action {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order-list-action {
+    margin-top: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+}
+}
+.order-grid-item {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+::ng-deep div.p-grid.p-nogutter.grid.grid-nogutter {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.order-badge {
+  /* Estilos base para el badge */
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+/* Estilos para los diferentes estados */
+.status-nuevo {
+  background-color: blue; /* Color para el estado "new" */
+  color: white;
+}
+
+.status-preparando {
+  background-color: orange; /* Color para el estado "processing" */
+  color: black;
+}
+.status-entregado {
+  background-color: rgb(219, 35, 11); /* Color para el estado "shipped" */
+  color: white;
+}
+.status-pagado {
+  background-color: green; /* Color para el estado "shipped" */
+  color: white;
+}
+
+/* Otros estados y estilos según sea necesario */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.waiter-info {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-badge {
+  margin-right: 10px;
+  animation: blink 1s infinite; /* Aplicar la animación */
+}

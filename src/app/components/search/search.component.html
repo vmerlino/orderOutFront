@@ -1,0 +1,31 @@
+<div style="width: 100%;" class="p-input-icon-left">
+    <i style="color: #644AB5;" class="pi pi-search"></i>
+    <input style="width: 100%; border-width: 2px; border-color: #644AB5;"  pInputText placeholder="Buscar productos..." (keyup)="filterProducts($event)" />
+</div>
+<p-virtualScroller #virtualScroller [value]="filteredProducts" scrollHeight="500px" [itemSize]="100">
+    <ng-template let-product pTemplate="item">
+      <div class="product-item">
+        <div class="image-container">
+          <div class="avatar-container">
+            <p-avatar class="avatar" image="assets/images/{{product.imageUrl}}"></p-avatar>
+          </div>
+        </div>
+        <div class="product-list-detail">
+          <h5 class="mb-2">{{ product.name }}</h5>
+          <div class="quantity-control">
+            <button (click)="removeFromCart(product)" class="quantity-btn">-</button>
+            <span class="quantity-text"></span>
+            <button (click)="addToCart(product)" class="quantity-btn">+</button>
+          </div>
+        </div>
+        <div class="product-list-action">
+          <h6 class="mb-2-price">${{ product.price }}</h6>
+          <div class="chips-container">
+            <p-chip label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
+            <p-chip label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>
+          </div>
+  
+        </div>
+      </div>
+    </ng-template>
+  </p-virtualScroller>

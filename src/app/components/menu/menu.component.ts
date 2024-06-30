@@ -15,9 +15,9 @@ export class MenuComponent implements OnInit {
     ngOnInit() {
   
     this.items = [
-      { icon: 'pi pi-fw pi-home', routerLink: '/home' },
+      { icon: 'pi pi-fw pi-home', routerLink: '/catalogo' },
       { icon: 'pi pi-search', routerLink: '/search' },
-      { icon: 'pi pi-shopping-cart', routerLink: '/cart' },
+      { icon: 'pi pi-shopping-cart', routerLink: '/cart',  badge: '5', styleClass: 'p-menuitem-cart' },
       { icon: 'pi pi-wallet', routerLink: '/wallet' },
     ];
   }

@@ -3,21 +3,21 @@
     <div class="product-management">
         <h1>Administrar productos</h1>
         <div class="button-container">
-            <button pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
+            <button [disabled]="selectedProduct" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded add">
                 <i class="pi pi-plus-circle"></i> Agregar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
+            </button>
+            <button [disabled]="!selectedProduct" pButton type="button" (click)="deleteProduct()" class="p-button p-button-raised p-button-rounded delete">
                 <i class="pi pi-minus-circle"></i> Borrar
-              </button>
-              <button pButton type="button" class="p-button p-button-raised p-button-rounded modify">
-                <i class="pi pi-info-circle"></i> Modificar
-              </button>  
+            </button>
+            <button [disabled]="!selectedProduct" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded modify">
+                <i class="pi pi-info-circle" ></i> Modificar
+            </button>   
         </div>
       </div>
     <div>
-        <app-producto-create [displayDialog]="displayDialog" (onClose)="cerrarDialogo()">
+        <app-producto-create [displayDialog]="displayDialog" [product]="selectedProduct" (onClose)="cerrarDialogo()" (updateProducts)="updateProduct()">
         </app-producto-create>
-    <p-table [value]="products" selectionMode="multiple"  styleClass="mt-5" dataKey="code">
+    <p-table [value]="products" selectionMode="single"  styleClass="mt-5" dataKey="code">
         <ng-template pTemplate="header">
             <tr [pSelectableRow]="selectedProduct">
                 <th>Producto</th>

@@ -1,86 +1,24 @@
 <h5>Pedido</h5>
-<div class="card">
-    <div class="card-body">
-      <div class="product-info">
-        <div class="product-image">
-          <div class="avatar-container">
-            <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
-          </div>
-        </div>
-        <div class="product-details">
-          <h5 class="product-name">Pizza</h5>
-          <span class="product-price">$99.99</span>
-        </div>
-      </div>
-      <div class="quantity-control">
-        <button class="quantity-btn">-</button>
-        <span class="quantity">1</span>
-        <button class="quantity-btn">+</button>
-      </div>
-    </div>
-  </div>
-  
-  <div class="card">
-    <div class="card-body">
-      <div class="product-info">
-        <div class="product-image">
-          <div class="avatar-container">
-            <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
-          </div>
-        </div>
-        <div class="product-details">
-          <h5 class="product-name">Pizza</h5>
-          <span class="product-price">$99.99</span>
-        </div>
-      </div>
-      <div class="quantity-control">
-        <button class="quantity-btn">-</button>
-        <span class="quantity">1</span>
-        <button class="quantity-btn">+</button>
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-body">
-      <div class="product-info">
-        <div class="product-image">
-          <div class="avatar-container">
-            <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
-          </div>
-        </div>
-        <div class="product-details">
-          <h5 class="product-name">Pizza</h5>
-          <span class="product-price">$99.99</span>
+<div class="order-container">
+  <div *ngFor="let item of productList " class="card-body">
+    <div class="product-info">
+      <div class="product-image">
+        <div class="avatar-container">
+          <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
         </div>
       </div>
-      <div class="quantity-control">
-        <button class="quantity-btn">-</button>
-        <span class="quantity">1</span>
-        <button class="quantity-btn">+</button>
+      <div class="product-details">
+        <h5 class="product-name">{{item.product.name}}</h5>
+        <span class="product-price">${{item.product.price}} </span>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <div class="product-info">
-        <div class="product-image">
-          <div class="avatar-container">
-            <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
-          </div>
-        </div>
-        <div class="product-details">
-          <h5 class="product-name">Pizza</h5>
-          <span class="product-price">$99.99</span>
-        </div>
-      </div>
-      <div class="quantity-control">
-        <button class="quantity-btn">-</button>
-        <span class="quantity">1</span>
-        <button class="quantity-btn">+</button>
-      </div>
+    <div class="quantity-control">
+      <button class="quantity-btn">-</button>
+      <span (click)="removeFromCart(item.product)" class="quantity">{{item.quantity}}</span>
+      <button (click)="addToCart(item.product)" class="quantity-btn">+</button>
     </div>
   </div>
-
-  <button>1realizar pedido</button>
+    <p-toast position="bottom-center"></p-toast>
+    <button class="button order-button" style="width: 100%;" (click)="crearOrden()" [disabled]="productList.length == 0" pButton type="button" label="Realiza Pedido" icon="pi pi-shopping-cart"></button>
+</div>

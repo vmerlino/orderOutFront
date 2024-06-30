@@ -8,9 +8,17 @@ import { WaiterService } from 'src/app/services/waiter.service';
   styleUrls: ['./mozo-create.component.scss']
 })
 export class MozoCreateComponent implements OnInit {
+  _waiterSelect: Waiter;
   @Input() displayDialog: boolean = false;
+  @Input() set waiter(value: Waiter) {
+    this._waiterSelect = value;
+    if(value){
+      this.accion='Modificar';
+      this.nombre = value.name;
+    }   
+  } 
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
-  @Input() waiter: Waiter;
+  @Output() updateCategories: EventEmitter<void> = new EventEmitter<void>();
 
   accion = 'Agregar'
   nombre: string;

@@ -10,11 +10,19 @@ import { ProductService } from 'src/app/services/ProductService';
   styleUrls: ['./producto-create.component.scss']
 })
 export class ProductoCreateComponent implements OnInit {
-
+  _productSelect: Product;
   @Input() displayDialog: boolean = false;
+  @Input() set product(value: Product) {
+    this._productSelect = value;
+    if(value){
+      this.accion='Modificar';
+      this.nombre = value.name;
+    }   
+  } 
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
-  @Input() product: Product;
+  @Output() updateCategories: EventEmitter<void> = new EventEmitter<void>();
 
+  selectedFile: File;
   accion='Agregar';
   nombre: string;
   precio: number;
@@ -27,16 +35,30 @@ export class ProductoCreateComponent implements OnInit {
   constructor(private productService: ProductService, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
-    if(this.product){
-      this.accion='Modificar';
-    }
     this.categoryService.getAllCategories().subscribe(data => {
       this.categories = data;
     });
   }
 
   guardar() {
-    this.product = new Product(null, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree);
+    console.log(this.selectedFile);
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Image = reader.result as string;
+
+        // Guarda la imagen en la carpeta 'assets/images'
+        this.guardarImagenEnAssets(base64Image, this.selectedFile.name);
+
+        // Guarda el nombre de la imagen en el producto
+        this.product.imageUrl = `assets/images/${this.selectedFile.name}`;
+        
+        // Aquí puedes hacer la lógica para guardar el producto
+        console.log('Producto guardado', this.product);
+        this.displayDialog = false;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree);
     this.productService.createProduct(this.product).subscribe({
       next: (response) => {
         console.log('Producto creado exitosamente', response);
@@ -47,11 +69,28 @@ export class ProductoCreateComponent implements OnInit {
       }
     });
   }
+}
 
   cancelar() {
     this.cerrarDialogo();
   }
+  onImageSelected(event: any) {
+    console.log(event)
+    this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile)
+  }
+  guardarImagenEnAssets(base64Image: string, fileName: string) {
+    // Crear un enlace temporal para descargar la imagen
+    const link = document.createElement('a');
+    link.href = base64Image;
+    link.download = fileName;
 
+    // Simular clic en el enlace para iniciar la descarga
+    link.click();
+
+    // Eliminar el enlace temporal
+    link.remove();
+  }
   cerrarDialogo() {
     this.displayDialog = false;
     this.onClose.emit();
