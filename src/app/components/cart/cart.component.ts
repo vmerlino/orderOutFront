@@ -64,7 +64,8 @@ export class CartComponent implements OnInit {
       productQ = new OrderProductDto( product2.id, quantity, clarification);
       productsQuantity.push(productQ);
     })
-    let orderCreate = new OrderDto(this.table.id,new Date(), OrderStatusEnum.Nuevo, 1,productsQuantity);
+    totalAmount += (totalAmount * (10 / 100));
+    let orderCreate = new OrderDto(this.table.id,totalAmount,new Date(), OrderStatusEnum.Nuevo, 1,productsQuantity);
     this.orderService.createOrder(orderCreate).subscribe(value =>{
       if(value){
         this.messageService.add({

@@ -12,6 +12,7 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
+
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${BACKEND_URL}/Order/AllOrders`);
   }
@@ -28,11 +29,14 @@ export class OrderService {
     return this.http.post<Order>(`${BACKEND_URL}/Order/CreateOrder`, order);
   }
 
-  updateOrder(id: number, order: Order): Observable<Order> {
-    return this.http.put<Order>(`${BACKEND_URL}/orders/${id}`, order);
+  updateOrder(order: Order): Observable<Order> {
+    let param = {orderId: order.id, orderStatus: order.status}
+    return this.http.put<Order>(`${BACKEND_URL}/Order/UpdateOrder`, param);
   }
 
   deleteOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${BACKEND_URL}/orders/${id}`);
   }
+
+
 }

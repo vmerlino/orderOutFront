@@ -1,0 +1,99 @@
+.product-detail-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .product-image-section {
+    background-color: #644AB5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+  }
+  
+  .product-image {
+    max-height: 100%;
+    max-width: 100%;
+  }
+  
+  .product-info-section {
+    background-color: white;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .product-info-background {
+    background-color: #644AB5;
+  }
+  
+  .product-info-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .product-price,
+  .product-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .product-price .label {
+    font-weight: bold;
+  }
+  
+  .product-price .value {
+    color: #C9AA05;
+    font-weight: bold;
+  }
+  
+  .product-title .label {
+    font-weight: bold;
+  }
+  
+  .quantity-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-control .quantity-btn {
+    background-color: #ddd;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .quantity-control .quantity {
+    margin: 0 10px;
+  }
+  
+  .product-description {
+    color: gray;
+    font-size: x-small;
+  }
+  
+  .notes-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notes-section label {
+    margin-bottom: 5px;
+    background-color: white;
+  }
+  
+  .notes-section textarea {
+    margin-bottom: 50px;
+    height: 50px;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+  }
+  

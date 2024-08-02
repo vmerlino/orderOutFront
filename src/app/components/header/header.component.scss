@@ -1,0 +1,34 @@
+.container {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    font-weight: 500; /* Poppins Medium */
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    border-radius: 70%; /* Forma circular */
+
+    margin-left: auto; /* Mover hacia la derecha */
+  }
+  
+  .icon-button {
+    background-color: #644AB5; /* Fondo circular violeta */
+    color: #808080; /* Color gris */
+    border-radius: 70%; /* Forma circular */
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+  }
+  
+  .icon-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    color: #808080; /* Color gris */
+  }

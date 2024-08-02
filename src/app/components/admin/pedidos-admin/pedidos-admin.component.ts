@@ -1,100 +1,145 @@
-import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
-import { Observable, map } from 'rxjs';
-import { Category } from 'src/app/model/Category';
+import { Observable, Subscription } from 'rxjs';
 import { Order } from 'src/app/model/Order';
-import { Product } from 'src/app/model/Product';
-import { Waiter } from 'src/app/model/Waiter';
+import { OrderProduct } from 'src/app/model/orderProduct';
+import { OrderStatusEnum } from 'src/app/model/OrderStatusEnum';
 import { OrderService } from 'src/app/services/order.service';
-import { NotificationsState, selectNotifiedTables } from 'src/app/states/Notifications.reducer';
+import { WebSocketService } from 'src/app/services/web-socket.service';
+import { NotificationsState } from 'src/app/states/Notifications.reducer';
 
 @Component({
   selector: 'app-pedidos-admin',
   templateUrl: './pedidos-admin.component.html',
-  styleUrls: ['./pedidos-admin.component.scss']
+  styleUrls: ['./pedidos-admin.component.scss'],
 })
 export class PedidosAdminComponent implements OnInit {
-
- //orders: Order[];
+  visibleBadges: Set<{ tableId: number; payTable: any }> = new Set();
+  todasOrdenes: Order[];
+  orders: Order[];
   selectedOrder: Order;
-  product1 = new Product(1, 'Coffee',3.5, new Category(1, 'cat1'), '','',true,false);
-  product2 = new Product(2, 'Sandwich', 5.0,  new Category(1, 'cat2'), '','',true,false);
-  product3 = new Product(3, 'Salad', 7.0,  new Category(1, 'cat3'), '','',true,false);
-  
-   waiter1 = new Waiter(1, 'John Doe');
-   waiter2 = new Waiter(2, 'Jane Smith');
-   sortOptions: SelectItem[];
+  sortOptions: SelectItem[];
 
-   sortOrder: number;
-   sortKey:string;
-   sortField: string;
-  orders: Order[] = [
-
-
-
+  sortOrder: number;
+  sortKey: string;
+  sortField: string;
+  waiterRequests: any[] = [];
+  websocketSubscription: Subscription;
+  statuses = [
+    { label: 'Nuevo', value: OrderStatusEnum.Nuevo },
+    { label: 'Preparando', value: OrderStatusEnum.Preparando },
+    { label: 'Entregado', value: OrderStatusEnum.Entregado },
+    { label: 'Pagado', value: OrderStatusEnum.Pagado }
   ];
-  notifiedTables$: Observable<Set<number>>;
+  constructor(
+    private websocketService: WebSocketService,
+    private orderService: OrderService,
+    private messageService: MessageService,
+    private primengConfig: PrimeNGConfig
+  ) {}
 
-  constructor(private orderService: OrderService,private store:Store<NotificationsState>, private messageService: MessageService, private primengConfig: PrimeNGConfig) {
-    this.notifiedTables$ = this.store.select(selectNotifiedTables);
-  }
-  shouldShowBadge(tableNumber: number): Observable<boolean> {
-    let reponse= this.notifiedTables$.pipe(
-      map((notifiedTables: Set<number>) => {return notifiedTables.has(tableNumber)})
-    );
-    return reponse;
-  }
   ngOnInit() {
     this.sortOptions = [
-      {label: 'Price High to Low', value: '!price'},
-      {label: 'Price Low to High', value: 'price'}
-  ];
-  this.primengConfig.ripple = true;
+      { label: 'Price High to Low', value: '!price' },
+      { label: 'Price Low to High', value: 'price' },
+    ];
+    this.primengConfig.ripple = true;
     this.loadOrders();
-  }
-
-  loadOrders() {
-    this.orderService.getAllOrders().subscribe(
-      orders => {
-        this.orders = orders;
-        console.log(orders);
-      },
-      error => {
-        console.error('Error loading orders: ', error);
+    this.websocketSubscription = this.websocketService.messages$.subscribe(
+      (message) => {
+        if (message.payTable) {
+          this.visibleBadges.add({
+            tableId: message.tableNumber,
+            payTable: message.payTable,
+          });
+        } else {
+          this.visibleBadges.add({
+            tableId: message.tableNumber,
+            payTable: null,
+          });
+        }
       }
     );
   }
+  onStatusChange(order: Order, event: any){
+    order.status = event.value;
+    this.updateOrder(order);
+  }
+
+  isPayTableNull(tableId: number): boolean {
+    const entry = Array.from(this.visibleBadges).find(
+      (data) => data.tableId === tableId
+    );
+    return entry ? entry.payTable === null : false;
+  }
+
+  getPayTable(tableId: number): any | null {
+    const entry = Array.from(this.visibleBadges).find(
+      (data) => data.tableId === tableId
+    );
+    return entry ? entry.payTable : null;
+  }
+  ngOnDestroy() {
+    if (this.websocketSubscription) {
+      this.websocketSubscription.unsubscribe();
+    }
+  }
+  loadOrders() {
+    this.orderService.getAllOrders().subscribe((orders: Order[]) => {
+      this.orders = orders;
+      this.todasOrdenes =orders;
+      console.log(orders);
+    });
+  }
   getOrderDescriptions(order: any): string | null {
-    if(order.products !=null){
-      return order.products.map((product: Product) => product.name).join(', ');
-    }else{return null}
+    if (order.products != null) {
+      return order.products
+        .map((product: OrderProduct) => product.product.name)
+        .join(', ');
+    } else {
+      return null;
+    }
   }
   addOrder(order: Order) {
-   /* this.orderService.createOrder(order).subscribe(
+    /* this.orderService.createOrder(order).subscribe(
       newOrder => {
         this.orders.push(newOrder);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Order added successfully' });
-      },
+        },
       error => {
         console.error('Error adding order: ', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error adding order' });
-      }
-    );*/
+        }
+        );*/
   }
-
+  getTotalAmount(order: Order): number {
+    let total = 0;
+    order.products.forEach((product) => {
+      total = total + product.product.price;
+    });
+    return total;
+  }
   updateOrder(order: Order) {
-    this.orderService.updateOrder(order.id, order).subscribe(
-      updatedOrder => {
-        const index = this.orders.findIndex(o => o.id === updatedOrder.id);
+    this.orderService.updateOrder(order).subscribe(
+      (updatedOrder) => {
+        const index = this.orders.findIndex((o) => o.id === updatedOrder.id);
         if (index !== -1) {
           this.orders[index] = updatedOrder;
         }
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Order updated successfully' });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Order updated successfully',
+        });
       },
-      error => {
+      (error) => {
         console.error('Error updating order: ', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error updating order' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error updating order',
+        });
       }
     );
   }
@@ -103,12 +148,20 @@ export class PedidosAdminComponent implements OnInit {
     if (confirm('Are you sure you want to delete this order?')) {
       this.orderService.deleteOrder(order.id).subscribe(
         () => {
-          this.orders = this.orders.filter(o => o.id !== order.id);
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Order deleted successfully' });
+          this.orders = this.orders.filter((o) => o.id !== order.id);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Order deleted successfully',
+          });
         },
-        error => {
+        (error) => {
           console.error('Error deleting order: ', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error deleting order' });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error deleting order',
+          });
         }
       );
     }
@@ -116,15 +169,27 @@ export class PedidosAdminComponent implements OnInit {
 
   selectOrder(order: Order) {
     this.selectedOrder = order;
-    this.messageService.add({ severity: 'info', summary: 'Order Selected', detail: order.id.toString() });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Order Selected',
+      detail: order.id.toString(),
+    });
   }
 
   onRowSelect(event: any) {
-    this.messageService.add({ severity: 'info', summary: 'Order Selected', detail: event.data.name });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Order Selected',
+      detail: event.data.name,
+    });
   }
 
   onRowUnselect(event: any) {
-    this.messageService.add({ severity: 'info', summary: 'Order Unselected', detail: event.data.name });
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Order Unselected',
+      detail: event.data.name,
+    });
   }
 
   isRowSelectable(event: any) {
@@ -135,16 +200,16 @@ export class PedidosAdminComponent implements OnInit {
     return data.inventoryStatus === 'OUTOFSTOCK';
   }
 
-  onSortChange(event: any ) {
+  onSortChange(event: any) {
     let value = event.value;
-
-    if (value.indexOf('!') === 0) {
-        this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
+    if (value != 'todos') {
+      this.orders = this.todasOrdenes.filter(order => order.status === value);
+    } else {
+      this.orders = this.todasOrdenes; // Muestra todas las órdenes si no hay filtro
     }
-    else {
-        this.sortOrder = 1;
-        this.sortField = value;
-    }
-}
+  
+  }
+  getStatusName(id: any): String {
+    return OrderStatusEnum.getStatusName(id);
+  }
 }

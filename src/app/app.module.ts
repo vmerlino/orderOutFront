@@ -51,7 +51,6 @@ import { DialogModule } from 'primeng/dialog';
 import {BadgeModule} from 'primeng/badge';
 import { RatingModule } from 'primeng/rating'; 
 import {PanelModule} from 'primeng/panel';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { carritoReducer } from './states/CarritoState.reducer';
 import { SearchComponent } from './components/search/search.component';
 import { notificationsReducer } from './states/Notifications.reducer';
@@ -60,6 +59,13 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { reducer } from './states/Auth.reducer';
 import { ToastModule } from 'primeng/toast';
 import { ordersReducer } from './states/OrderState.reducer';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { WebSocketService } from './services/web-socket.service';
+import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedidos-realizados.component';
+import { HeaderComponent } from './components/header/header.component';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -83,7 +89,10 @@ import { ordersReducer } from './states/OrderState.reducer';
     MozoCreateComponent,
     ProductoCreateComponent,
     MenuCreateComponent,
-    SearchComponent
+    SearchComponent,
+    ProductDetailComponent,
+    PedidosRealizadosComponent,
+    HeaderComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -109,21 +118,21 @@ import { ordersReducer } from './states/OrderState.reducer';
     FileUploadModule,
     RippleModule,
     SkeletonModule,
-    NgxQRCodeModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreModule.forRoot({ products: carritoReducer, notification: notificationsReducer, table: tableReducer, auth: reducer, orders: ordersReducer  }),
+    StoreModule.forRoot({ products: carritoReducer, notification: notificationsReducer, table: tableReducer, user: reducer, orders: ordersReducer  }),
     TabMenuModule,
     TabViewModule,
     TableModule,
     VirtualScrollerModule,
     PanelModule,
+
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
-  },ProductService, MessageService],
+  },ProductService, MessageService, WebSocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

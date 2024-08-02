@@ -6,11 +6,13 @@ export class OrderDto {
   dateTime: Date;
   status: OrderStatusEnum;
   userId?: number;
+  totalAmount: number;
   ordersProducts: OrderProductDto[];
-  constructor(tableId: number | null, dateTime: Date, status: OrderStatusEnum, userId?: number, ordersProducts: OrderProductDto[] = []) {
+  constructor(tableId: number | null, totalAmount: number, dateTime: Date, status: OrderStatusEnum, userId?: number, ordersProducts: OrderProductDto[] = []) {
     this.tableId = tableId;
     this.dateTime = dateTime;
     this.status = status;
+    this.totalAmount = totalAmount;
     this.userId = userId;
     this.ordersProducts = ordersProducts;
   }

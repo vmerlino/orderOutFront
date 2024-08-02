@@ -23,62 +23,10 @@ throw new Error('Method not implemented.');
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-   /* this.productService.getAllProducts().subscribe((data: Product[]) => {
+   this.productService.getAllProducts().subscribe((data: Product[]) => {
       this.products = data;
       this.filteredProducts = this.products;
-    });*/
-    this.products = [
-      {
-        id: 1,
-        name: 'Coca-Cola',
-        description: 'Carbonated soft drink',
-        imageUrl: 'https://example.com/coca-cola.jpg',
-        isVegan: true,
-        isGlutenFree: true,
-        price: 1.99,
-        category: this.categories[0],
-      },
-      {
-        id: 2,
-        name: 'Gluten-Free Chips',
-        description: 'Crispy and delicious chips',
-        imageUrl: 'https://example.com/gluten-free-chips.jpg',
-        isVegan: true,
-        isGlutenFree: true,
-        price: 2.49,
-        category: this.categories[1],
-      },
-      {
-        id: 3,
-        name: 'Vegan Brownie',
-        description: 'Delicious and moist brownie',
-        imageUrl: 'https://example.com/vegan-brownie.jpg',
-        isVegan: true,
-        isGlutenFree: false,
-        price: 3.49,
-        category: this.categories[2],
-      },
-      {
-        id: 4,
-        name: 'Regular Chips',
-        description: 'Crunchy potato chips',
-        imageUrl: 'https://example.com/regular-chips.jpg',
-        isVegan: false,
-        isGlutenFree: true,
-        price: 1.99,
-        category: this.categories[1],
-      },
-      {
-        id: 5,
-        name: 'Ice Cream',
-        description: 'Vanilla ice cream',
-        imageUrl: 'https://example.com/ice-cream.jpg',
-        isVegan: false,
-        isGlutenFree: false,
-        price: 2.99,
-        category: this.categories[2],
-      },
-    ];
+    });
   }
 
   filterProducts(event: any |  null) {

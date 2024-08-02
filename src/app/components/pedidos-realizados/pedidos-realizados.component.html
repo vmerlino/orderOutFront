@@ -1,0 +1,25 @@
+<div class="container">
+    <div *ngIf="pedidos.length > 0" class="header">
+        Pedidos en Curso
+    </div>
+    <div *ngIf="pedidos.length == 0" style="background-color: gray;" class="header">
+        No hay pedidos en Curso
+    </div>
+    <div class="orders">
+        <div *ngFor="let order of pedidos" class="order-card">
+            <div class="status">
+                <i class="pi pi-check-circle status-icon"></i>
+                El pedido se envio correctamente
+            </div>
+            <div class="order-details">
+                <p><span>Total:</span> {{order.totalAmount}}</p>
+                <p><span>Estado:</span> {{getStatusName(order.status).toLowerCase()}}</p>
+            </div>
+            <div class="time">
+                <i class="pi pi-clock time-icon"></i>
+                <span class="time-text">Aproximadamente 30 minutos</span>
+            </div>
+        </div>
+       
+    </div>
+</div>

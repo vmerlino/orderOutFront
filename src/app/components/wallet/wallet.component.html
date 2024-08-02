@@ -1,7 +1,4 @@
 <div>
-    <div class="title">
-        <span class="title-text">Mesa {{table.id}}</span>
-    </div>
 
     <p-tabView>
         <p-tabPanel class="tabClass" header="Efectivo / Tarjeta">
@@ -12,16 +9,21 @@
                         <span class="price"> X{{product.quantity}}</span>
                         <span class="price"> {{product.product.price*product.quantity}}</span>
                     </div>
-                    <div class="total">
-                        <span class="label">Total:</span>
+                    <div  class="item"><span class="productName">Propina 10%</span> {{getTenPercentOfTotal(order)  }}</div>
+                    <div class="item" style="margin-bottom: 20px;">
+                        <span class="label" >Subtotal:</span>
                         <span class="totalPrice">{{order.totalAmount}}</span>
                     </div>
+                </div>
+                <div class="total">
+                    <span class="label">Total:</span>
+                    <span class="totalPrice">{{getTotalAmounts()}}</span>
                 </div>
                 <div class="container">
                     <h2 style="color: #644AB5;margin-bottom: 0px; font-size: 20px;">Efectivo:</h2>
                     <h5 style="margin-top:10px; margin-left: 30px;margin-bottom: 10px;">Con cuánto va a pagar</h5>
-                    <p-inputNumber class="input" placeholder="Ingrese el monto"></p-inputNumber>
-                    <button class="button" pButton type="button" label="Pedir mozo" icon="pi pi-user-plus"></button>
+                    <p-inputNumber class="input" [(ngModel)]="pagoEfectivo" placeholder="Ingrese el monto"></p-inputNumber>
+                    <button class="button" (click)="realizarPagoEfectivo()" pButton type="button" label="Pedir mozo" icon="pi pi-user-plus"></button>
                 </div>
             </div>
 
@@ -33,10 +35,14 @@
                     <span class="price"> X{{product.quantity}}</span>
                     <span class="price"> {{product.product.price*product.quantity}}</span>
                 </div>
-                <div class="total">
-                    <span class="label">Total:</span>
+                <div class="item" style="margin-bottom: 20px;">
+                    <span class="label">Subtotal:</span>
                     <span class="totalPrice">{{order.totalAmount}}</span>
                 </div>
+            </div>
+            <div class="total">
+                <span class="label">Total:</span>
+                <span class="totalPrice">{{getTotalAmounts()}}</span>
             </div>
             <div style="margin-top: 20px;">
                 <button class="button" pButton type="button" (click)="realizarPagoMercadoPago()" label="Realizar Pago" icon="pi pi-wallet"></button>

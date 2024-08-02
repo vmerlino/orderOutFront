@@ -4,3 +4,5 @@ import { Product } from '../model/Product';
 export const addProduct = createAction('[Product] Add Product', props<{ product: Product }>());
 export const removeProduct = createAction('[Product] Remove Product', props<{ product: Product }>());
 export const clearCart = createAction('[Carrito] Clear Cart');
+export const updateClarification = createAction('[Cart] Update Clarification', props<{ productId: number, clarification: string }>());
+

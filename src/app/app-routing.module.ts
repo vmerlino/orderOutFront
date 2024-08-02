@@ -16,17 +16,20 @@ import { MozosAdminComponent } from './components/admin/mozos-admin/mozos-admin.
 import { MenusAdminComponent } from './components/admin/menus-admin/menus-admin.component';
 import { CategoryCreateComponent } from './components/addNew/category-create/category-create.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { AuthGuard } from './auth.guard';
+import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedidos-realizados.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'admin/productos', component: ProductosAdminComponent },
-  { path: 'admin/reservas', component: ReservasAdminComponent },
-  { path: 'admin/categorias', component: CategoriasAdminComponent },
-  { path: 'admin/mozos', component: MozosAdminComponent },
-  { path: 'admin/pedidos', component: PedidosAdminComponent },
-  { path: 'admin/cuentas', component: CuentasAdminComponent },
-  { path: 'admin/menu', component: MenusAdminComponent },
-  { path: 'admin/crear/categoria', component: CategoryCreateComponent },
+  { path: 'admin/productos', component: ProductosAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/reservas', component: ReservasAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/categorias', component: CategoriasAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/mozos', component: MozosAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/pedidos', component: PedidosAdminComponent},
+  { path: 'admin/cuentas', component: CuentasAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/menu', component: MenusAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/crear/categoria', component: CategoryCreateComponent, canActivate: [AuthGuard] },
   //mobile
   { path: 'productos', component: ProductosComponent },
   { path: 'wallet', component: WalletComponent },
@@ -35,6 +38,8 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent },
   { path: 'search', component: SearchComponent },
   { path: 'home/:id', component: HomeComponent },
+  { path: 'product-detail', component: ProductDetailComponent },
+  { path: 'pedidos', component: PedidosRealizadosComponent },
   //defult
   { path: '**', component: HomeComponent },
   { path: '', component: HomeComponent }

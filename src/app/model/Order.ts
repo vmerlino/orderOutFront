@@ -1,5 +1,6 @@
 
 
+import { OrderStatusEnum } from "./OrderStatusEnum";
 import { Table } from "./Table";
 import { OrderProduct } from "./orderProduct";
 
@@ -9,9 +10,9 @@ export class Order {
     table: Table;
     totalAmount: number;
     date: Date;
-    status: String;
+    status: OrderStatusEnum;
   
-    constructor(id: number, products: OrderProduct[], table: Table, totalAmount: number, date: Date, status: String) {
+    constructor(id: number, products: OrderProduct[], table: Table, totalAmount: number, date: Date, status: OrderStatusEnum) {
       this.id = id;
       this.products = products;
       this.table = table;

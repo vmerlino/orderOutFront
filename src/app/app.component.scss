@@ -5,7 +5,11 @@
     width: 100%;
   }
  
-  
+  .background-container {
+    width: 100%;
+    max-width: 100vw; /* Asegura que el contenedor no sea más ancho que la pantalla */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+}
   app-menu {
     flex: 0 0 20%; // El menú ocupa el 20% del espacio disponible
   }

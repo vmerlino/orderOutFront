@@ -1,4 +1,4 @@
-<h5>Pedido</h5>
+<h5>Productos agregados</h5>
 
 <div class="order-container">
   <div *ngFor="let item of productList " class="card-body">
@@ -14,8 +14,8 @@
       </div>
     </div>
     <div class="quantity-control">
-      <button class="quantity-btn">-</button>
-      <span (click)="removeFromCart(item.product)" class="quantity">{{item.quantity}}</span>
+      <button (click)="removeFromCart(item.product)" class="quantity-btn">-</button>
+      <span  class="quantity">{{item.quantity}}</span>
       <button (click)="addToCart(item.product)" class="quantity-btn">+</button>
     </div>
   </div>

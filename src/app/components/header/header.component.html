@@ -1,0 +1,9 @@
+<div class="container" *ngIf="!isLoggedIn">
+    <div class="title">
+      <span class="title-text">Mesa {{table.id}}</span>
+    </div>
+    <div class="icon">
+      <p-button (onClick)="pedirMozo()" icon="pi pi-user" class="icon-button"></p-button>
+      <span class="icon-text">Pedir mozo</span>
+    </div>
+  </div>

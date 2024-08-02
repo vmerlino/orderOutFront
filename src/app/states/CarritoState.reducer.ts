@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addProduct, clearCart, removeProduct } from './CarritoState.actions';
+import { addProduct, clearCart, removeProduct, updateClarification } from './CarritoState.actions';
 import { OrderProduct } from '../model/orderProduct';
 
 export interface ProductState {
@@ -33,7 +33,6 @@ export const carritoReducer = createReducer(
     on(removeProduct, (state, { product }) => {
         const existingProducts = state.products ? [...state.products] : [];
         const productIndex = existingProducts.findIndex(p => p.product.id === product.id);
-
         if (productIndex >= 0) {
             const updatedQuantity = existingProducts[productIndex].quantity - 1;
 
@@ -52,6 +51,22 @@ export const carritoReducer = createReducer(
             products: existingProducts.length > 0 ? existingProducts : null
         };
     }),
-    on(clearCart, () => initialState)
+    on(clearCart, () => initialState),
+    on(updateClarification, (state, { productId, clarification }) => {
+        const existingProducts = state.products ? [...state.products] : [];
+        const productIndex = existingProducts.findIndex(p => p.product.id === productId);
+        console.log(productIndex)
+        if (productIndex >= 0) {
+            const updatedProduct = {
+                ...existingProducts[productIndex],
+                clarification
+            };
+            existingProducts[productIndex] = updatedProduct;
+        }
 
+        return {
+            ...state,
+            products: existingProducts
+        };
+    }),
 );

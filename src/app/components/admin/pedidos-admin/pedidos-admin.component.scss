@@ -1,139 +1,160 @@
 :host ::ng-deep {
   .p-dropdown {
-      width: 14rem;
-      font-weight: normal;
+    width: 14rem;
+    font-weight: normal;
+
+    &.status-nuevo .p-dropdown-label {
+      background-color: blue;
+      color: white;
+    }
+
+    &.status-preparando .p-dropdown-label {
+      background-color: orange;
+      color: black;
+    }
+
+    &.status-entregado .p-dropdown-label {
+      background-color: rgb(219, 35, 11);
+      color: white;
+    }
+
+    &.status-pagado .p-dropdown-label {
+      background-color: green;
+      color: white;
+    }
   }
   
   .order-name {
-      font-size: 1.5rem;
-      font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 700;
   }
   
   .order-description {
-      margin: 0 0 1rem 0;
+    margin: 0 0 1rem 0;
   }
   
   .order-category-icon {
-      vertical-align: middle;
-      margin-right: .5rem;
+    vertical-align: middle;
+    margin-right: .5rem;
   }
   
   .order-category {
-      font-weight: 600;
-      vertical-align: middle;
+    font-weight: 600;
+    vertical-align: middle;
   }
   
   .order-list-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+  
+    img {
+      width: 150px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      margin-right: 2rem;
+    }
+  
+    .order-list-detail {
+      flex: 1 1 0;
+    }
+  
+    .p-rating {
+      margin: 0 0 .5rem 0;
+    }
+  
+    .order-price {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+      align-self: flex-end;
+    }
+  
+    .order-list-action {
       display: flex;
-      align-items: center;
-      padding: 1rem;
-      width: 100%;
-  
-      img {
-          width: 150px;
-          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-          margin-right: 2rem;
-      }
-  
-      .order-list-detail {
-          flex: 1 1 0;
-      }
-  
-      .p-rating {
-          margin: 0 0 .5rem 0;
-      }
-  
-      .order-price {
-          font-size: 1.5rem;
-          font-weight: 600;
-          margin-bottom: .5rem;
-          align-self: flex-end;
-      }
-  
-      .order-list-action {
-          display: flex;
-          flex-direction: column;
-      }
+      flex-direction: column;
   
       .p-button {
-          margin-bottom: .5rem;
+        margin-bottom: .5rem;
       }
+    }
   }
   
   .order-grid-item {
-      margin: .5em;
-      border: 1px solid #dee2e6;
+    margin: .5em;
+    border: 1px solid #dee2e6;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; // Necesario para posicionar el número de mesa
+    
+    .order-grid-item-top,
+    .order-grid-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   
-      .order-grid-item-top,
-      .order-grid-item-bottom {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-      }
+    img {
+      width: 75%;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      margin: 2rem 0;
+    }
   
-      img {
-          width: 75%;
-          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-          margin: 2rem 0;
-      }
+    .order-grid-item-content {
+      text-align: center;
+    }
   
-      .order-grid-item-content {
-          text-align: center;
-      }
+    .order-price {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
   
-      .order-price {
-          font-size: 1.5rem;
-          font-weight: 600;
-      }
+    .order-table-number {
+      position: absolute; // Posiciona el número de mesa en la esquina inferior derecha
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.1); // Fondo ligeramente transparente para destacar el texto
+      padding: 0.5em;
+      border-radius: 0.25em;
+      font-size: 0.75em;
+      color: #333;
+    }
   }
 }
 
 .card {
-  //padding: 2rem;
-  //box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-  //border-radius: 4px;
   margin-bottom: 2rem;
 }
 
 @media screen and (max-width: 576px) {
-:host ::ng-deep .order-list-item {
-  flex-direction: column;
-  align-items: center;
-
-  img {
-    width: 75%;
-    margin: 2rem 0;
-  }
-
-  .order-list-detail {
-    text-align: center;
-  }
-
-  .order-price {
-    align-self: center;
-  }
-
-  .order-list-action {
-    display: flex;
+  :host ::ng-deep .order-list-item {
     flex-direction: column;
-  }
-
-  .order-list-action {
-    margin-top: 2rem;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
+
+    img {
+      width: 75%;
+      margin: 2rem 0;
+    }
+
+    .order-list-detail {
+      text-align: center;
+    }
+
+    .order-price {
+      align-self: center;
+    }
+
+    .order-list-action {
+      margin-top: 2rem;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
   }
 }
-}
-.order-grid-item {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-}
+
 ::ng-deep div.p-grid.p-nogutter.grid.grid-nogutter {
   display: flex !important;
   flex-wrap: wrap;
@@ -142,7 +163,6 @@
 }
 
 .order-badge {
-  /* Estilos base para el badge */
   display: inline-block;
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
@@ -150,26 +170,6 @@
   font-weight: bold;
 }
 
-/* Estilos para los diferentes estados */
-.status-nuevo {
-  background-color: blue; /* Color para el estado "new" */
-  color: white;
-}
-
-.status-preparando {
-  background-color: orange; /* Color para el estado "processing" */
-  color: black;
-}
-.status-entregado {
-  background-color: rgb(219, 35, 11); /* Color para el estado "shipped" */
-  color: white;
-}
-.status-pagado {
-  background-color: green; /* Color para el estado "shipped" */
-  color: white;
-}
-
-/* Otros estados y estilos según sea necesario */
 @keyframes blink {
   0% {
     opacity: 1;
@@ -181,6 +181,7 @@
     opacity: 1;
   }
 }
+
 .waiter-info {
   position: relative;
   display: inline-block;

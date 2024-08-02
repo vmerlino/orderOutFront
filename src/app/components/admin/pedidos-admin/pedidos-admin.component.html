@@ -3,10 +3,7 @@
         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
         <ng-template pTemplate="header">
             <div class="flex flex-column md:flex-row md:justify-content-between">
-                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
-                <span class="p-input-icon-left mb-2 md:mb-0">
-                    <i class="pi pi-search"></i>
-                </span>
+                <p-dropdown  [options]="statuses" [(ngModel)]="sortKey" placeholder="Filtre por estado de pedido" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
             </div>
         </ng-template>
         <ng-template let-order pTemplate="gridItem">
@@ -14,18 +11,26 @@
                 <div class="order-grid-item card"  >
                     <div class="order-grid-item-top">
                         <div>
-                            <p-badge *ngIf="shouldShowBadge(order.id)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
+                            <p-badge *ngIf="isPayTableNull(order.tableId)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
+                            <p-badge *ngIf="getPayTable(order.tableId)" value="${{getPayTable(order.tableId)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
                             <i class="pi pi-user order-category-icon"></i>
-                            <span class="order-category">{{order.personeName}}</span>
+                            <span class="order-category">{{order.user.name}}</span>
                         </div>
-                        <span [class]="'order-badge status-' + order.status.toLowerCase()">{{order.status.toUpperCase()}}</span>
-                    </div>
+                        <p-dropdown 
+                        [options]="statuses" 
+                        [(ngModel)]="order.status" 
+                        (onChange)="onStatusChange(order, $event)"
+                        placeholder="Select a status"
+                        [style]="{'width':'200px'}"
+                        [ngClass]="'order-badge status-' + getStatusName(order.status).toLowerCase()">
+                      </p-dropdown>                    </div>
                     <div class="order-grid-item-content">
                         <div class="order-name">{{order.id}}</div>
                         <div class="order-description">{{getOrderDescriptions(order)}}</div>
                     </div>
                     <div class="order-grid-item-bottom">
-                        <span class="order-price">${{order.totalAmount}}</span>
+                        <span class="order-price">${{getTotalAmount(order)}}</span>
+                        <div class="order-table-number">Mesa: {{order.tableId}}</div>
                     </div>
                 </div>
             </div>

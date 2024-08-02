@@ -37,10 +37,16 @@ export class ProductService {
     return this.http.get<Product[]>(`${BACKEND_URL}/Product/AllProducts`, { headers: this.jsonHeaders });
   }
 
+  getPhotoProduct(){
+    //return this.http.get
+  }
+
   createProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(`${BACKEND_URL}/Product`, product, { headers: this.jsonHeaders });
   }
-
+  getProductWhithPhoto(nameImage: String): Observable<void>{
+    return this.http.get<void>(`${BACKEND_URL}/Product/CreateProductWhithPhoto/`+nameImage);
+  }
   updateProduct(id: number, product: Product): Observable<Product> {
     return this.http.put<Product>(`${BACKEND_URL}/Product/${id}`, product, { headers: this.jsonHeaders });
   }

@@ -1,24 +1,28 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { LazyLoadEvent, SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api';
 import { VirtualScroller } from 'primeng/virtualscroller';
-import { Observable, combineLatest, take } from 'rxjs';
-import { Category } from 'src/app/model/Category';
+import { Observable, combineLatest, firstValueFrom, take } from 'rxjs';
 import { Product } from 'src/app/model/Product';
-import { Table } from 'src/app/model/Table';
 import { OrderProduct } from 'src/app/model/orderProduct';
 import { ProductService } from 'src/app/services/ProductService';
-import { NotificationsService } from 'src/app/services/notifications.service';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 import { addProduct, removeProduct } from 'src/app/states/CarritoState.actions';
 import { ProductState } from 'src/app/states/CarritoState.reducer';
-import { requestWaiter } from 'src/app/states/Notifications.actions';
 import { NotificationsState } from 'src/app/states/Notifications.reducer';
-import { TableState, selectTable } from 'src/app/states/TableState.reducer';
+import { TableState } from 'src/app/states/TableState.reducer';
 
 @Component({
   selector: 'app-catalogo',
   templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.scss']
+  styleUrls: ['./catalogo.component.scss'],
 })
 export class CatalogoComponent implements OnInit {
   @ViewChild('virtualScroller') virtualScroller: VirtualScroller;
@@ -35,62 +39,89 @@ export class CatalogoComponent implements OnInit {
   products2: any[];
   filteredOrders: Product[];
   combinedProducts: any[] = [];
+  filterSelected: String;
 
-  constructor(private productService: ProductService, private notificationsService: NotificationsService, private store2: Store<{ table: TableState }>, private store: Store<{ products: ProductState, notification: NotificationsState }>) {
-    this.table$ = this.store2.select(state => state.table ? state.table : null);
-
+  constructor(
+    private websocketService: WebSocketService,
+    private productService: ProductService,
+    private router: Router,
+    private store2: Store<{ table: TableState }>,
+    private store: Store<{
+      products: ProductState;
+      notification: NotificationsState;
+    }>
+  ) {
+    this.table$ = this.store2.select((state) =>
+      state.table ? state.table : null
+    );
   }
   ngOnInit() {
-    this.productService.getAllProducts().subscribe(products => {
+    this.productService.getAllProducts().subscribe((products) => {
       this.products = products;
     });
     this.quantitysUpdate();
-    this.virtualProducts = Array.from({ length: 10 });
-
-    this.table$.subscribe(table => {
+    this.table$.subscribe((table) => {
       this.table = table.table;
     });
   }
   pedirMozo() {
-    this.store.dispatch(requestWaiter({ tableNumber: this.table.id }));
+    const request = { tableNumber: this.table.id };
+    this.websocketService.sendMessage(request);
   }
+
+  goToProductDetail(product: any) {
+    this.router.navigate(['/product-detail'], { state: { product: product } });
+  }
+
+  getPhotoProduct(){
+    this.productService.getPhotoProduct()
+  }
+
   addToCart(product: any) {
-    let param = product.product
+    let param = product.product;
     this.store.dispatch(addProduct({ product: param }));
-    this.quantitysUpdate();
-    
+    this.filterSelected && this.filterSelected !="todo"? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
   }
   removeFromCart(product: any) {
-    this.store.dispatch(removeProduct({ product }));
-    this.quantitysUpdate();
+    let param = product.product;
+    this.store.dispatch(removeProduct({ product:param }));
+    this.filterSelected && this.filterSelected !="todo"? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
   }
-  filtrarCategoria(categoria: String) {
-    this.quantitysUpdate();
-    this.combinedProducts = this.combinedProducts.filter(product => product.product.category.name === categoria);
-    console.log(this.combinedProducts)
+  async filtrarCategoria(categoria: String) {
+    if(categoria !="todo"){
+    this.filterSelected = categoria;
+    await this.quantitysUpdate();
+    this.combinedProducts = this.combinedProducts.filter(
+      (product) => product.product.category.name === categoria
+    );
     this.virtualScroller?.scrollToIndex(0);
+  }else {
+    this.quantitysUpdate();
   }
-  quantitysUpdate() {
-    combineLatest([
+  }
+  async quantitysUpdate() {
+    // Ejecutar ambas peticiones en paralelo
+    const [allProducts, cartProducts] = await firstValueFrom(combineLatest([
       this.productService.getAllProducts(),
-      this.store.pipe(select(state => state.products.products))
-    ]).subscribe(([allProducts, cartProducts]) => {
-      const cartProductsMap = cartProducts ? new Map(cartProducts.map(p => [p.product.id, p])) : new Map();
-      
-      this.combinedProducts = allProducts.map(product => {
-        const cartProduct = cartProductsMap.get(product.id);
-        return {
-          product,
-          quantity: cartProduct ? cartProduct.quantity : 0,
-          clarifications: cartProduct ? cartProduct.clarifications : ''
-        };
-      });
+      this.store.pipe(select((state) => state.products.products)),
+    ]));
+  
+    // Crear un Map de cartProducts para búsqueda rápida
+    const cartProductsMap = new Map(cartProducts?.map(p => [p.product.id, p]) || []);
+  
+    // Usar Array.map para construir combinedProducts
+    this.combinedProducts = allProducts.map(product => {
+      const cartProduct = cartProductsMap.get(product.id);
+      return {
+        product,
+        quantity: cartProduct?.quantity || 0,
+        clarifications: cartProduct?.clarification || '',
+      };
     });
   }
-  
+  getImages() {}
   /*this.sortOptions = [
     { label: 'Cheapest First', value: 'price' },
     { label: 'Expensive First', value: '!price' },
   ];*/
-
 }

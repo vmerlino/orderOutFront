@@ -1,0 +1,29 @@
+<div class="product-detail-container">
+    <div class="product-image-section">
+      <img [src]="productQuantity.product.imageUrl" alt="{{ productQuantity.product.name }}" class="product-image">
+    </div>
+    <div class="product-info-background">
+    <div class="product-info-section">
+      <div style="box-shadow: 10px;" class="product-info-card">
+        <div class="product-price">
+          <span class="label">Precio</span>
+          <span class="value">${{ productQuantity.product.price }}</span>
+        </div>
+        <div class="product-title">
+          <span class="label">{{ productQuantity.product.name }}</span>
+          <div class="quantity-control">
+            <button  class="quantity-btn">-</button>
+            <span class="quantity">{{ productQuantity.quantity }}</span>
+            <button class="quantity-btn">+</button>
+          </div>
+        </div>
+        <p class="product-description">{{ productQuantity.product.description }}</p>
+        <div class="notes-section">
+          <label for="notes">Notas:</label>
+          <textarea (ngModelChange)="changeClarification()" [(ngModel)]="clarification" id="notes" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  

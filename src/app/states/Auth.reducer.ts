@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { User } from '../model/User';
 import { login, logout, setUser } from './Auth.actions';
 import { Action } from '@ngrx/store';
@@ -22,7 +22,7 @@ const userReducer = createReducer(
     loggedIn: true,
   })),
 
-  on(logout, (state, { user }) => ({
+  on(logout, (state) => ({
     ...state,
     user: null,
     loggedIn: false,
@@ -31,10 +31,23 @@ const userReducer = createReducer(
   on(setUser, (state, { user }) => ({
     ...state,
     user: user as unknown as User,
-    loggedIn: true, // Depending on your logic
+    loggedIn: false, // Depending on your logic
   }))
 );
 
+export const selectOrdersState = createFeatureSelector<UserState>('user');
+
+export const loggedIn = createSelector(
+  selectOrdersState,
+  (state: UserState) => state?.loggedIn
+);
+
+export const selectUserState = createFeatureSelector<UserState>('user');
+
+export const UserLoggedIn = createSelector(
+  selectUserState,
+  (state: UserState) => state?.user
+);
 export function reducer(state: UserState | undefined, action: Action) {
   return userReducer(state, action);
 }

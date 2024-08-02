@@ -18,6 +18,7 @@ export class MenuComponent implements OnInit {
       { icon: 'pi pi-fw pi-home', routerLink: '/catalogo' },
       { icon: 'pi pi-search', routerLink: '/search' },
       { icon: 'pi pi-shopping-cart', routerLink: '/cart',  badge: '5', styleClass: 'p-menuitem-cart' },
+      { icon: 'pi pi-list', routerLink: '/pedidos' },
       { icon: 'pi pi-wallet', routerLink: '/wallet' },
     ];
   }
