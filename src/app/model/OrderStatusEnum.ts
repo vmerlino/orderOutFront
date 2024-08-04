@@ -1,14 +1,17 @@
 export enum OrderStatusEnum {
     Nuevo = 1,
-    Preparando = 2,
-    Entregado = 3,
-    Pagado = 4
+    Confirmado = 2,
+    Preparando = 3,
+    Entregado = 4,
+    Pagado = 5
 }
     export namespace OrderStatusEnum {
       export function getStatusName(id: number): string {
         switch (id) {
           case OrderStatusEnum.Nuevo:
             return 'Nuevo';
+          case OrderStatusEnum.Confirmado:
+            return 'Confirmado';
           case OrderStatusEnum.Preparando:
             return 'Preparando';
           case OrderStatusEnum.Entregado:

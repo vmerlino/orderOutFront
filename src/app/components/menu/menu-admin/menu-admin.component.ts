@@ -57,6 +57,16 @@ export class MenuAdminComponent implements OnInit {
         routerLink: 'admin/cuentas',
       },
       {
+        label: 'Pagos',
+        icon: 'pi pi-dollar',
+        routerLink: 'admin/historial-pagos',
+      },
+      {
+        label: 'Estadisticas',
+        icon: 'pi pi-dollar',
+        routerLink: 'admin/estadisticas-productos',
+      },
+      {
         label: 'Cerrar sesión',
         icon: 'pi pi-power-off',
         styleClass: 'move-to-end',

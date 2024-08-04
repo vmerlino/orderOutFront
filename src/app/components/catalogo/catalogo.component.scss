@@ -178,7 +178,9 @@
     overflow: hidden; /* Ocultar partes de la imagen que se salgan del círculo */
   }
   
-  
+  ::ng-deep .p-avatar{
+    display: contents !important;
+  }
   ::ng-deep .p-avatar.p-avatar-image{
     width: 100% !important;
     height: 100% !important;

@@ -8,7 +8,6 @@ import { WalletComponent } from './components/wallet/wallet.component';
 import { ProductosComponent } from './components/productos/productos.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductosAdminComponent } from './components/admin/productos-admin/productos-admin.component';
-import { ReservasAdminComponent } from './components/admin/reservas-admin/reservas-admin.component';
 import { CategoriasAdminComponent } from './components/admin/categorias-admin/categorias-admin.component';
 import { CuentasAdminComponent } from './components/admin/cuentas-admin/cuentas-admin.component';
 import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-admin.component';
@@ -19,17 +18,18 @@ import { SearchComponent } from './components/search/search.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { AuthGuard } from './auth.guard';
 import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedidos-realizados.component';
+import { HistorialPagoComponent } from './components/admin/historial-pago/historial-pago.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'admin/productos', component: ProductosAdminComponent, canActivate: [AuthGuard] },
-  { path: 'admin/reservas', component: ReservasAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/categorias', component: CategoriasAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/mozos', component: MozosAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/pedidos', component: PedidosAdminComponent},
   { path: 'admin/cuentas', component: CuentasAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/menu', component: MenusAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/crear/categoria', component: CategoryCreateComponent, canActivate: [AuthGuard] },
+  { path: 'admin/historial-pagos', component: HistorialPagoComponent, canActivate: [AuthGuard] },
   //mobile
   { path: 'productos', component: ProductosComponent },
   { path: 'wallet', component: WalletComponent },

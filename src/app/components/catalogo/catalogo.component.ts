@@ -5,11 +5,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { SelectItem } from 'primeng/api';
 import { VirtualScroller } from 'primeng/virtualscroller';
-import { Observable, combineLatest, firstValueFrom, take } from 'rxjs';
+import { Observable, combineLatest, firstValueFrom } from 'rxjs';
 import { Product } from 'src/app/model/Product';
 import { OrderProduct } from 'src/app/model/orderProduct';
 import { ProductService } from 'src/app/services/ProductService';
@@ -40,6 +41,7 @@ export class CatalogoComponent implements OnInit {
   filteredOrders: Product[];
   combinedProducts: any[] = [];
   filterSelected: String;
+  productImages: Map<number, SafeResourceUrl> = new Map(); // Map para almacenar imágenes por ID
 
   constructor(
     private websocketService: WebSocketService,
@@ -55,15 +57,29 @@ export class CatalogoComponent implements OnInit {
       state.table ? state.table : null
     );
   }
-  ngOnInit() {
-    this.productService.getAllProducts().subscribe((products) => {
-      this.products = products;
-    });
+
+  async ngOnInit() {
+    await this.loadProductImages(); // Esperar a que se carguen las imágenes
     this.quantitysUpdate();
     this.table$.subscribe((table) => {
       this.table = table.table;
     });
+    console.log(this.productImages); // Mostrar después de cargar las imágenes
   }
+
+  async loadProductImages(): Promise<void> {
+    const products = await firstValueFrom(this.productService.getAllProducts());
+
+    this.products = products; // Asignar productos
+    const imagePromises = products.map(async product => {
+      const image = await this.productService.getImage(product.id);
+      this.productImages.set(product.id, image);
+    });
+
+    // Esperar a que todas las imágenes se carguen
+    await Promise.all(imagePromises);
+  }
+
   pedirMozo() {
     const request = { tableNumber: this.table.id };
     this.websocketService.sendMessage(request);
@@ -73,45 +89,45 @@ export class CatalogoComponent implements OnInit {
     this.router.navigate(['/product-detail'], { state: { product: product } });
   }
 
-  getPhotoProduct(){
-    this.productService.getPhotoProduct()
-  }
-
   addToCart(product: any) {
     let param = product.product;
     this.store.dispatch(addProduct({ product: param }));
-    this.filterSelected && this.filterSelected !="todo"? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
+    this.filterSelected && this.filterSelected !== "todo" ? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
   }
+
   removeFromCart(product: any) {
     let param = product.product;
-    this.store.dispatch(removeProduct({ product:param }));
-    this.filterSelected && this.filterSelected !="todo"? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
+    this.store.dispatch(removeProduct({ product: param }));
+    this.filterSelected && this.filterSelected !== "todo" ? this.filtrarCategoria(this.filterSelected) : this.quantitysUpdate();
   }
+
   async filtrarCategoria(categoria: String) {
-    if(categoria !="todo"){
-    this.filterSelected = categoria;
-    await this.quantitysUpdate();
-    this.combinedProducts = this.combinedProducts.filter(
-      (product) => product.product.category.name === categoria
-    );
-    this.virtualScroller?.scrollToIndex(0);
-  }else {
-    this.quantitysUpdate();
+    if (categoria !== "todo") {
+      this.filterSelected = categoria;
+      await this.quantitysUpdate();
+      this.combinedProducts = this.combinedProducts.filter(
+        (product) => product.product.category.name === categoria
+      );
+      this.virtualScroller?.scrollToIndex(0);
+    } else {
+      await this.quantitysUpdate();
+    }
   }
-  }
+
   async quantitysUpdate() {
     // Ejecutar ambas peticiones en paralelo
     const [allProducts, cartProducts] = await firstValueFrom(combineLatest([
       this.productService.getAllProducts(),
       this.store.pipe(select((state) => state.products.products)),
     ]));
-  
+
     // Crear un Map de cartProducts para búsqueda rápida
     const cartProductsMap = new Map(cartProducts?.map(p => [p.product.id, p]) || []);
-  
+
     // Usar Array.map para construir combinedProducts
     this.combinedProducts = allProducts.map(product => {
       const cartProduct = cartProductsMap.get(product.id);
+
       return {
         product,
         quantity: cartProduct?.quantity || 0,
@@ -119,9 +135,11 @@ export class CatalogoComponent implements OnInit {
       };
     });
   }
-  getImages() {}
-  /*this.sortOptions = [
-    { label: 'Cheapest First', value: 'price' },
-    { label: 'Expensive First', value: '!price' },
-  ];*/
+
+  getImages(id: number): SafeResourceUrl | undefined{
+    console.log('entro')
+    console.log(id)
+    console.log(this.productImages.get(id))
+    return this.productImages.get(id);
+  }
 }

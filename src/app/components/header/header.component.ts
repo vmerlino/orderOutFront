@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Route, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WebSocketService } from 'src/app/services/web-socket.service';
@@ -15,15 +16,22 @@ export class HeaderComponent implements OnInit {
   table: any;
   isLoggedIn$ : Observable<boolean>;
   isLoggedIn = false;
+  isHomePage= false;
 
-  constructor(  private websocketService: WebSocketService, private store: Store<{ table: TableState }>) {
+  constructor( private router :Router, private websocketService: WebSocketService, private store: Store<{ table: TableState }>) {
     this.table$ = this.store.select((state) =>
     state.table ? state.table : null
   ); 
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
+      console.log(this.isHomePage)
+    }})
   this.isLoggedIn$ = this.store.pipe(select(loggedIn));
 }
 
   ngOnInit(): void {
+
     this.table$.subscribe((table: { table: any; }) => {
       this.table = table.table;
     });

@@ -61,7 +61,10 @@
     <div class="product-item" >
       <div class="image-container" (click)="goToProductDetail(product)">
         <div class="avatar-container">
-          <p-avatar class="avatar" image="{{product.product.imageUrl}}"></p-avatar>
+          <p-avatar class="avatar">     
+             <img [src]="getImages(product.product.id)" alt="" class="product-image">
+
+          </p-avatar>
         </div>
       </div>
       <div class="product-list-detail">

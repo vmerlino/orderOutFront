@@ -28,6 +28,7 @@ export class PedidosAdminComponent implements OnInit {
   websocketSubscription: Subscription;
   statuses = [
     { label: 'Nuevo', value: OrderStatusEnum.Nuevo },
+    { label: 'Confirmado', value: OrderStatusEnum.Confirmado },
     { label: 'Preparando', value: OrderStatusEnum.Preparando },
     { label: 'Entregado', value: OrderStatusEnum.Entregado },
     { label: 'Pagado', value: OrderStatusEnum.Pagado }
@@ -116,7 +117,9 @@ export class PedidosAdminComponent implements OnInit {
   getTotalAmount(order: Order): number {
     let total = 0;
     order.products.forEach((product) => {
+      console.log(product)
       total = total + product.product.price;
+      console.log(total);
     });
     return total;
   }

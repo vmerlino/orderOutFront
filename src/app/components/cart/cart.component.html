@@ -5,7 +5,9 @@
     <div class="product-info">
       <div class="product-image">
         <div class="avatar-container">
-          <p-avatar class="avatar" image="assets/images/cafeteria.jpg"></p-avatar>
+          <p-avatar class="avatar" >
+            <img [src]="getImages(item.product.id)" alt="" class="product-image">
+          </p-avatar>
         </div>
       </div>
       <div class="product-details">

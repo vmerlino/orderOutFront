@@ -107,18 +107,24 @@
   
     .order-price {
       font-size: 1.5rem;
-      font-weight: 600;
+      font-weight: 800;
+      color: #C9AA05;
     }
   
     .order-table-number {
       position: absolute; // Posiciona el número de mesa en la esquina inferior derecha
       bottom: 0;
+      font-weight: 600;
+
       right: 0;
       background-color: rgba(0, 0, 0, 0.1); // Fondo ligeramente transparente para destacar el texto
       padding: 0.5em;
       border-radius: 0.25em;
-      font-size: 0.75em;
-      color: #333;
+      font-size: 1em;
+      width: 15vh;
+      color: #644AB5;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
     }
   }
 }

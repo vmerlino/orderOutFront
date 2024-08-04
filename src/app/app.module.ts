@@ -36,7 +36,6 @@ import { MenuAdminComponent } from './components/menu/menu-admin/menu-admin.comp
 import { ProductosAdminComponent } from './components/admin/productos-admin/productos-admin.component';
 import { RippleModule } from 'primeng/ripple';
 import { MessageService } from 'primeng/api';
-import { ReservasAdminComponent } from './components/admin/reservas-admin/reservas-admin.component';
 import { CategoriasAdminComponent } from './components/admin/categorias-admin/categorias-admin.component';
 import { MozosAdminComponent } from './components/admin/mozos-admin/mozos-admin.component';
 import { PedidosAdminComponent } from './components/admin/pedidos-admin/pedidos-admin.component';
@@ -64,6 +63,8 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { WebSocketService } from './services/web-socket.service';
 import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedidos-realizados.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HistorialPagoComponent } from './components/admin/historial-pago/historial-pago.component';
+import { EstadisticasProductosComponent } from './components/admin/estadisticas-productos/estadisticas-productos.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -79,7 +80,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ProductosComponent,
     MenuAdminComponent,
     ProductosAdminComponent,
-    ReservasAdminComponent,
     CategoriasAdminComponent,
     MozosAdminComponent,
     PedidosAdminComponent,
@@ -93,6 +93,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ProductDetailComponent,
     PedidosRealizadosComponent,
     HeaderComponent,
+    HistorialPagoComponent,
+    EstadisticasProductosComponent,
   ],
   imports: [
     AppRoutingModule,

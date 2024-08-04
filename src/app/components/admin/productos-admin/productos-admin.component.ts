@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Product } from 'src/app/model/Product';
 import { ProductService } from 'src/app/services/ProductService';
@@ -12,7 +13,8 @@ export class ProductosAdminComponent implements OnInit {
     displayDialog =false;
     products: Product[];
     selectedProduct: Product;
-  
+    productImages: Map<number, SafeResourceUrl> = new Map(); // Map para almacenar imágenes por ID
+    imagePromises: any;
     constructor(private productService: ProductService, private messageService: MessageService) {}
   
     ngOnInit() {
@@ -23,14 +25,27 @@ export class ProductosAdminComponent implements OnInit {
       this.productService.getAllProducts().subscribe(
         products => {
           this.products = products;
-          console.log(products)
+          this.loadProductImages();
         },
         error => {
           console.error('Error loading products: ', error);
         }
       );
     }
-  
+    async loadProductImages(): Promise<void> {
+      this.imagePromises = this.products.map(async product => {
+      const image = await this.productService.getImage(product.id);
+      this.productImages.set(product.id, image);
+    });
+
+    // Esperar a que todas las imágenes se carguen
+    await Promise.all(this.imagePromises);
+  }
+
+  getImages(id: number){
+     return this.productImages.get(id);
+  }
+
     addProduct(product: Product) {
       this.productService.createProduct(product).subscribe(
         newProduct => {

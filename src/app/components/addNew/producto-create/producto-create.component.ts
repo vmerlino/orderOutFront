@@ -43,23 +43,21 @@ export class ProductoCreateComponent implements OnInit {
   guardar() {
     console.log(this.selectedFile);
     if (this.selectedFile) {
+      
       const reader = new FileReader();
-      reader.onload = () => {
-        const base64Image = reader.result as string;
-
-        // Guarda la imagen en la carpeta 'assets/images'
-        this.guardarImagenEnAssets(base64Image, this.selectedFile.name);
-
-        // Guarda el nombre de la imagen en el producto
-        this.product.imageUrl = `assets/images/${this.selectedFile.name}`;
-        
-        // Aquí puedes hacer la lógica para guardar el producto
-        console.log('Producto guardado', this.product);
-        this.displayDialog = false;
-      };
       reader.readAsDataURL(this.selectedFile);
-    this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree);
-    this.productService.createProduct(this.product).subscribe({
+      const formData = new FormData();
+      formData.append('name', this.nombre);
+      formData.append('price', this.precio.toString());
+      formData.append('description', this.descripcion);
+      formData.append('isVegan', this.isVegan.toString());
+      formData.append('isGluteenFree', this.isGluteenFree.toString());
+      formData.append('photo', this.selectedFile );
+      formData.append('categoryId', "1");
+
+
+      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile );
+    this.productService.createProduct(formData).subscribe({
       next: (response) => {
         console.log('Producto creado exitosamente', response);
         this.cerrarDialogo();

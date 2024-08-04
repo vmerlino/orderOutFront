@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Account } from '../model/Account';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BACKEND_URL } from 'src/constants';
+import { Account } from '../model/Account';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class AccountService {
   }
 
   getAllAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(BACKEND_URL);
+    return this.http.get<Account[]>(`${BACKEND_URL}/Account/AllAccounts`);
   }
 
   createAccount(account: Account): Observable<Account> {

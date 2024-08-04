@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Product } from 'src/app/model/Product';
+import { ProductService } from 'src/app/services/ProductService';
 import { updateClarification } from 'src/app/states/CarritoState.actions';
 
 @Component({
@@ -11,22 +12,34 @@ import { updateClarification } from 'src/app/states/CarritoState.actions';
 })
 export class ProductDetailComponent implements OnInit {
   productQuantity: any;
-  clarification: string;
+  clarification: string = '';
+  imagen: SafeResourceUrl | undefined;
 
-  constructor(private route: ActivatedRoute, private store : Store) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private store: Store
+  ) {}
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
     this.productQuantity = history.state.product;
-    console.log(this.productQuantity)
+   this.imagen = await this.productService.getImage(this.productQuantity.product.id);  
+   console.log(this.imagen)
   }
-  changeClarification(){
-          console.log(this.clarification)
 
-    if(this.clarification != ""){
-      console.log(this.clarification)
-      this.store.dispatch(updateClarification({ productId: this.productQuantity.product.id,clarification: this.clarification  }));
+  changeClarification(): void {
+    console.log(this.clarification);
 
+    if (this.clarification.trim() !== '') {
+      console.log(this.clarification);
+      this.store.dispatch(
+        updateClarification({
+          productId: this.productQuantity.product.id,
+          clarification: this.clarification
+        })
+      );
     }
   }
+
+  
 }
