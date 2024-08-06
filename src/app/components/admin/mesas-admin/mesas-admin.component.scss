@@ -1,0 +1,79 @@
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    background-color: #E5E5E5; /* Color de fondo */
+    color: #644AB5; /* Color de texto */
+  }
+/* Asegúrate de incluir estos estilos en tu archivo de estilos globales */
+.table-management, .table-container {
+    position: relative;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Sombra de color negro con 50% de opacidad */
+    z-index: 999; /* Asegúrate de que esté por encima del contenido */
+  }
+  
+  /* Asegúrate de que el diálogo tenga un índice z alto */
+  .p-dialog {
+    z-index: 1000;
+  }
+  
+.table-management {
+    height: 17vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    h1 {
+        font-family: 'Poppins', serif; // Aplica la fuente Poppins
+        color: #644AB5; // Aplica el color #644AB5
+        margin-left: 20px;
+        font-weight: normal;
+    }
+  
+    .button-container {
+      display: flex;
+  
+      button {
+        &.add {
+          background-color: #32B922;
+          border: none; // Quita el borde del botón
+          box-shadow: none;
+          .pi {
+            margin-right: 5px; // Espacio entre el icono y el texto
+          }
+        }
+  
+        &.delete {
+          background-color: #DD4B39;
+          border: none; // Quita el borde del botón
+          box-shadow: none;
+          .pi {
+            margin-right: 5px; // Espacio entre el icono y el texto
+          }
+        }
+  
+        &.modify {
+          background-color: #1473E6;
+          border: none; // Quita el borde del botón
+          box-shadow: none;
+          .pi {
+            margin-right: 5px; // Espacio entre el icono y el texto
+          }
+        }
+  
+        &.p-button {
+          &-raised {
+            &.p-button-rounded {
+              margin-left: 10px; // Espacio entre botones
+            }
+          }
+        }
+      }
+    }
+  }
+  

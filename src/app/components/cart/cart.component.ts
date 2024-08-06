@@ -79,7 +79,6 @@ export class CartComponent implements OnInit {
       productsQuantity.push(productQ);
     })
     //totalAmount += (totalAmount * (10 / 100));
-    console.log(totalAmount)
     let orderCreate = new OrderDto(this.table.id,totalAmount,new Date(), OrderStatusEnum.Nuevo, 1,productsQuantity);
     this.orderService.createOrder(orderCreate).subscribe(value =>{
       if(value){

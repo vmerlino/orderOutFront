@@ -24,7 +24,6 @@ export class MenusAdminComponent implements OnInit {
     this.menuService.getAllMenus().subscribe(
       (menus) => {
         this.menus = menus;
-        console.log(menus);
       },
       (error: any) => {
         console.error('Error loading menus: ', error);

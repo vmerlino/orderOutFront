@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
       this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
-      console.log(this.isHomePage)
     }})
   this.isLoggedIn$ = this.store.pipe(select(loggedIn));
 }

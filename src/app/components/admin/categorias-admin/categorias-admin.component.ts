@@ -24,7 +24,6 @@ export class CategoriasAdminComponent implements OnInit {
       this.categoryService.getAllCategories().subscribe(
         categories => {
           this.categories = categories;
-          console.log(categories);
         },
         error => {
           console.error('Error loading categories: ', error);

@@ -8,7 +8,7 @@ import { updateClarification } from 'src/app/states/CarritoState.actions';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
+  styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
   productQuantity: any;
@@ -23,23 +23,19 @@ export class ProductDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.productQuantity = history.state.product;
-   this.imagen = await this.productService.getImage(this.productQuantity.product.id);  
-   console.log(this.imagen)
+    this.imagen = await this.productService.getImage(
+      this.productQuantity.product.id
+    );
   }
 
   changeClarification(): void {
-    console.log(this.clarification);
-
     if (this.clarification.trim() !== '') {
-      console.log(this.clarification);
       this.store.dispatch(
         updateClarification({
           productId: this.productQuantity.product.id,
-          clarification: this.clarification
+          clarification: this.clarification,
         })
       );
     }
   }
-
-  
 }

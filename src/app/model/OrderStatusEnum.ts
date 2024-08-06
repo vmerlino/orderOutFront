@@ -3,7 +3,8 @@ export enum OrderStatusEnum {
     Confirmado = 2,
     Preparando = 3,
     Entregado = 4,
-    Pagado = 5
+    Pagado = 5,
+    Cancelado = 6
 }
     export namespace OrderStatusEnum {
       export function getStatusName(id: number): string {
@@ -18,6 +19,8 @@ export enum OrderStatusEnum {
             return 'Entregado';
           case OrderStatusEnum.Pagado:
             return 'Pagado';
+          case OrderStatusEnum.Cancelado:
+            return 'Cancelado';
           default:
             return 'Estado desconocido';
         }

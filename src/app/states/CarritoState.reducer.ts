@@ -55,7 +55,6 @@ export const carritoReducer = createReducer(
     on(updateClarification, (state, { productId, clarification }) => {
         const existingProducts = state.products ? [...state.products] : [];
         const productIndex = existingProducts.findIndex(p => p.product.id === productId);
-        console.log(productIndex)
         if (productIndex >= 0) {
             const updatedProduct = {
                 ...existingProducts[productIndex],

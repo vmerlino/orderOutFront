@@ -65,6 +65,7 @@ import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedi
 import { HeaderComponent } from './components/header/header.component';
 import { HistorialPagoComponent } from './components/admin/historial-pago/historial-pago.component';
 import { EstadisticasProductosComponent } from './components/admin/estadisticas-productos/estadisticas-productos.component';
+import { MesasAdminComponent } from './components/admin/mesas-admin/mesas-admin.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -95,6 +96,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     HeaderComponent,
     HistorialPagoComponent,
     EstadisticasProductosComponent,
+    MesasAdminComponent,
   ],
   imports: [
     AppRoutingModule,

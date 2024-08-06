@@ -19,6 +19,8 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { AuthGuard } from './auth.guard';
 import { PedidosRealizadosComponent } from './components/pedidos-realizados/pedidos-realizados.component';
 import { HistorialPagoComponent } from './components/admin/historial-pago/historial-pago.component';
+import { MesasAdminComponent } from './components/admin/mesas-admin/mesas-admin.component';
+import { EstadisticasProductosComponent } from './components/admin/estadisticas-productos/estadisticas-productos.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,6 +32,9 @@ const routes: Routes = [
   { path: 'admin/menu', component: MenusAdminComponent, canActivate: [AuthGuard] },
   { path: 'admin/crear/categoria', component: CategoryCreateComponent, canActivate: [AuthGuard] },
   { path: 'admin/historial-pagos', component: HistorialPagoComponent, canActivate: [AuthGuard] },
+  { path: 'admin/estadisticas', component: EstadisticasProductosComponent, canActivate: [AuthGuard] },
+  { path: 'admin/mesas', component: MesasAdminComponent, canActivate: [AuthGuard] },
+
   //mobile
   { path: 'productos', component: ProductosComponent },
   { path: 'wallet', component: WalletComponent },

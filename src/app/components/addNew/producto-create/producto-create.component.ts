@@ -41,7 +41,6 @@ export class ProductoCreateComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.selectedFile);
     if (this.selectedFile) {
       
       const reader = new FileReader();
@@ -73,9 +72,7 @@ export class ProductoCreateComponent implements OnInit {
     this.cerrarDialogo();
   }
   onImageSelected(event: any) {
-    console.log(event)
     this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile)
   }
   guardarImagenEnAssets(base64Image: string, fileName: string) {
     // Crear un enlace temporal para descargar la imagen

@@ -31,7 +31,7 @@ export class MozoCreateComponent implements OnInit {
   }
 
   guardar() {
-    this.waiter = new Waiter(null,  this.nombre);
+    this.waiter = new Waiter(null,  this.nombre, 'Rojo');
     this.waiterService.createWaiter(this.waiter).subscribe({
       next: (response) => {
         console.log('Mozo creado exitosamente', response);

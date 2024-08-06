@@ -2,11 +2,14 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
+import { FormaPagoEnum } from 'src/app/model/FormaPagoEnum';
 import { Order } from 'src/app/model/Order';
 import { OrderProduct } from 'src/app/model/orderProduct';
 import { OrderStatusEnum } from 'src/app/model/OrderStatusEnum';
+import { Role } from 'src/app/model/Role';
 import { OrderService } from 'src/app/services/order.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
+import { selectUserState } from 'src/app/states/Auth.reducer';
 import { NotificationsState } from 'src/app/states/Notifications.reducer';
 
 @Component({
@@ -26,27 +29,64 @@ export class PedidosAdminComponent implements OnInit {
   sortField: string;
   waiterRequests: any[] = [];
   websocketSubscription: Subscription;
-  statuses = [
-    { label: 'Nuevo', value: OrderStatusEnum.Nuevo },
-    { label: 'Confirmado', value: OrderStatusEnum.Confirmado },
-    { label: 'Preparando', value: OrderStatusEnum.Preparando },
-    { label: 'Entregado', value: OrderStatusEnum.Entregado },
-    { label: 'Pagado', value: OrderStatusEnum.Pagado }
+  statuses : any[];
+
+  displayDialog: boolean = false;
+  selectedPaymentMethod: any;
+  orderPay: Order | null;
+  paymentMethods: any[] = [
+    { label: 'Efectivo', value: FormaPagoEnum.Efectivo },
+    { label: 'Tarjeta de crédito', value: FormaPagoEnum.TarjetaCredito },
+    { label: 'Tajeta de Debito', value: FormaPagoEnum.TarjetaDebito },
+    { label: 'Mercado Pago', value: FormaPagoEnum.MercadoPago }
   ];
   constructor(
     private websocketService: WebSocketService,
     private orderService: OrderService,
     private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private store: Store
   ) {}
+  showDialog() {
+    this.displayDialog = true;
+  }
 
+  hideDialog() {
+    this.displayDialog = false;
+  }
+
+  confirmSelection() {
+    if(this.selectedPaymentMethod){
+      this.onStatusChange(this.orderPay,{value:5});
+      //mandar objeto bill con forma d pago nueva
+      this.hideDialog();
+      this.orderPay=null;
+
+    }
+  }
   ngOnInit() {
-    this.sortOptions = [
-      { label: 'Price High to Low', value: '!price' },
-      { label: 'Price Low to High', value: 'price' },
-    ];
-    this.primengConfig.ripple = true;
-    this.loadOrders();
+    this.store.select(selectUserState).subscribe(user => {
+      let userrolesid = user.user?.usersRoles.map(item =>  item.name);
+      if (userrolesid?.includes("SUPERADMIN") || userrolesid?.includes("ADMIN")) {
+        this.statuses = [
+          { label: 'Nuevo', value: OrderStatusEnum.Nuevo },
+          { label: 'Confirmado', value: OrderStatusEnum.Confirmado },
+          { label: 'Preparando', value: OrderStatusEnum.Preparando },
+          { label: 'Entregado', value: OrderStatusEnum.Entregado },
+          { label: 'Pagado', value: OrderStatusEnum.Pagado },
+          { label: 'Cancelado', value: OrderStatusEnum.Cancelado }
+        ];
+        this.loadOrders(false);
+      }else if (userrolesid?.includes("COCINA")){
+
+        this.statuses = [
+          { label: 'Confirmado', value: OrderStatusEnum.Confirmado },
+          { label: 'Preparando', value: OrderStatusEnum.Preparando },
+          { label: 'Entregado', value: OrderStatusEnum.Entregado },
+          { label: 'Cancelado', value: OrderStatusEnum.Cancelado }
+        ];
+        this.loadOrders(true);
+      }
+    })
     this.websocketSubscription = this.websocketService.messages$.subscribe(
       (message) => {
         if (message.payTable) {
@@ -63,9 +103,15 @@ export class PedidosAdminComponent implements OnInit {
       }
     );
   }
-  onStatusChange(order: Order, event: any){
-    order.status = event.value;
-    this.updateOrder(order);
+  onStatusChange(order: Order |null, event: any){
+    if(event.value==5 && this.selectedPaymentMethod==null){
+      this.orderPay =order;
+      this.showDialog();
+    }else{
+    order!.status = event.value;
+    this.updateOrder(order!);
+    this.selectedPaymentMethod=null;
+    }
   }
 
   isPayTableNull(tableId: number): boolean {
@@ -86,11 +132,15 @@ export class PedidosAdminComponent implements OnInit {
       this.websocketSubscription.unsubscribe();
     }
   }
-  loadOrders() {
+  loadOrders(cocina: boolean) {
     this.orderService.getAllOrders().subscribe((orders: Order[]) => {
+      if (cocina){
+        this.orders = orders.filter(item =>[2,3,4,6].includes(item.status));
+        this.todasOrdenes = orders.filter(item =>[2,3,4,6].includes(item.status));
+      }else{
       this.orders = orders;
       this.todasOrdenes =orders;
-      console.log(orders);
+      }
     });
   }
   getOrderDescriptions(order: any): string | null {
@@ -102,24 +152,11 @@ export class PedidosAdminComponent implements OnInit {
       return null;
     }
   }
-  addOrder(order: Order) {
-    /* this.orderService.createOrder(order).subscribe(
-      newOrder => {
-        this.orders.push(newOrder);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Order added successfully' });
-        },
-      error => {
-        console.error('Error adding order: ', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error adding order' });
-        }
-        );*/
-  }
+  
   getTotalAmount(order: Order): number {
     let total = 0;
     order.products.forEach((product) => {
-      console.log(product)
       total = total + product.product.price;
-      console.log(total);
     });
     return total;
   }

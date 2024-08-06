@@ -58,6 +58,7 @@ export class CuentasAdminComponent implements OnInit {
       }
     );
   }
+  
 
   deleteAccount(account: Account) {
     if (confirm('Are you sure you want to delete this account?')) {

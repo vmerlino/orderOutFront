@@ -1,3 +1,11 @@
+
+<p-dialog  style="    width: 50%;height: 60%;" header="Seleccione método de pago utilizado" [(visible)]="displayDialog" [modal]="true" [closable]="true">
+    <p-dropdown style="width: 100%;margin-bottom: 20px;" [options]="paymentMethods" [(ngModel)]="selectedPaymentMethod" placeholder="Seleccione una forma de pago"></p-dropdown>
+    <div class="dialog-footer">
+        <button pButton type="button" (click)="confirmSelection()" label="Confirmar"></button>
+        <button pButton type="button" (click)="hideDialog()" label="Cancelar" class="p-button-secondary"></button>
+    </div>
+</p-dialog>
 <div class="card">
     <p-dataView #dv [value]="orders" [paginator]="true" [rows]="9" filterBy="id"
         [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
@@ -13,8 +21,8 @@
                         <div>
                             <p-badge *ngIf="isPayTableNull(order.tableId)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
                             <p-badge *ngIf="getPayTable(order.tableId)" value="${{getPayTable(order.tableId)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-                            <i class="pi pi-user order-category-icon"></i>
-                            <span class="order-category">{{order.user.name}}</span>
+                            <i class="pi pi-user order-category-icon color-{{order.user.id}}"></i>
+                            <span class="order-category color-{{order.user.id}}">{{order.user.name}}</span>
                         </div>
                         <p-dropdown 
                         [options]="statuses" 
@@ -25,7 +33,7 @@
                         [ngClass]="'order-badge status-' + getStatusName(order.status).toLowerCase()">
                       </p-dropdown>                    </div>
                     <div class="order-grid-item-content">
-                        <div class="order-name">{{order.id}}</div>
+                        <div class="order-name">Nº {{order.id}}</div>
                         <div class="order-description">{{getOrderDescriptions(order)}}</div>
                     </div>
                     <div class="order-grid-item-bottom">

@@ -1,6 +1,5 @@
 :host ::ng-deep {
   .p-dropdown {
-    width: 14rem;
     font-weight: normal;
 
     &.status-nuevo .p-dropdown-label {
@@ -197,3 +196,53 @@
   margin-right: 10px;
   animation: blink 1s infinite; /* Aplicar la animación */
 }
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 150px;
+
+  button {
+    margin-left: 0.5rem;
+  }
+}
+::ng-deep .p-dialog .p-dialog-content{
+  height: 300px !important;
+  padding: 20px 1.5rem 2rem 1.5rem !important;
+}
+
+.color-1 {
+  color: #FF5733; /* Color naranja */
+}
+
+.color-2 {
+  color: #33FF57; /* Color verde */
+}
+
+.color-3 {
+  color: #3357FF; /* Color azul */
+}
+
+.color-4 {
+  color: #F3FF33; /* Color amarillo */
+}
+
+.color-5 {
+  color: #9e0fb1; /* Color rosa */
+}
+
+.color-6 {
+  color: #33FFF4; /* Color cian */
+}
+.color-7 {
+  color: rgb(134, 100, 48); /* Color negro por defecto */
+}
+.color-8 {
+  color: rgb(71, 45, 45); /* Color negro por defecto */
+}
+.color-9 {
+  color: rgb(83, 88, 71); /* Color negro por defecto */
+}
+.color-default {
+  color: black; /* Color negro por defecto */
+}
+

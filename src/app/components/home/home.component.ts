@@ -43,6 +43,5 @@ export class HomeComponent implements OnInit {
 
   setUser(){
     this.store.dispatch(setUser({ user: this.usuario }))
-    console.log(this.usuario)
   }
 }

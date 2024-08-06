@@ -59,18 +59,17 @@ export class CatalogoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.loadProductImages(); // Esperar a que se carguen las imágenes
+    await this.loadProductImages(); 
     this.quantitysUpdate();
     this.table$.subscribe((table) => {
       this.table = table.table;
     });
-    console.log(this.productImages); // Mostrar después de cargar las imágenes
   }
 
   async loadProductImages(): Promise<void> {
     const products = await firstValueFrom(this.productService.getAllProducts());
 
-    this.products = products; // Asignar productos
+    this.products = products; 
     const imagePromises = products.map(async product => {
       const image = await this.productService.getImage(product.id);
       this.productImages.set(product.id, image);
@@ -137,9 +136,6 @@ export class CatalogoComponent implements OnInit {
   }
 
   getImages(id: number): SafeResourceUrl | undefined{
-    console.log('entro')
-    console.log(id)
-    console.log(this.productImages.get(id))
     return this.productImages.get(id);
   }
 }

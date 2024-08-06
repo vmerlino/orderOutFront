@@ -30,7 +30,6 @@ throw new Error('Method not implemented.');
   }
 
   filterProducts(event: any |  null) {
-        console.log(event.target.value);
         let searchTerm = event.target.value;
         if(searchTerm != null && searchTerm != ''){
         this.filteredProducts = this.products.filter(product => {

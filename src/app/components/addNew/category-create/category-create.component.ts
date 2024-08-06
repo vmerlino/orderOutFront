@@ -25,9 +25,7 @@ export class CategoryCreateComponent implements OnInit {
   nombre: string;
   constructor(private categoryService: CategoryService) { }
 
-  ngOnInit(): void {
-    console.log(this.categorySelect)
-    
+  ngOnInit(): void {    
   }
 
   guardar() {

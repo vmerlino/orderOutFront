@@ -36,11 +36,11 @@ export class MenuAdminComponent implements OnInit {
         icon: 'pi pi-bars',
         routerLink: 'admin/categorias',
       },
-      /*{
-        label: 'Reservas',
+      {
+        label: 'Mesas',
         icon: 'pi pi-table',
-        routerLink: 'admin/reservas',
-      },*/
+        routerLink: 'admin/mesas',
+      },
       {
         label: 'Mozos',
         icon: 'pi pi-user',
@@ -64,6 +64,11 @@ export class MenuAdminComponent implements OnInit {
       {
         label: 'Estadisticas',
         icon: 'pi pi-dollar',
+        routerLink: 'admin/estadisticas-productos',
+      },
+      {
+        label: 'Preguntas Frecuentas',
+        icon: 'pi pi-question-circle',
         routerLink: 'admin/estadisticas-productos',
       },
       {

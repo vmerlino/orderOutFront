@@ -13,7 +13,6 @@ export class CategoryService {
   
   deleteCategory(id: number | null):  Observable<void> {
     let params = new HttpParams().set('id', (id ?? 0).toString());
-    console.log(params)
     return this.http.delete<void>(`${BACKEND_URL}/Category/DeleteCategory`, {params});
 
   }
