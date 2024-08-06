@@ -119,7 +119,7 @@ export class MenuAdminComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.store.select(UserLoggedIn).subscribe((value) => {
       if (value) {
-        if (this.hasRole(value.usersRoles, 'ADMIN')) {
+        if (this.hasRole(value.usersRoles, 'SUPERADMIN')) {
           this.items = this.MENU_ITEMS['admin'];
         }else{ this.items =  this.MENU_ITEMS['cocina'];}
         /* else if (this.hasRole(value.userRoles, 'COCINA')) {
