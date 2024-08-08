@@ -66,6 +66,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { HistorialPagoComponent } from './components/admin/historial-pago/historial-pago.component';
 import { EstadisticasProductosComponent } from './components/admin/estadisticas-productos/estadisticas-productos.component';
 import { MesasAdminComponent } from './components/admin/mesas-admin/mesas-admin.component';
+import { IndicadoresComponent } from './compponents/admin/indicadores/indicadores.component';
+import { RankingProductosComponent } from './components/admin/ranking-productos/ranking-productos.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -97,6 +99,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     HistorialPagoComponent,
     EstadisticasProductosComponent,
     MesasAdminComponent,
+    IndicadoresComponent,
+    RankingProductosComponent,
   ],
   imports: [
     AppRoutingModule,

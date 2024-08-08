@@ -12,15 +12,15 @@
         <div class="product-title">
           <span class="label">{{ productQuantity.product.name }}</span>
           <div class="quantity-control">
-            <button  class="quantity-btn">-</button>
+            <button (click)="removeFromCart()" class="quantity-btn">-</button>
             <span class="quantity">{{ productQuantity.quantity }}</span>
-            <button class="quantity-btn">+</button>
+            <button (click)="addToCart()" class="quantity-btn">+</button>
           </div>
         </div>
         <p class="product-description">{{ productQuantity.product.description }}</p>
         <div class="notes-section">
           <label for="notes">Notas:</label>
-          <textarea (ngModelChange)="changeClarification()" [(ngModel)]="clarification" id="notes" rows="3"></textarea>
+          <textarea (blur)="changeClarification($event)" [value]="productQuantity.clarifications" id="notes" rows="3"></textarea>
         </div>
       </div>
     </div>

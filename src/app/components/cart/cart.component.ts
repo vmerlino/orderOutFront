@@ -16,6 +16,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { addProduct, clearCart, removeProduct } from 'src/app/states/CarritoState.actions';
 import { ProductState } from 'src/app/states/CarritoState.reducer';
 import { addOrder } from 'src/app/states/OrderState.actions';
+import { selectOrders } from 'src/app/states/OrderState.reducer';
 import { clearTable } from 'src/app/states/TableState.actions';
 import { TableState } from 'src/app/states/TableState.reducer';
 
@@ -70,6 +71,7 @@ export class CartComponent implements OnInit {
     let productsQuantity : OrderProductDto[] = [];
     let productQ : OrderProductDto;
     let totalAmount=0;
+   
     this.productList.forEach((product:OrderProduct) => {
       let product2 =new Product(product.product.id, product.product.name, product.product.price, product.product.category, product.product.description, product.product.imageUrl, product.product.isVegan,product.product.isGlutenFree, 0, null);
       let  quantity = product.quantity;
@@ -80,6 +82,13 @@ export class CartComponent implements OnInit {
     })
     //totalAmount += (totalAmount * (10 / 100));
     let orderCreate = new OrderDto(this.table.id,totalAmount,new Date(), OrderStatusEnum.Nuevo, 1,productsQuantity);
+    this.store.select(selectOrders).subscribe(value => {
+      if(value.length > 0){
+        orderCreate.billId = value[0].billId;
+      }else{
+        orderCreate.billId = null;
+      }
+      });
     this.orderService.createOrder(orderCreate).subscribe(value =>{
       if(value){
         this.messageService.add({

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Waiter } from '../model/Waiter';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BACKEND_URL } from 'src/constants';
 
 @Injectable({
@@ -9,7 +9,9 @@ import { BACKEND_URL } from 'src/constants';
 })
 export class WaiterService {
   
-  
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
   constructor(private http: HttpClient) { }
   
   deleteWaiter(id: number | null): Observable<void> {
@@ -24,10 +26,10 @@ export class WaiterService {
   }
 
   createWaiter(waiter: Waiter): Observable<Waiter> {
-    return this.http.post<Waiter>(BACKEND_URL, waiter);
+    return this.http.post<Waiter>(BACKEND_URL+"/Waiter/CreateWaiter", waiter, {headers: this.headers});
   }
 
   updateWaiter(id: number, waiter: Waiter): Observable<Waiter> {
-    return this.http.put<Waiter>(`${BACKEND_URL}/${id}`, waiter);
+    return this.http.put<Waiter>(`${BACKEND_URL}/Waiter/UpdateWaiter`, waiter,);
   }
 }

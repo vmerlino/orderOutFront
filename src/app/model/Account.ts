@@ -1,19 +1,24 @@
 import { FormaPagoEnum } from "./FormaPagoEnum";
-import { Order } from "./Order";
 
 export class Account {
-    id: number;
-    amount: number;
-    date: Date;
-    formaPago: FormaPagoEnum;
-    orders: Order[]
-    mailClient: String; 
+  id:number;
+    amount?: number; 
+    tip?: number;
+    date: Date; 
+    wayToPay: FormaPagoEnum;
+    clientEmail: string; 
 
-    constructor(id: number, amount: number, date: Date, formaPago: FormaPagoEnum) {
-        this.id = id;
+    constructor(
+        amount: number | undefined,
+        tip: number | undefined,
+        date: Date,
+        wayToPay: FormaPagoEnum,
+        clientEmail: string
+      ) {
         this.amount = amount;
+        this.tip = tip;
         this.date = date;
-        this.formaPago = formaPago;
-    }
-
+        this.wayToPay = wayToPay;
+        this.clientEmail = clientEmail;
+      }
 }

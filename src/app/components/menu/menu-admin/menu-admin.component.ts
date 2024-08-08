@@ -64,12 +64,12 @@ export class MenuAdminComponent implements OnInit {
       {
         label: 'Estadisticas',
         icon: 'pi pi-dollar',
-        routerLink: 'admin/estadisticas-productos',
+        routerLink: 'admin/estadisticas',
       },
       {
         label: 'Preguntas Frecuentas',
         icon: 'pi pi-question-circle',
-        routerLink: 'admin/estadisticas-productos',
+        routerLink: 'admin/estadisticas',
       },
       {
         label: 'Cerrar sesión',

@@ -17,7 +17,7 @@
     <div>
         <app-producto-create [displayDialog]="displayDialog" [product]="selectedProduct" (onClose)="cerrarDialogo()" (updateProducts)="updateProduct()">
         </app-producto-create>
-    <p-table [value]="products" selectionMode="single"  styleClass="mt-5" dataKey="code">
+    <p-table  [value]="products" selectionMode="single" [(selection)]="selectedProduct" (selectionChange)="selectProduct(selectedProduct)"  styleClass="mt-5" dataKey="id">
         <ng-template pTemplate="header">
             <tr [pSelectableRow]="selectedProduct">
                 <th>Producto</th>

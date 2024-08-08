@@ -3,7 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ProductService } from 'src/app/services/ProductService';
-import { updateClarification } from 'src/app/states/CarritoState.actions';
+import { addProduct, removeProduct, updateClarification } from 'src/app/states/CarritoState.actions';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,17 +23,30 @@ export class ProductDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.productQuantity = history.state.product;
+    console.log(this.productQuantity)
+    this.clarification = this.productQuantity.clarification;
     this.imagen = await this.productService.getImage(
       this.productQuantity.product.id
     );
   }
+  addToCart() {
+    let param = this.productQuantity.product;
+    this.productQuantity.quantity += 1;
+    this.store.dispatch(addProduct({ product: param }));
+  }
 
-  changeClarification(): void {
-    if (this.clarification.trim() !== '') {
+  removeFromCart() {
+    let param = this.productQuantity.product;
+    this.productQuantity.quantity -= 1;
+    this.store.dispatch(removeProduct({ product: param }));
+  }
+  changeClarification(event: any): void {
+    let clarification = event.target.value;
+    if (clarification.trim() !== '') {
       this.store.dispatch(
         updateClarification({
           productId: this.productQuantity.product.id,
-          clarification: this.clarification,
+          clarification: clarification,
         })
       );
     }

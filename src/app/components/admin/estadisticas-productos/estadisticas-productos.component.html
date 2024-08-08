@@ -1,1 +1,23 @@
-<p>estadisticas-productos works!</p>
+<p-tabView>
+    <p-tabPanel header="Indicadores">
+      <div class="indicator-container">
+        <p-card title="Promedio de gasto por cuenta" styleClass="indicator-card">
+          <!-- Aquí va el contenido del indicador -->
+        </p-card>
+  
+        <p-card title="Porcentaje de cuentas pagadas" styleClass="indicator-card">
+          <ul>
+            <li>Tarjeta Débito</li>
+            <li>Tarjeta Crédito</li>
+            <li>Efectivo</li>
+            <li>Mercado Pago</li>
+          </ul>
+        </p-card>
+      </div>
+    </p-tabPanel>
+  
+    <p-tabPanel header="Ranking de Productos">
+      <app-ranking-productos></app-ranking-productos>
+    </p-tabPanel>
+  </p-tabView>
+  

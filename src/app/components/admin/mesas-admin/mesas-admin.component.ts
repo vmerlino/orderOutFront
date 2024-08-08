@@ -5,6 +5,7 @@ import { Table } from 'src/app/model/Table';
 import { TableWaiter } from 'src/app/model/TableWaiter';
 import { Waiter } from 'src/app/model/Waiter';
 import { TableService } from 'src/app/services/table.service';
+import { WaiterService } from 'src/app/services/waiter.service';
 
 @Component({
   selector: 'app-mesas-admin',
@@ -15,6 +16,7 @@ export class MesasAdminComponent implements OnInit {
   selectedTable: Table | null = null;
   tables: Table[] = [];
   displayDialog: boolean = false;
+  mozos: Waiter[];
   mozosPorTurno: { [key: number]: Waiter[] } = {}; // Agrupa mozos por turno
   selectedWaiters: { [key: number]: Waiter | null } = {
     [ShiftEnum.Manana]: null,
@@ -24,11 +26,15 @@ export class MesasAdminComponent implements OnInit {
   tableWaiters: TableWaiter[] = [];
   waiters: Waiter[] = []; // Lista de mozos obtenida de tableWaiter
 
-  constructor(private tableService: TableService, private messageService: MessageService) {}
+  constructor(private tableService: TableService,private waiterService: WaiterService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.getTables();
     this.getTableWaiter();
+    this.getWaiters();
+  }
+  getWaiters(){
+    this.waiterService.getAllWaiters().subscribe(value => this.mozos = value);
   }
 
   addTable(table: Table) {
@@ -75,9 +81,9 @@ export class MesasAdminComponent implements OnInit {
     }
   }
 
-  selectTable(table: Table) {
+  selectTable(table: Table | null) {
     this.selectedTable = table;
-    this.messageService.add({ severity: 'info', summary: 'Table Selected', detail: table.id?.toString() });
+    this.messageService.add({ severity: 'info', summary: 'Table Selected', detail: table?.id?.toString() });
   }
 
   getTables() {

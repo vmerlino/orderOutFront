@@ -1,20 +1,20 @@
 <body>
   <div class="table-management">
-    <h1>Administrar Cuentas</h1>
+    <h1>Administrar Mesas</h1>
     <div class="button-container">
-      <button pButton type="button" class="p-button p-button-raised p-button-rounded add">
+      <button [disabled]="selectedTable" pButton type="button" class="p-button p-button-raised p-button-rounded add">
         <i class="pi pi-plus-circle"></i> Agregar
       </button>
-      <button pButton type="button" class="p-button p-button-raised p-button-rounded delete">
+      <button [disabled]="!selectedTable" pButton type="button" class="p-button p-button-raised p-button-rounded delete">
         <i class="pi pi-minus-circle"></i> Borrar
       </button>
-      <button pButton type="button" class="p-button p-button-raised p-button-rounded modify">
+      <button [disabled]="!selectedTable" pButton type="button" class="p-button p-button-raised p-button-rounded modify">
         <i class="pi pi-info-circle"></i> Modificar
       </button>
     </div>
   </div>
   <div class="table-container">
-    <p-table [value]="tables" selectionMode="multiple" styleClass="mt-5" dataKey="code">
+    <p-table [value]="tables" selectionMode="single"  [(selection)]="selectedTable" (selectionChange)="selectTable(selectedTable)"  styleClass="mt-5" dataKey="id">
       <ng-template pTemplate="header">
         <tr [pSelectableRow]="selectTable">
           <th>Nº Mesa</th>
@@ -41,15 +41,15 @@
       <div class="p-fluid">
         <div class="p-field">
           <label for="morningShift">Turno Mañana:</label>
-          <p-dropdown [options]="mozosPorTurno[1]" onchange="updateTableWaiterSelect(mozosPorTurno[1])" [(ngModel)]="selectedWaiters[1]" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="mozos" onchange="updateTableWaiterSelect(mozosPorTurno[1])" [(ngModel)]="selectedWaiters[1]" optionLabel="name"></p-dropdown>
         </div>
         <div class="p-field">
           <label for="afternoonShift">Turno Tarde:</label>
-          <p-dropdown [options]="mozosPorTurno[2]" onchange="updateTableWaiterSelect(mozosPorTurno[2])" [(ngModel)]="selectedWaiters[2]" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="mozos" onchange="updateTableWaiterSelect(mozosPorTurno[2])" [(ngModel)]="selectedWaiters[2]" optionLabel="name"></p-dropdown>
         </div>
         <div class="p-field">
           <label for="nightShift">Turno Noche:</label>
-          <p-dropdown [options]="mozosPorTurno[3]" onchange="updateTableWaiterSelect(mozosPorTurno[3])" [(ngModel)]="selectedWaiters[3]" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="mozos" onchange="updateTableWaiterSelect(mozosPorTurno[3])" [(ngModel)]="selectedWaiters[3]" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>

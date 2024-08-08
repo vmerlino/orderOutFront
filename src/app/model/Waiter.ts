@@ -1,11 +1,9 @@
 export class Waiter {
     id: number | null;
     name: string;
-    color :String;
   
-    constructor(id: number | null, name: string, color:string) {
+    constructor(id: number | null, name: string) {
       this.id = id;
       this.name = name;
-      this.color = color
     }
   }

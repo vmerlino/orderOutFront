@@ -18,6 +18,7 @@ import { TableState } from 'src/app/states/TableState.reducer';
 export class HomeComponent implements OnInit {
   table$: Observable<Table | null>;
   usuario: string;
+  mesaId: any;
 
   constructor(
     private tableService: TableService,
@@ -27,8 +28,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const mesaId = params['id'];
-      this.getTableId(mesaId);
+      this.mesaId = params['id'];
+      this.getTableId(this.mesaId);
     });
   }
 

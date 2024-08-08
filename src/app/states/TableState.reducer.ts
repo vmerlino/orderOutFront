@@ -8,7 +8,7 @@ export interface TableState {
 }
 
 const initialState: TableState = {
-  table: new Table(2,9,new Waiter(1,"maria","Rojo"),"libre")
+  table: new Table(2,9,new Waiter(1,"maria"),"libre")
 };
 
 const _tableReducer = createReducer(

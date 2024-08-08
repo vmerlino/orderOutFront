@@ -7,19 +7,22 @@
       <div class="product-item">
         <div class="image-container">
           <div class="avatar-container">
-            <p-avatar class="avatar" image="assets/images/{{product.imageUrl}}"></p-avatar>
+            <p-avatar class="avatar" >
+              <img [src]="getImages(product.product.id)" alt="" class="product-image">
+
+            </p-avatar>
           </div>
         </div>
         <div class="product-list-detail">
-          <h5 class="mb-2">{{ product.name }}</h5>
+          <h5 class="mb-2">{{ product.product.name }}</h5>
           <div class="quantity-control">
             <button (click)="removeFromCart(product)" class="quantity-btn">-</button>
-            <span class="quantity-text"></span>
+            <span class="quantity-text">{{product.quantity}}</span>
             <button (click)="addToCart(product)" class="quantity-btn">+</button>
           </div>
         </div>
         <div class="product-list-action">
-          <h6 class="mb-2-price">${{ product.price }}</h6>
+          <h6 class="mb-2-price">${{ product.product.price }}</h6>
           <div class="chips-container">
             <p-chip label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
             <p-chip label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>

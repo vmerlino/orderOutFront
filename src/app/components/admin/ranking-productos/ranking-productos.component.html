@@ -1,0 +1,15 @@
+<p-table [value]="dataSource" [paginator]="true" [rows]="10" [sortMode]="'single'" sortField="ventas" [sortOrder]="1">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th pSortableColumn="ventas">Ventas <p-sortIcon field="ventas"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto>
+      <tr>
+        <td>{{producto.nombre}}</td>
+        <td>{{producto.ventas}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

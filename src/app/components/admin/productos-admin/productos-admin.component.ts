@@ -26,6 +26,7 @@ export class ProductosAdminComponent implements OnInit {
         products => {
           this.products = products;
           this.loadProductImages();
+          console.log(this.products)
         },
         error => {
           console.error('Error loading products: ', error);

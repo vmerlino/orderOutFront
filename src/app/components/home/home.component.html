@@ -1,13 +1,9 @@
 <div class="container">
     <div class="content">
       <p class="titulo">La casa de Nicolas</p>
-      <div class="input-group">
-        <input pInputText [(ngModel)]="usuario" id="username" name="username" style="color: white;height: 35px;
-        width: 88%;
-        margin-bottom: 30px;"
-         placeholder="Ingrese su email"/>
-    </div>
-      <button pButton pRipple type="button" [disabled]="!usuario" class="custom-button" label="Comenzar" (click)="setUser()" routerLink="/catalogo" ></button>
+      <br>
+      <p class="titulo">Mesa Nº {{mesaId}}</p>
+      <button pButton pRipple type="button" class="custom-button" label="Comenzar"  routerLink="/catalogo" ></button>
     </div>
   </div>
   
