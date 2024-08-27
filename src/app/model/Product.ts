@@ -1,5 +1,6 @@
 import { Byte } from "@angular/compiler/src/util";
 import { Category } from "./Category";
+import { Time } from "@angular/common";
 
 export class Product {
   id: number;
@@ -12,8 +13,9 @@ export class Product {
   isGlutenFree: boolean;
   price: number;
   category: Category;
+  making: String;
 
-  constructor(id: number, name: string, price: number, category: Category, description: string, imageUrl: string | null, isVegan: boolean, isGlutenFree: boolean, image: Byte | File, photo: any) {
+  constructor(id: number, name: string, price: number, category: Category, description: string, imageUrl: string | null, isVegan: boolean, isGlutenFree: boolean, image: Byte | File, photo: any, time: string) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -24,6 +26,7 @@ export class Product {
     this.isGlutenFree = isGlutenFree;
     this.image = image;
     this.photo = photo;
+    this.making = time;
   }
   
 }

@@ -73,7 +73,7 @@ export class CartComponent implements OnInit {
     let totalAmount=0;
    
     this.productList.forEach((product:OrderProduct) => {
-      let product2 =new Product(product.product.id, product.product.name, product.product.price, product.product.category, product.product.description, product.product.imageUrl, product.product.isVegan,product.product.isGlutenFree, 0, null);
+      let product2 =new Product(product.product.id, product.product.name, product.product.price, product.product.category, product.product.description, product.product.imageUrl, product.product.isVegan,product.product.isGlutenFree, 0, null, '00:15:00');
       let  quantity = product.quantity;
       let clarification = product.clarification;
       totalAmount += product.product.price;

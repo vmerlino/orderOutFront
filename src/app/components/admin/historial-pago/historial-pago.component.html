@@ -1,6 +1,33 @@
 
-  <!-- Dropdown para seleccionar el estado de pago -->
-  <div style="width: 100%; margin-bottom: 15px;">
+
+
+<div class="p-fluid p-formgrid p-grid" style="    display: inline-flex;
+gap: 70px; margin-top: 10px;
+margin-left: 20px;">
+  <div class="p-field p-col-12 p-md-6 date-picker-container">
+    <label for="startDate" class="date-picker-label">Fecha de inicio</label>
+    <p-calendar
+      id="startDate"
+      [(ngModel)]="startDate"
+      dateFormat="dd/mm/yy"
+      (ngModelChange)="changeDate()"
+      placeholder="Selecciona una fecha"
+      class="date-picker-input"
+    ></p-calendar>
+  </div>
+
+  <div class="p-field p-col-12 p-md-6 date-picker-container">
+    <label for="endDate" class="date-picker-label">Fecha de fin</label>
+    <p-calendar
+      id="endDate"
+      [(ngModel)]="endDate"
+      dateFormat="dd/mm/yy"
+      (ngModelChange)="changeDate()"
+      placeholder="Selecciona una fecha"
+      class="date-picker-input"
+    ></p-calendar>
+  </div>
+</div>  <div style="width: 100%; margin-bottom: 15px;">
     <p-dropdown  
         [options]="paymentStates" 
         [(ngModel)]="selectedPaymentState"
@@ -17,6 +44,8 @@
               <th>Monto</th>
               <th>Fecha</th>
               <th>Forma De Pago</th>
+              <th>Mozo</th>
+              <th>Mesa</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-payment>
@@ -24,7 +53,9 @@
               <td>{{payment.id}}</td>
               <td>{{payment.amount}}</td>
               <td>{{payment.date | date:'shortDate'}}</td>
-              <td>{{getFormaDePagoName(payment.formaPago)}}</td>
+              <td>{{getFormaDePagoName(payment.wayToPay)}}</td>
+              <td>{{payment.tableWaiter.waiter.name}}</td>
+              <td>{{payment.tableWaiter.table.id}}</td>
           </tr>
       </ng-template>
   </p-table>

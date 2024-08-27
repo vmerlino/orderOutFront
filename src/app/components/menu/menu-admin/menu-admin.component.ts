@@ -63,7 +63,7 @@ export class MenuAdminComponent implements OnInit {
       },
       {
         label: 'Estadisticas',
-        icon: 'pi pi-dollar',
+        icon: 'pi pi-chart-line',
         routerLink: 'admin/estadisticas',
       },
       {

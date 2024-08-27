@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Account } from 'src/app/model/Account';
 
 @Component({
   selector: 'app-ranking-productos',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ranking-productos.component.scss']
 })
 export class RankingProductosComponent implements OnInit {
+  @Input() bills: Account[];
   dataSource: any[] = [
     { nombre: 'Producto A', ventas: 100 },
     { nombre: 'Producto B', ventas: 150 },

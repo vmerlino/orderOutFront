@@ -20,14 +20,14 @@ export class CuentasAdminComponent implements OnInit {
   }
 
   loadAccounts() {
-    this.accountService.getAllAccounts().subscribe(
+   /* this.accountService.getAllAccounts().subscribe(
       accounts => {
         this.accounts = accounts;
       },
       error => {
         console.error('Error loading accounts: ', error);
       }
-    );
+    );*/
   }
 
   addAccount(account: Account) {

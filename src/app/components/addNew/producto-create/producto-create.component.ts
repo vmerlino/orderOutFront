@@ -55,7 +55,7 @@ export class ProductoCreateComponent implements OnInit {
       formData.append('categoryId', "1");
 
 
-      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile );
+      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile, '00:15:00' );
     this.productService.createProduct(formData).subscribe({
       next: (response) => {
         console.log('Producto creado exitosamente', response);

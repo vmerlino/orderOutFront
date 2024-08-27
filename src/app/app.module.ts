@@ -53,6 +53,7 @@ import {PanelModule} from 'primeng/panel';
 import { carritoReducer } from './states/CarritoState.reducer';
 import { SearchComponent } from './components/search/search.component';
 import { notificationsReducer } from './states/Notifications.reducer';
+import {ChartModule} from 'primeng/chart';
 import { tableReducer } from './states/TableState.reducer';
 import { FileUploadModule } from 'primeng/fileupload';
 import { reducer } from './states/Auth.reducer';
@@ -68,6 +69,7 @@ import { EstadisticasProductosComponent } from './components/admin/estadisticas-
 import { MesasAdminComponent } from './components/admin/mesas-admin/mesas-admin.component';
 import { IndicadoresComponent } from './compponents/admin/indicadores/indicadores.component';
 import { RankingProductosComponent } from './components/admin/ranking-productos/ranking-productos.component';
+import { CalendarModule } from 'primeng/calendar';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -112,6 +114,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ChipModule,
     DialogModule,
     ToastModule,
+    ChartModule,
+    CalendarModule,
     BadgeModule,
     DropdownModule,
     FormsModule,

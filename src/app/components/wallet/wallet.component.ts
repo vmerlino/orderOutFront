@@ -32,7 +32,9 @@ export class WalletComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.pipe(select(selectOrders)).subscribe((value) => {
-      this.orders = value;
+      console.log(value)
+      this.orders = value.filter( item  => [1,2,3,4].includes(item.status));
+      console.log(this.orders)
     });
     this.table$.subscribe((table: any) => {
       this.table = table.table;
@@ -56,9 +58,9 @@ export class WalletComponent implements OnInit {
     return 0;
   }
   realizarPagoMercadoPago() {
-    const firstOrder = this.orders[0];
+    const id = this.orders[0].billId;
     this.mercadoPagoService
-      .realizarPagoMercadoPago(firstOrder.id)
+      .realizarPagoMercadoPago(id)
       .subscribe((value) => {
         window.open(value, '_blank');
       });

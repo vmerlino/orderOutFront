@@ -21,8 +21,8 @@
                         <div>
                             <p-badge *ngIf="isPayTableNull(order.tableId)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
                             <p-badge *ngIf="getPayTable(order.tableId)" value="${{getPayTable(order.tableId)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-                            <i class="pi pi-user order-category-icon color-{{order.user.id}}"></i>
-                            <span class="order-category color-{{order.user.id}}">{{order.user.name}}</span>
+                            <i class="pi pi-user order-category-icon color-{{order.tableWaiter.waiter.id}}"></i>
+                            <span class="order-category color-{{order.user.id}}">{{order.tableWaiter.waiter.name}}</span>
                         </div>
                         <p-dropdown 
                         [options]="statuses" 

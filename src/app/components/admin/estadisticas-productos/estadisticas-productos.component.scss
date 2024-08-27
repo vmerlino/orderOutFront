@@ -7,4 +7,26 @@
   .indicator-card {
     width: 100%;
   }
-  
+  .date-picker-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-picker-label {
+    font-family: "apple", sans-serif;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #644AB5;
+  }
+
+  .date-picker-input {
+    max-width: 200px; /* Ajusta el ancho según sea necesario */
+  }
+
+  .p-calendar {
+    width: 100%;
+  }
+
+  .p-fluid {
+    margin-bottom: 1rem;
+  }

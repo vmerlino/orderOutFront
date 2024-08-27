@@ -24,16 +24,16 @@ import { EstadisticasProductosComponent } from './components/admin/estadisticas-
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'admin/productos', component: ProductosAdminComponent, canActivate: [AuthGuard] },
-  { path: 'admin/categorias', component: CategoriasAdminComponent, canActivate: [AuthGuard] },
-  { path: 'admin/mozos', component: MozosAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/productos', component: ProductosAdminComponent },
+  { path: 'admin/categorias', component: CategoriasAdminComponent },
+  { path: 'admin/mozos', component: MozosAdminComponent },
   { path: 'admin/pedidos', component: PedidosAdminComponent},
-  { path: 'admin/cuentas', component: CuentasAdminComponent, canActivate: [AuthGuard] },
-  { path: 'admin/menu', component: MenusAdminComponent, canActivate: [AuthGuard] },
-  { path: 'admin/crear/categoria', component: CategoryCreateComponent, canActivate: [AuthGuard] },
-  { path: 'admin/historial-pagos', component: HistorialPagoComponent, canActivate: [AuthGuard] },
-  { path: 'admin/estadisticas', component: EstadisticasProductosComponent, canActivate: [AuthGuard] },
-  { path: 'admin/mesas', component: MesasAdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin/cuentas', component: CuentasAdminComponent },
+  { path: 'admin/menu', component: MenusAdminComponent },
+  { path: 'admin/crear/categoria', component: CategoryCreateComponent },
+  { path: 'admin/historial-pagos', component: HistorialPagoComponent },
+  { path: 'admin/estadisticas', component: EstadisticasProductosComponent },
+  { path: 'admin/mesas', component: MesasAdminComponent },
 
   //mobile
   { path: 'productos', component: ProductosComponent },

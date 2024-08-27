@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Account } from 'src/app/model/Account';
 import { FormaPagoEnum } from 'src/app/model/FormaPagoEnum';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -8,7 +9,8 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./historial-pago.component.scss']
 })
 export class HistorialPagoComponent implements OnInit {
-  pagos = [
+  pagos : Account[];
+  /* [
     {
         "id": 1,
         "amount": 100.00,
@@ -32,7 +34,7 @@ export class HistorialPagoComponent implements OnInit {
         "amount": 300.00,
         "date": "2024-08-04T00:00:00Z",
         "formaPago": 4
-    }]
+    }]*/
     filteredPayments: any[] = [];
     paymentStates: any[] = [
       { label: 'Todos', value: null },
@@ -42,16 +44,23 @@ export class HistorialPagoComponent implements OnInit {
       { label: 'Pago en Línea', value: FormaPagoEnum.MercadoPago }
     ];
     selectedPaymentState: number;
-
+    endDate: Date;
+    startDate: Date;
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.filteredPayments = this.pagos;
   }
   loadPayments() {
-   /* this.accountService.getAllPayments().subscribe((orders: Payment[]) => {
+    this.accountService.getAllAccounts(this.startDate, this.endDate).subscribe((orders: Account[]) => {
+      console.log(orders);
       this.pagos = orders;
-    });*/
+      this.filteredPayments = this.pagos;
+    });
+  }
+  changeDate(){
+    if(this.startDate != null && this.endDate != null){
+      this.loadPayments();
+    }
   }
 
   getFormaDePagoName(id: any): String {
@@ -60,7 +69,7 @@ export class HistorialPagoComponent implements OnInit {
 
   filterPayments(): void {
     if (this.selectedPaymentState) {
-      this.filteredPayments = this.pagos.filter(payment => payment.formaPago === this.selectedPaymentState);
+      this.filteredPayments = this.pagos.filter(payment => payment.wayToPay === this.selectedPaymentState);
     } else {
       this.filteredPayments = this.pagos;
     }

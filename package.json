@@ -22,6 +22,7 @@
     "@mercadopago/sdk-js": "^0.0.3",
     "@ngrx/store": "^13.2.0",
     "@ngxs/store": "^3.8.2",
+    "chart.js": "^4.4.4",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "git": "^0.1.5",
