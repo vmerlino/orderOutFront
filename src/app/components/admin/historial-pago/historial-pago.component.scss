@@ -1,51 +1,75 @@
-// Archivo de estilos para tu componente (por ejemplo, payments.component.scss)
+// Archivo de estilos para tu componente (payments.component.scss)
+
+// Estilo para el contenedor del encabezado
+.header-container {
+  background-color: #EDE7F6; // Fondo lila claro
+  padding: 10px 20px; // Espaciado interno
+  border-radius: 8px; // Bordes redondeados
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Sombra para mayor profundidad
+}
 
 // Estilo para el dropdown
 .custom-dropdown {
-    width: 80%; // Aumenta el ancho del dropdown
-    margin-bottom: 20px; // Aumenta el margen inferior
-  
-    .p-dropdown {
-      width: 100%; // Asegura que el dropdown ocupe todo el ancho disponible
+  width: 100%; // Asegura que el dropdown ocupe todo el ancho disponible
+  margin-bottom: 20px; // Aumenta el margen inferior
+}
+
+// Estilo para la tabla
+p-table {
+  .table-header {
+    background-color: #EDE7F6; // Lila muy claro para el fondo
+    color: #644AB5; // Color principal de la app para el texto
+    font-weight: bold;
+
+    th {
+      text-align: left;
+      padding: 10px; // Aumenta el padding para mejorar el diseño
     }
   }
-  
-  // Estilo para la tabla
-  p-table {
-    .table-header {
-      background-color: #EDE7F6; // Lila muy claro para el fondo
-      color: #644AB5; // Color principal de la app para el texto
-      font-weight: bold;
-  
-      th {
-        text-align: left;
-        padding: 10px; // Aumenta el padding para mejorar el diseño
+
+  .p-table-tbody {
+    tr {
+      td {
+        padding: 8px;
       }
-    }
-  
-    .p-table-tbody {
-      tr {
-        td {
-          padding: 8px;
-        }
-  
-        &:nth-child(even) {
-          background-color: #f5f5f5; // Color de fondo para filas pares
-        }
-  
-        &:nth-child(odd) {
-          background-color: white; // Color de fondo para filas impares
-        }
+
+      &:nth-child(even) {
+        background-color: #f5f5f5; // Color de fondo para filas pares
+      }
+
+      &:nth-child(odd) {
+        background-color: white; // Color de fondo para filas impares
       }
     }
   }
-  
-  // Estilo para el filtro de fecha (si se usa)
-  .date-filter {
-    margin-bottom: 10px;
-  
-    .p-calendar {
-      width: 100%;
+}
+
+// Estilo para el filtro de fecha
+.date-filter {
+  margin-bottom: 10px;
+
+  .p-calendar {
+    width: 100%;
+  }
+}
+.export-container {
+  position: fixed; /* Posición fija */
+  bottom: 20px; /* Distancia desde el fondo */
+  right: 20px; /* Distancia desde la derecha */
+  z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+
+  .export-button {
+    background-color: #644AB5; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cambiar cursor al pasar el mouse */
+    transition: background-color 0.3s; /* Transición para el color de fondo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+
+    &:hover {
+      background-color: #7A5DB0; /* Color de fondo al pasar el mouse */
     }
   }
-  
+}

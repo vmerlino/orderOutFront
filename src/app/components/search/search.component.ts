@@ -82,14 +82,12 @@ export class SearchComponent implements OnInit {
   }
   filterProducts(event: any | null) {
     this.searchTerm = event.target.value;
-    console.log(this.searchTerm)
     if (this.searchTerm != null && this.searchTerm != '') {
       this.filteredProducts = this.combinedProducts.filter((product: any) => {
         return product.product.name
           .toLowerCase()
           .includes(this.searchTerm.toLowerCase());
       });
-      console.log(this.filteredProducts)
       this.virtualScroller?.scrollToIndex(0);
     } else {
       this.filteredProducts = [];

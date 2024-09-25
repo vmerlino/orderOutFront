@@ -4,5 +4,5 @@ import { Order } from '../model/Order';
 
 export const addOrder = createAction(
   '[Order] Add Order',
-  props<{ order: Order }>()
+  props<{ order: Order[] }>()
 );

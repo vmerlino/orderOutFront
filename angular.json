@@ -23,6 +23,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+       "jspdf-autotable",
+          "raf",
+          "core-js"
+     ],
             "outputPath": "dist/order-out-front",
             "index": "src/index.html",
             "main": "src/main.ts",

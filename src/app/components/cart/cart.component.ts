@@ -13,6 +13,7 @@ import { Waiter } from 'src/app/model/Waiter';
 import { OrderProduct } from 'src/app/model/orderProduct';
 import { ProductService } from 'src/app/services/ProductService';
 import { OrderService } from 'src/app/services/order.service';
+import { WebSocketService } from 'src/app/services/web-socket.service';
 import { addProduct, clearCart, removeProduct } from 'src/app/states/CarritoState.actions';
 import { ProductState } from 'src/app/states/CarritoState.reducer';
 import { addOrder } from 'src/app/states/OrderState.actions';
@@ -33,7 +34,7 @@ export class CartComponent implements OnInit {
   productImages: Map<number, SafeResourceUrl> = new Map(); // Map para almacenar imágenes por ID
   imagePromises: any;
 
-  constructor(private productService: ProductService, private orderService:OrderService,private messageService: MessageService ,private store: Store<{ products: ProductState,table: TableState }>) {
+  constructor( private websocketService: WebSocketService,private productService: ProductService, private orderService:OrderService,private messageService: MessageService ,private store: Store<{ products: ProductState,table: TableState }>) {
     this.products$ = this.store.select(state => state.products? state.products : []);
     this.table$ = this.store.select(state => state.table ? state.table :null);
 
@@ -73,14 +74,13 @@ export class CartComponent implements OnInit {
     let totalAmount=0;
    
     this.productList.forEach((product:OrderProduct) => {
-      let product2 =new Product(product.product.id, product.product.name, product.product.price, product.product.category, product.product.description, product.product.imageUrl, product.product.isVegan,product.product.isGlutenFree, 0, null, '00:15:00');
+      let product2 =new Product(product.product.id, product.product.name, product.product.price, product.product.category, product.product.description, product.product.imageUrl, product.product.isVegan,product.product.isGlutenFree, 0, null, 20);
       let  quantity = product.quantity;
       let clarification = product.clarification;
       totalAmount += product.product.price;
       productQ = new OrderProductDto( product2.id, quantity, clarification);
       productsQuantity.push(productQ);
     })
-    //totalAmount += (totalAmount * (10 / 100));
     let orderCreate = new OrderDto(this.table.id,totalAmount,new Date(), OrderStatusEnum.Nuevo, 1,productsQuantity);
     this.store.select(selectOrders).subscribe(value => {
       if(value.length > 0){
@@ -99,7 +99,9 @@ export class CartComponent implements OnInit {
         this.store.dispatch(addOrder({order: value}));
         this.store.dispatch(clearCart());
         this.productList =[];
-      }
+        const request = { recargar: true };
+        this.websocketService.sendMessage(request);    
+        }
     })
   }
 

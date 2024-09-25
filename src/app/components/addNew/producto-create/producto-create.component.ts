@@ -10,9 +10,9 @@ import { ProductService } from 'src/app/services/ProductService';
   styleUrls: ['./producto-create.component.scss']
 })
 export class ProductoCreateComponent implements OnInit {
-  _productSelect: Product;
+  _productSelect: Product | null;
   @Input() displayDialog: boolean = false;
-  @Input() set product(value: Product) {
+  @Input() set product(value: Product | null) {
     this._productSelect = value;
     if(value){
       this.accion='Modificar';
@@ -55,7 +55,7 @@ export class ProductoCreateComponent implements OnInit {
       formData.append('categoryId', "1");
 
 
-      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile, '00:15:00' );
+      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile, 20 );
     this.productService.createProduct(formData).subscribe({
       next: (response) => {
         console.log('Producto creado exitosamente', response);

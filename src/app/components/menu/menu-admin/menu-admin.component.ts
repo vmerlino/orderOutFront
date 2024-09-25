@@ -54,11 +54,6 @@ export class MenuAdminComponent implements OnInit {
       {
         label: 'Cuentas',
         icon: 'pi pi-credit-card',
-        routerLink: 'admin/cuentas',
-      },
-      {
-        label: 'Pagos',
-        icon: 'pi pi-dollar',
         routerLink: 'admin/historial-pagos',
       },
       {
@@ -69,8 +64,10 @@ export class MenuAdminComponent implements OnInit {
       {
         label: 'Preguntas Frecuentas',
         icon: 'pi pi-question-circle',
-        routerLink: 'admin/estadisticas',
-      },
+        command: () => {
+        window.open('https://docs.google.com/document/d/1DGXoHxJjBvEReDks5_cDRU7Yl3cXbBEG/edit?usp=sharing&ouid=108635851454151287334&rtpof=true&sd=true',
+        )}
+        },
       {
         label: 'Cerrar sesión',
         icon: 'pi pi-power-off',
@@ -117,20 +114,20 @@ export class MenuAdminComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.store.select(UserLoggedIn).subscribe((value) => {
-      if (value) {
-        if (this.hasRole(value.usersRoles, 'SUPERADMIN')) {
-          this.items = this.MENU_ITEMS['admin'];
-        }else{ this.items =  this.MENU_ITEMS['cocina'];}
-        /* else if (this.hasRole(value.userRoles, 'COCINA')) {
-          this.items = this.MENU_ITEMS['cocina'];
-        } else if (this.hasRole(value.userRoles, 'MOZO')) {
-          this.items = this.MENU_ITEMS['mozo'];
-        } else {
-          this.items = [];
-        }*/
-      }
-    });
+    let user  = JSON.parse(localStorage.getItem('authState')!).user;
+    if(JSON.parse(localStorage.getItem('authState') || 'null').user != null){
+
+      if (this.hasRole(user.usersRoles, 'SUPERADMIN')) {
+        this.items = this.MENU_ITEMS['admin'];
+      }else{ this.items =  this.MENU_ITEMS['cocina'];}
+      /* else if (this.hasRole(value.userRoles, 'COCINA')) {
+        this.items = this.MENU_ITEMS['cocina'];
+      } else if (this.hasRole(value.userRoles, 'MOZO')) {
+        this.items = this.MENU_ITEMS['mozo'];
+      } else {
+        this.items = [];
+      }*/
+    }
   }
   hasRole(userRoles: Role[], roleName: string): boolean {
     return userRoles.some((role) => role.name === roleName);

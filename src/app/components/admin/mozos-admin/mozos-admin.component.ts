@@ -23,7 +23,6 @@ export class MozosAdminComponent implements OnInit {
       this.waiterService.getAllWaiters().subscribe(
         waiters => {
           this.waiters = waiters;
-          console.log(waiters);
         },
         error => {
           console.error('Error loading waiters: ', error);

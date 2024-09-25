@@ -19,7 +19,12 @@ export class WalletComponent implements OnInit {
   totalPagar: number;
   table$: Observable<any>;
   table: Table;
+  metodosDePago = [
+  { label: 'Tarjeta', value: 'tarjeta' },
+  { label: 'Efectivo', value: 'efectivo' }
+];
 
+  metodoPagoSeleccionado: string;
   constructor(
     private mercadoPagoService: MercadoPagoServiceService,
     private websocketService: WebSocketService,
@@ -29,12 +34,12 @@ export class WalletComponent implements OnInit {
       state.table ? state.table : null
     );
   }
-
+  getTip(){
+  return  this.orders[this.orders.length-1].bill.tip;
+  }
   ngOnInit(): void {
     this.store.pipe(select(selectOrders)).subscribe((value) => {
-      console.log(value)
       this.orders = value.filter( item  => [1,2,3,4].includes(item.status));
-      console.log(this.orders)
     });
     this.table$.subscribe((table: any) => {
       this.table = table.table;
@@ -42,8 +47,13 @@ export class WalletComponent implements OnInit {
   }
 
   realizarPagoEfectivo() {
+    if(this.pagoEfectivo!= null){
     const request = { tableNumber: this.table.id, payTable: this.pagoEfectivo };
     this.websocketService.sendMessage(request);
+    }else{
+      const request = { tableNumber: this.table.id, payTable: 'tarjeta' };
+      this.websocketService.sendMessage(request); 
+    }
   }
   getTenPercentOfTotal(order: Order): number {
     if(order.totalAmount){
@@ -66,14 +76,8 @@ export class WalletComponent implements OnInit {
       });
   }
 
-  getTotalAmounts(): number{
-    let total = 0;
-    this.orders.forEach(item => {
-      item.products.forEach(product =>{
-        total = total + product.product.price;
-      });
-    });
-    total = total + total * (10 / 100);   
-    return total;
+  getTotalAmounts(){
+    return  this.orders[this.orders.length-1].bill.amount;
+
   }
 }

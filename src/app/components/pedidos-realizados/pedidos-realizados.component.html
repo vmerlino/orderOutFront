@@ -2,24 +2,33 @@
     <div *ngIf="pedidos.length > 0" class="header">
         Pedidos en Curso
     </div>
-    <div *ngIf="pedidos.length == 0" style="background-color: gray;" class="header">
+    <div *ngIf="pedidos.length == 0" class="header no-orders">
         No hay pedidos en Curso
     </div>
     <div class="orders">
-        <div *ngFor="let order of pedidos" class="order-card">
+        <div *ngFor="let order of pedidos"  class="order-card">
+            <div *ngIf="categoriasCocina.includes(order.products[0].product.categoryId)">
             <div class="status">
                 <i class="pi pi-check-circle status-icon"></i>
-                El pedido se envio correctamente
+                El pedido se envió correctamente
             </div>
             <div class="order-details">
-                <p><span>Total:</span> {{order.totalAmount}}</p>
-                <p><span>Estado:</span> {{getStatusName(order.status).toLowerCase()}}</p>
+                <p><span>Estado:</span> {{ getStatusName(order.status).toLowerCase() }}</p>
+                <p><span>Número de Pedido:</span> {{ order.id }}</p>
+            </div>
+            <div class="product-details">
+                <h4>Detalles del Pedido:</h4>
+                <ul>
+                    <li *ngFor="let item of order.products">
+                        {{ item.product.name }} - {{ item.quantity }} x {{ item.product.price * item.quantity | currency }}
+                    </li>
+                </ul>
             </div>
             <div class="time">
                 <i class="pi pi-clock time-icon"></i>
-                <span class="time-text">Aproximadamente 30 minutos</span>
+                <span class="time-text">Aproximadamente {{ getTime(order.id) }} minutos</span>
             </div>
         </div>
-       
+        </div>
     </div>
 </div>

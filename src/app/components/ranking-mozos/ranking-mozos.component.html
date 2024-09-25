@@ -1,0 +1,19 @@
+<p-table [value]="rankingWaiterDtos">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nombre</th>
+        <th>Cantidad de Cuentas</th>
+        <th>Promedio de gasto por cuenta</th>
+        <th>Promedio de propina por cuenta</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-waiter>
+      <tr>
+        <td>{{ waiter.name }}</td>
+        <td>{{ waiter.quantityBills }}</td>
+        <td>{{ waiter.averageSpendingPerAccount  | currency}}</td>
+        <td>{{ waiter.averageTipPerAccount  | currency}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

@@ -13,11 +13,11 @@ export class AppComponent implements OnInit{
   title = 'order-out-front';
  
   isHomePage = false;
-  isLoggedIn$ : Observable<boolean>;
+  isLoggedIn$ : any;
   isLoggedIn = false;
 
   constructor(private router: Router, private store: Store) {
-    this.isLoggedIn$ = this.store.pipe(select(loggedIn));
+    this.isLoggedIn$ =JSON.parse(localStorage.getItem('authState') || 'null');
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -26,12 +26,8 @@ export class AppComponent implements OnInit{
     });
   }
   ngOnInit(): void {
-    if(this.isLoggedIn$){
-      this.isLoggedIn$.subscribe(value =>{
-        if(value){
-          this.isLoggedIn = value
-        }
-      })
+    if(this.isLoggedIn$ != null){
+        this.isLoggedIn = this.isLoggedIn$.loggedIn;
     }
   }
 }

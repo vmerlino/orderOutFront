@@ -1,18 +1,21 @@
 import { FormaPagoEnum } from "./FormaPagoEnum";
+import { TableWaiter } from "./TableWaiter";
 
 export class Account {
   id:number;
     amount?: number; 
     tip?: number;
     date: Date; 
-    wayToPay: FormaPagoEnum;
+    wayToPay: number | null;
     clientEmail: string; 
+  isPaid: boolean;
+  tableWaiter: TableWaiter;
 
     constructor(
         amount: number | undefined,
         tip: number | undefined,
         date: Date,
-        wayToPay: FormaPagoEnum,
+        wayToPay: number,
         clientEmail: string
       ) {
         this.amount = amount;

@@ -13,9 +13,10 @@ export class Product {
   isGlutenFree: boolean;
   price: number;
   category: Category;
-  making: String;
-
-  constructor(id: number, name: string, price: number, category: Category, description: string, imageUrl: string | null, isVegan: boolean, isGlutenFree: boolean, image: Byte | File, photo: any, time: string) {
+  categoryId: number;
+  making: number;
+  hidden: boolean;
+  constructor(id: number, name: string, price: number, category: Category, description: string, imageUrl: string | null, isVegan: boolean, isGlutenFree: boolean, image: Byte | File, photo: any, time: number) {
     this.id = id;
     this.name = name;
     this.description = description;

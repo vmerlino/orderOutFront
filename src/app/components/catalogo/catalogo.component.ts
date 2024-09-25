@@ -80,6 +80,8 @@ export class CatalogoComponent implements OnInit {
   }
 
   pedirMozo() {
+    console.log("table")
+    console.log(this.table)
     const request = { tableNumber: this.table.id };
     this.websocketService.sendMessage(request);
   }
@@ -105,7 +107,7 @@ export class CatalogoComponent implements OnInit {
       this.filterSelected = categoria;
       await this.quantitysUpdate();
       this.combinedProducts = this.combinedProducts.filter(
-        (product) => product.product.category.name === categoria
+        (product) => product.product.category.name.toLowerCase() === categoria
       );
       this.virtualScroller?.scrollToIndex(0);
     } else {

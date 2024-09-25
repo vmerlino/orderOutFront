@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BACKEND_URL } from 'src/constants';
 import { Account } from '../model/Account';
 import { BillIndicationDTO } from '../model/Dtos/BillIndicationDTO';
+import { FormaPagoEnum } from '../model/FormaPagoEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,13 @@ export class AccountService {
     return this.http.get<any>(url);
   
   }
-  getStatistics(): Observable<any>{
-    return this.http.get<Account>(`${BACKEND_URL}/Bill/GetStatistics`)
+  getStatistics(startDate : String, endDate : String): Observable<any>{
+    if(startDate !=null && endDate != null){
+      return this.http.get<Account>(`${BACKEND_URL}/Bill/GetStatistics?startDate=${encodeURIComponent(startDate.toString())}&endDate=${encodeURIComponent(endDate.toString())}`)
+    }else{
+      return this.http.get<Account>(`${BACKEND_URL}/Bill/GetStatistics`)
+
+    }
   }
   createAccount(account: Account): Observable<Account> {
     return this.http.post<Account>(BACKEND_URL, account);
@@ -40,4 +46,12 @@ export class AccountService {
     return this.http.put<Account>(`${BACKEND_URL}/${id}`, account);
   }
 
+  updatePaymentType(id: number, wayToPay: number): Observable<Account> {
+    let params = new HttpParams()
+    .set('billId', id.toString())  // Asegúrate de convertir los números a string
+    .set('isPaid', 'true')         // También convertir booleanos a string
+    .set('wayToPay', wayToPay.toString());
+
+  return this.http.put<Account>(`${BACKEND_URL}/Bill/UpdateBillPaid`, null, { params });
+}
 }

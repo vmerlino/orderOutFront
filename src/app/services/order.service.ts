@@ -22,11 +22,11 @@ export class OrderService {
   }
 
   getOrderById(id: number): Observable<Order> {
-    return this.http.get<Order>(`${BACKEND_URL}/orders/${id}`);
+    return this.http.get<Order>(`${BACKEND_URL}/Order/GetOrder?orderId=${id}`);
   }
 
-  createOrder(order: OrderDto): Observable<Order> {
-    return this.http.post<Order>(`${BACKEND_URL}/Order/CreateOrder`, order);
+  createOrder(order: OrderDto): Observable<Order[]> {
+    return this.http.post<Order[]>(`${BACKEND_URL}/Order/CreateOrder`, order);
   }
 
   updateOrder(order: Order): Observable<Order> {

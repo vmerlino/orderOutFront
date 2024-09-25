@@ -1,48 +1,30 @@
 const WebSocket = require('ws');
-const express = require('express');
-const cors = require('cors');
 
-// Crea la aplicación Express
-const app = express();
+// Crear un servidor WebSocket en el puerto 4200
+const server = new WebSocket.Server({ port: 4200 });
 
-// Configura CORS
-app.use(cors());
+server.on('connection', (socket) => {
+  console.log('New client connected');
 
-// Define un endpoint (opcional)
-app.get('/', (req, res) => {
-  res.send('Servidor WebSocket en funcionamiento');
-});
+  // Cuando el servidor recibe un mensaje desde cualquier cliente
+  socket.on('message', (message) => {
+    console.log(`Received message: ${message}`);
 
-// Inicia el servidor HTTP
-const server = app.listen(4200, () => {
-  console.log('HTTP server is running on http://localhost:8080');
-});
-
-// Crea el servidor WebSocket
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-
-    let parsedMessage;
-    try {
-      parsedMessage = JSON.parse(message); // Intenta parsear el mensaje
-      console.log('Parsed message:', parsedMessage);
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-      return; // Si hay un error, no envíes el mensaje
-    }
-
-    // Broadcast to all clients
-    wss.clients.forEach(function each(client) {
+    // Enviar el mensaje a todos los clientes conectados
+    server.clients.forEach((client) => {
+      console.log("conexiooon")
       if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(parsedMessage)); // Envía como JSON
+        console.log("conexiooon2")
+
+        client.send(message); // retransmitir el mensaje a los otros clientes
       }
     });
   });
 
-  ws.send(JSON.stringify({ message: 'Welcome to the WebSocket server' }));
+  // Mensaje de desconexión
+  socket.on('close', () => {
+    console.log('Client disconnected');
+  });
 });
 
-console.log('WebSocket server is running on ws://localhost:8080');
+console.log('WebSocket server is running on ws://localhost:4200');

@@ -1,23 +1,81 @@
+<h1>Estadísticas</h1>
 
+<!-- Contenedor para las fechas en una fila -->
+<div  style="display: flex;margin-left: 20px;
+    gap: 40px;" class="p-grid date-container">
+  <div class="p-col-12 p-md-6 date-picker-container">
+    <label style="margin-right: 10px;" for="startDate" class="date-picker-label">Fecha de inicio</label>
+    <p-calendar
+      id="startDate"
+      [(ngModel)]="calendarStartDate"
+      [locale]="es"
+      dateFormat="dd/mm/yyyy"
+      (ngModelChange)="changeDate()"
+      placeholder="Selecciona una fecha"
+      class="date-picker-input"
+    ></p-calendar>
+  </div>
 
+  <div class="p-col-12 p-md-6 date-picker-container">
+    <label  style="margin-right: 10px;" for="endDate" class="date-picker-label">Fecha de fin</label>
+    <p-calendar
+      id="endDate"
+      [(ngModel)]="calendarEndDate"
+      dateFormat="dd/mm/yyyy"
+      (ngModelChange)="changeDate()"
+      placeholder="Selecciona una fecha"
+      class="date-picker-input"
+    ></p-calendar>
+  </div>
+</div>
+<p-button (click)="exportAsPDF()" >Exportar pantalla</p-button>
 
-<p-tabView>
-  
-  <p-tabPanel header="Indicadores">
-    <p-card title="Tarjeta Débito">
-      <h2>Gasto promedio por cuenta</h2>
-      <h4>{{indicators.AverageAmount}}</h4>
-    </p-card>
-    <div style="width: 422px; height: 422px;">
+<p-tabView id="contentToExport" *ngIf="calendarEndDate && calendarStartDate">
+  <p-tabPanel  header="Indicadores">
+    <!-- Contenedor para las tarjetas en una fila -->
+    <div style="display: flex;     gap: 150px;" >
+      <div class="p-grid">
+        <p-card class="p-col-12 p-md-4" title="Tarjeta Débito">
+          <h3>Gasto promedio por cuenta</h3>
+          <h4>{{indicators.averageAmount | currency}}</h4>
+        </p-card>
+      </div>
 
-      <p-chart type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
-      
-      </div>    
- 
-    </p-tabPanel>
-  
-    <p-tabPanel header="Ranking de Productos">
-      <app-ranking-productos [bills]="bills" ></app-ranking-productos>
-    </p-tabPanel>
-  </p-tabView>
-  
+      <div class="p-grid">
+        <p-card class="p-col-12 p-md-4" title="Tarjeta Débito">
+          <h3>Gasto total de cuentas</h3>
+          <h4>{{indicators.totalAmount | currency}}</h4>
+        </p-card>
+      </div>
+
+      <div class="p-grid">
+        <p-card class="p-col-12 p-md-4" title="Tarjeta Débito">
+          <h3>Gasto total de propina</h3>
+          <h4>{{indicators.totalTip | currency}}</h4>
+        </p-card>
+      </div>
+    </div>
+
+    <!-- Contenedor para el gráfico -->
+    <div  style="    width: 60%;    height: 60%;" class="p-grid">
+      <div class="p-col-12">
+        <h3>Estadísticas de formas de pago</h3>
+        <p-chart style=" height: 149px; width: 149px;" type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
+      </div>
+    </div>
+  </p-tabPanel>
+
+  <p-tabPanel header="Ranking de Productos">
+    <app-ranking-productos [bills]="bills"></app-ranking-productos>
+  </p-tabPanel>
+
+  <p-tabPanel header="Indicadores de mesas">
+    <app-ranking-mesas [rankingTables]="rankingTables"></app-ranking-mesas>
+
+  </p-tabPanel>
+  <p-tabPanel header="Indicadores de mozos">
+    <app-ranking-mozos [rankingWaiterDtos]="rankingWaiterDtos"></app-ranking-mozos>
+
+  </p-tabPanel>
+
+</p-tabView>

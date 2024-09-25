@@ -14,7 +14,7 @@ import { TableState } from 'src/app/states/TableState.reducer';
 export class HeaderComponent implements OnInit {
   table$: any;
   table: any;
-  isLoggedIn$ : Observable<boolean>;
+  isLoggedIn$ : any;
   isLoggedIn = false;
   isHomePage= false;
 
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
     if (event instanceof NavigationEnd) {
       this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
     }})
-  this.isLoggedIn$ = this.store.pipe(select(loggedIn));
+    this.isLoggedIn$ =JSON.parse(localStorage.getItem('authState') || 'null');
 }
 
   ngOnInit(): void {
@@ -34,16 +34,17 @@ export class HeaderComponent implements OnInit {
     this.table$.subscribe((table: { table: any; }) => {
       this.table = table.table;
     });
-    if(this.isLoggedIn$){
-      this.isLoggedIn$.subscribe((value: boolean) =>{
-        if(value){
-          this.isLoggedIn = value
-        }
-      })
-    }
+    if(this.isLoggedIn$ != null){
+      this.isLoggedIn = this.isLoggedIn$!.loggedIn;
+  }
   }
   pedirMozo() {
-    const request = { tableNumber: this.table.id };
-    this.websocketService.sendMessage(request);
+    if (this.table && this.table.id) {
+      console.log(this.table)  // Verifica que `this.table` y `this.table.id` no sean nulos o indefinidos
+      const request = { tableNumber: this.table.id };
+      this.websocketService.sendMessage(request);
+    } else {
+      console.error('Table or Table ID is not defined.');
+    }
   }
 }

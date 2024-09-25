@@ -1,0 +1,17 @@
+<p-table [value]="rankingTables">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nº</th>
+        <th>Cantidad de personas</th>
+        <th>cantidad</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-table>
+      <tr>
+        <td>{{ table.id }}</td>
+        <td>{{ table.amountPeople }}</td>
+        <td>{{ table.quantity }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

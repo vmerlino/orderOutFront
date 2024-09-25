@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/Product';
 import { Category } from '../model/Category';
@@ -48,9 +48,34 @@ export class ProductService {
   getProductWhithPhoto(nameImage: String): Observable<void>{
     return this.http.get<void>(`${BACKEND_URL}/Product/CreateProductWhithPhoto/`+nameImage);
   }
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${BACKEND_URL}/Product/${id}`, product, { headers: this.jsonHeaders });
-  }
+  updateProduct(product: Product): Observable<Product> {
+    const formData = new FormData();
+    formData.append('Id', product.id.toString());
+    formData.append('Name', product.name);
+    formData.append('Description', product.description);
+    formData.append('Price', product.price.toString());
+    formData.append('CategoryId', product!.category!.id!.toString());
+    formData.append('IsVegan', product.isVegan.toString());
+    formData.append('IsGlutenFree', product.isGlutenFree.toString());
+    formData.append('Making', product.making.toString());
+    formData.append('Hidden', product.hidden.toString());
+
+    return this.http.put<Product>(`${BACKEND_URL}/Product/UpdateProduct`, formData, {
+        headers: {
+            // No establecemos 'Content-Type' explícitamente, ya que Angular lo manejará por nosotros.
+            'accept': 'text/plain'
+        }
+    });
+}
+
+    updateProductMassive(percentage: number | null, categoryId: number | null): Observable<void> {
+      let params = new HttpParams().set('percentage', percentage!.toString());
+
+      if (categoryId) {
+          params = params.set('category', categoryId.toString());
+      }
+      return this.http.put<void>(`${BACKEND_URL}/Product/MassiveProductUpdate`, null, { headers: this.jsonHeaders, params });
+    }
 
 getImage(id: number): Promise<SafeResourceUrl> {
     return new Promise((resolve, reject) => {

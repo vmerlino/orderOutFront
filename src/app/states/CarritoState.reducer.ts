@@ -7,7 +7,7 @@ export interface ProductState {
 }
 
 const initialState: ProductState = {
-    products: null
+    products: JSON.parse(localStorage.getItem('cartState')!) ? JSON.parse(localStorage.getItem('cartState')!).products : []
 };
 
 export const carritoReducer = createReducer(
@@ -55,7 +55,6 @@ export const carritoReducer = createReducer(
     on(updateClarification, (state, { productId, clarification }) => {
         const existingProducts = state.products ? [...state.products] : [];
         const productIndex = existingProducts.findIndex(p => p.product.id === productId);
-        console.log(existingProducts)
         if (productIndex >= 0) {
             const updatedProduct = {
                 ...existingProducts[productIndex],

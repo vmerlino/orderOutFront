@@ -1,46 +1,180 @@
-
-<p-dialog  style="    width: 50%;height: 60%;" header="Seleccione método de pago utilizado" [(visible)]="displayDialog" [modal]="true" [closable]="true">
-    <p-dropdown style="width: 100%;margin-bottom: 20px;" [options]="paymentMethods" [(ngModel)]="selectedPaymentMethod" placeholder="Seleccione una forma de pago"></p-dropdown>
+<p-dialog style="width: 50%; height: 60%;" header="Pagar mesa {{mesaApagar}}" [(visible)]="displayDialog" [modal]="true" [closable]="true">
+    <h3 style="margin-top: -20px;">Seleccione método de pago utilizado</h3>
+    <p-dropdown style="width: 100%; margin-bottom: 20px;" [options]="paymentMethods" [(ngModel)]="selectedPaymentMethod" placeholder="Seleccione una forma de pago"></p-dropdown>
     <div class="dialog-footer">
         <button pButton type="button" (click)="confirmSelection()" label="Confirmar"></button>
         <button pButton type="button" (click)="hideDialog()" label="Cancelar" class="p-button-secondary"></button>
     </div>
 </p-dialog>
+
 <div class="card">
-    <p-dataView #dv [value]="orders" [paginator]="true" [rows]="9" filterBy="id"
-        [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-        <ng-template pTemplate="header">
-            <div class="flex flex-column md:flex-row md:justify-content-between">
-                <p-dropdown  [options]="statuses" [(ngModel)]="sortKey" placeholder="Filtre por estado de pedido" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
-            </div>
-        </ng-template>
-        <ng-template let-order pTemplate="gridItem">
-            <div class="p-col-12 p-md-4" style="width: calc(33.33% - 20px);">
-                <div class="order-grid-item card"  >
-                    <div class="order-grid-item-top">
-                        <div>
-                            <p-badge *ngIf="isPayTableNull(order.tableId)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-                            <p-badge *ngIf="getPayTable(order.tableId)" value="${{getPayTable(order.tableId)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-                            <i class="pi pi-user order-category-icon color-{{order.tableWaiter.waiter.id}}"></i>
-                            <span class="order-category color-{{order.user.id}}">{{order.tableWaiter.waiter.name}}</span>
+    <!-- Agrupar las órdenes por mesa -->
+    <div *ngFor="let tableOrders of tables">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px 0; border-bottom: 1px solid #ccc;">
+          
+          <!-- Mesa ID -->
+          <h3 style="font-family: 'Arial', sans-serif; font-size: 1.5em; font-weight: bold; color: #333; width: 10%;">
+            Mesa: {{tableOrders.id}}
+          </h3>  
+          
+          <div style="width: 5%;">
+
+              <p-badge *ngIf="isPayTableNull(tableOrders.id)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
+              <p-badge *ngIf="getPayTable(tableOrders.id)" value="${{getPayTable(tableOrders.id)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
+              
+          </div>
+          <!-- Estado -->
+
+          <span *ngIf="getTableStatus(tableOrders.id) === 'libre'" style=" background-color: green;font-family: 'Arial', sans-serif; width: 20%; text-align: center;">
+            <p-badge  style="width: 20px; background-color: green; height: 10px;" value="Libre" >Libre </p-badge>
+        </span>
+        <div style="width: 5%;">
+            <span *ngIf="getTableStatus(tableOrders.id) === 'libre'" 
+                (click)="ocuparMesa(tableOrders.id)" class="text-success" style="cursor: pointer;">
+                ✗
+            </span>
+        </div>
+        <span *ngIf="getTableStatus(tableOrders.id) === 'ocupada' " style=" background-color: red;font-family: 'Arial', sans-serif; width: 20%; text-align: center;">
+            <p-badge  style="width: 20px; background-color: red; height: 30px;" value="Ocupada" >Ocupada </p-badge>
+      </span>
+      <span *ngIf="getTableStatus(tableOrders.id) === 'pendiente' " 
+      style="background-color: rgb(243, 169, 30); font-family: 'Arial', sans-serif; width: 20%; text-align: center;">
+        <p-badge [ngStyle]="{'width': '20px', 'background-color': 'rgb(243, 169, 30)', 'height': '30px'}" 
+                    value="Pendiente">Pendiente</p-badge>
+        </span>
+        <div style="width: 5%;">
+        <span *ngIf="getTableStatus(tableOrders.id) === 'pendiente' || getTableStatus(tableOrders.id) === 'ocupada' " 
+            (click)="liberarMesa(tableOrders.id)" class="text-success" style="cursor: pointer;">
+        ✓
+        </span>
+    </div>
+
+          <!-- Total -->
+          <span style="font-family: 'Arial', sans-serif; width: 20%; text-align: center;">
+            Total por pagar: {{ getTotalForTable(tableOrders.id) | currency }}
+          </span>
+      
+          <!-- Pagar Button -->
+          <button pButton type="button" [disabled]="getTotalForTable(tableOrders.id) === 0" (click)="showDialog(tableOrders.id)" label="Pagar" style="width: 10%; background-color: #644AB5; color: white;"></button>
+      
+          <button pButton type="button" [disabled]="getTotalForTable(tableOrders.id) === 0" (click)="generatePdfTicket(tableOrders.id)" label="Ticket"  outline style="width: 10%; background-color: #644AB5; color: white;"></button>
+      
+          <!-- Toggle Button -->
+          <button pButton type="button" (click)="toggleTable(tableOrders.id)" style="width: 5%; background-color: #644AB5; color: white;">
+            <i class="pi" [ngClass]="isTableExpanded(tableOrders.id) ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+          </button>
+          
+        </div>      
+          
+        <!-- Mostrar los pedidos solo si la mesa está expandida -->
+        <div *ngIf="isTableExpanded(tableOrders.id)">
+            <p-dataView 
+                #dv 
+                [value]="filterOrdersByTable(tableOrders.id)" 
+                [paginator]="true" 
+                [rows]="8" 
+                [totalRecords]="filterOrdersByTable(tableOrders.id).length" 
+                layout="grid">
+                
+                <ng-template let-order pTemplate="gridItem">
+                    <div *ngIf="order.bill.tableWaiter.tableId == tableOrders.id">
+                        <div class="p-col-12 p-md-4">
+                            <div class="order-grid-item card" style="display: inline-block;">
+                                <div class="order-grid-item-top">
+                                    <div style="display: contents;">
+                                        <i class="pi pi-user order-category-icon color-{{order.bill.tableWaiter.waiterId}}"></i>
+                                        <span class="order-category color-{{order.bill.tableWaiter.waiterId}}">{{order.bill.tableWaiter.waiter.name}}</span>
+                                    </div>
+                                    <p-dropdown 
+                                        [options]="statuses" 
+                                        [(ngModel)]="order.status" 
+                                        (onChange)="onStatusChange(order, $event)" 
+                                        placeholder="Select a status" 
+                                        [style]="{'width':'150px'}" 
+                                        [ngClass]="'order-badge status-' + getStatusName(order.status).toLowerCase()">
+                                    </p-dropdown>
+                                </div>
+                                <div class="order-grid-item-content">
+                                    <div class="order-name">Nº {{order.id}}</div>
+                                    <div class="order-description">
+                                        <p-button *ngIf="!categoriasCocina.includes(order.products[0].product.categoryId)" style="height: 50%;" (onClick)="abrirPopUpDetalles2(order)" label="Mozo"></p-button>
+                                        <p-button *ngIf="categoriasCocina.includes(order.products[0].product.categoryId)" style="height: 50%;" (onClick)="abrirPopUpDetalles(order)" label="Cocina"></p-button>
+                                    </div>
+                                </div>
+                                <div class="order-grid-item-bottom">
+                                    <span class="order-price">${{getTotalAmount(order)}}</span>
+                                </div>
+                            </div>
                         </div>
-                        <p-dropdown 
-                        [options]="statuses" 
-                        [(ngModel)]="order.status" 
-                        (onChange)="onStatusChange(order, $event)"
-                        placeholder="Select a status"
-                        [style]="{'width':'200px'}"
-                        [ngClass]="'order-badge status-' + getStatusName(order.status).toLowerCase()">
-                      </p-dropdown>                    </div>
-                    <div class="order-grid-item-content">
-                        <div class="order-name">Nº {{order.id}}</div>
-                        <div class="order-description">{{getOrderDescriptions(order)}}</div>
                     </div>
-                    <div class="order-grid-item-bottom">
-                        <span class="order-price">${{getTotalAmount(order)}}</span>
-                        <div class="order-table-number">Mesa: {{order.tableId}}</div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+    
+
+    <!-- Primer p-dialog para detalles de pedido de cocina -->
+    <p-dialog [(visible)]="displayDetalle" header="Detalle del Pedido #{{pedidoSelected?.id}}" [style]="{ width: '50vw' }" (onHide)="onDialogHide()">
+        <div *ngIf="pedidoSelected">
+            <div class="p-fluid">
+                <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
+                    <div *ngIf="categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
+                        <div class="pedido-info">
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
+                        </div>
+                        <hr class="divider">
                     </div>
                 </div>
+                <p-button class="generate-pdf-btn" (onClick)="generarPDf(pedidoSelected)" label="Generar PDF"></p-button>
             </div>
-        </ng-template>
-    </p-dataView>
+        </div>
+    </p-dialog>
+    
+    <!-- Segundo p-dialog para detalles de pedido de mozo -->
+    <p-dialog [(visible)]="displayDetalle" header="Detalle del Pedido #{{pedidoSelected?.id}}" [style]="{ width: '50vw' }" (onHide)="onDialogHide()" [modal]="true" [dismissableMask]="false">
+        <div *ngIf="pedidoSelected">
+            <div class="p-fluid">
+                <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
+                    <div *ngIf="categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
+                        <div class="pedido-info">
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
+                        </div>
+                        <hr class="divider">
+                    </div>
+                </div>
+                <p-button class="generate-pdf-btn" (onClick)="generarPDf(pedidoSelected)" label="Generar PDF"></p-button>
+            </div>
+        </div>
+    </p-dialog>
+    
+    <!-- Segundo p-dialog para detalles de pedido de mozo -->
+    <p-dialog [(visible)]="displayDetalle2" header="Detalle del Pedido #{{pedidoSelected?.id}}" [style]="{ width: '50vw' }" (onHide)="onDialogHide()" [modal]="true" [dismissableMask]="false">
+        <div *ngIf="pedidoSelected">
+            <div class="p-fluid">
+                <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
+                    <div *ngIf="!categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
+                        <div class="pedido-info">
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
+                        </div>
+                        <hr class="divider">
+                    </div>
+                </div>
+                <p-button class="generate-pdf-btn" (onClick)="generarPDf(pedidoSelected)" label="Generar PDF"></p-button>
+            </div>
+        </div>
+    </p-dialog>
+    <p-dialog header="Confirmación" [(visible)]="displayDialogLibre" [modal]="true" [closable]="false">
+        <div>
+            <p>¿Desea pasar el estado de la mesa a Libre?</p>
+        </div>
+        <div class="footer">
+            <button pButton type="button" label="Cancelar" (click)="payTable(mesaApagar!)"></button>
+            <button pButton type="button" label="Confirmar" (click)="liberarMesa(mesaApagar!)"></button>
+        </div>
+    </p-dialog>
+    
+    
+</div>

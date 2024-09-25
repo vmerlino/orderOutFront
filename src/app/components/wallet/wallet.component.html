@@ -1,53 +1,73 @@
 <div>
-
+    <h1 class="title">Detalles de Pedido</h1>
     <p-tabView>
         <p-tabPanel class="tabClass" header="Efectivo / Tarjeta">
-            <div  class="container">
+            <div class="container">
                 <div *ngFor="let order of orders">
-                    <div *ngFor="let product of order.products " class="item">
-                        <span class="productName">{{product.product.name}}</span>
-                        <span class="price"> X{{product.quantity}}</span>
-                        <span class="price"> {{product.product.price*product.quantity}}</span>
+                    <div *ngFor="let product of order.products" class="item">
+                        <span class="productName">{{ product.product.name }}</span>
+                        <span class="price">X{{ product.quantity }}</span>
+                        <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
                     </div>
-                    <div  class="item"><span class="productName">Propina 10%</span> {{getTenPercentOfTotal(order)  }}</div>
-                    <div class="item" style="margin-bottom: 20px;">
-                        <span class="label" >Subtotal:</span>
-                        <span class="totalPrice">{{order.totalAmount}}</span>
+                    <div class="item subtotal">
+                        <span class="label">Subtotal:</span>
+                        <span class="totalPrice">{{ order.totalAmount | currency }}</span>
                     </div>
+                </div>
+                <div class="item tip">
+                    <span class="productName">Propina 10%</span> {{ getTip() | currency }}
                 </div>
                 <div class="total">
-                    <span class="label">Total:</span>
-                    <span class="totalPrice">{{getTotalAmounts()}}</span>
+                    <span style="    margin-right: 190px;" class="label">Total:</span>
+                    <span class="totalPrice totalAmount">{{ getTotalAmounts() | currency }}</span>
                 </div>
-                <div class="container">
-                    <h2 style="color: #644AB5;margin-bottom: 0px; font-size: 20px;">Efectivo:</h2>
-                    <h5 style="margin-top:10px; margin-left: 30px;margin-bottom: 10px;">Con cuánto va a pagar</h5>
-                    <p-inputNumber class="input" [(ngModel)]="pagoEfectivo" placeholder="Ingrese el monto"></p-inputNumber>
-                    <button class="button" (click)="realizarPagoEfectivo()" pButton type="button" label="Pedir mozo" icon="pi pi-user-plus"></button>
+                <div class="payment-method">
+                    <h2 class="payment-title">Método de pago:</h2>
+                    <p-dropdown 
+                      [options]="metodosDePago" 
+                      [(ngModel)]="metodoPagoSeleccionado" 
+                      placeholder="Seleccione un método de pago" 
+                      styleClass="dropdown">
+                    </p-dropdown>
+                    <div *ngIf="metodoPagoSeleccionado === 'efectivo'" class="cash-payment">
+                        <h5>Con cuánto va a pagar</h5>
+                        <p-inputNumber 
+                          class="input" 
+                          [(ngModel)]="pagoEfectivo" 
+                          placeholder="Ingrese el monto">
+                        </p-inputNumber>
+                    </div>
+                    <button 
+                        [disabled]="orders.length == 0"
+                        class="button" 
+                        (click)="realizarPagoEfectivo()" 
+                        pButton 
+                        type="button" 
+                        label="Pedir mozo" 
+                        icon="pi pi-user-plus">
+                    </button>
                 </div>
             </div>
-
         </p-tabPanel>
-        <p-tabPanel class="tabClass" header="Mercado pago">
+        <p-tabPanel class="tabClass" header="Mercado Pago">
             <div *ngFor="let order of orders">
-                <div *ngFor="let product of order.products " class="item">
-                    <span class="productName">{{product.product.name}}</span>
-                    <span class="price"> X{{product.quantity}}</span>
-                    <span class="price"> {{product.product.price*product.quantity}}</span>
+                <div *ngFor="let product of order.products" class="item">
+                    <span class="productName">{{ product.product.name }}</span>
+                    <span class="price">X{{ product.quantity }}</span>
+                    <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
                 </div>
-                <div class="item" style="margin-bottom: 20px;">
+                <div class="item subtotal">
                     <span class="label">Subtotal:</span>
-                    <span class="totalPrice">{{order.totalAmount}}</span>
+                    <span class="totalPrice">{{ order.totalAmount | currency }}</span>
                 </div>
             </div>
             <div class="total">
                 <span class="label">Total:</span>
-                <span class="totalPrice">{{getTotalAmounts()}}</span>
+                <span class="totalPrice totalAmount">{{ getTotalAmounts() | currency }}</span>
             </div>
             <div style="margin-top: 20px;">
                 <button class="button" pButton type="button" (click)="realizarPagoMercadoPago()" label="Realizar Pago" icon="pi pi-wallet"></button>
             </div>
         </p-tabPanel>
     </p-tabView>
-
 </div>

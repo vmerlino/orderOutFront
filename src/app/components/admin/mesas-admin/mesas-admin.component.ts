@@ -89,7 +89,6 @@ export class MesasAdminComponent implements OnInit {
   getTables() {
     this.tableService.getAllTable().subscribe(tables => {
       this.tables = tables;
-      console.log(tables);
     });
   }
 

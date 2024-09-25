@@ -20,6 +20,8 @@ import { ChipModule } from 'primeng/chip';
 import { InputNumberModule} from 'primeng/inputnumber';
 import { PasswordModule} from 'primeng/password';
 import { StoreModule } from '@ngrx/store';
+import { DatePipe } from '@angular/common';  // Importa DatePipe
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AvatarModule} from 'primeng/avatar';
 import {DataViewModule} from 'primeng/dataview';
@@ -70,6 +72,11 @@ import { MesasAdminComponent } from './components/admin/mesas-admin/mesas-admin.
 import { IndicadoresComponent } from './compponents/admin/indicadores/indicadores.component';
 import { RankingProductosComponent } from './components/admin/ranking-productos/ranking-productos.component';
 import { CalendarModule } from 'primeng/calendar';
+import {RadioButtonModule} from 'primeng/radiobutton';
+
+import {CheckboxModule} from 'primeng/checkbox';
+import { RankingMesasComponent } from './components/ranking-mesas/ranking-mesas.component';
+import { RankingMozosComponent } from './components/ranking-mozos/ranking-mozos.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -103,6 +110,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MesasAdminComponent,
     IndicadoresComponent,
     RankingProductosComponent,
+    RankingMesasComponent,
+    RankingMozosComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -112,6 +121,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     BrowserModule,
     ButtonModule,
     ChipModule,
+    CheckboxModule,
+    RadioButtonModule,
     DialogModule,
     ToastModule,
     ChartModule,
@@ -131,7 +142,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     RippleModule,
     SkeletonModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreModule.forRoot({ products: carritoReducer, notification: notificationsReducer, table: tableReducer, user: reducer, orders: ordersReducer  }),
+    StoreModule.forRoot({reducer:reducer, products: carritoReducer, notification: notificationsReducer, table: tableReducer, user: reducer, orders: ordersReducer  }),
     TabMenuModule,
     TabViewModule,
     TableModule,
@@ -140,7 +151,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  providers: [{
+  providers: [DatePipe  ,{
+    
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true

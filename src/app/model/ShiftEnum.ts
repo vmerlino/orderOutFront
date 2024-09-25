@@ -1,7 +1,7 @@
 export enum ShiftEnum {
-    Manana = 1,
-    Tarde = 2,
-    Noche = 3
+    Manana = 0,
+    Tarde = 1,
+    Noche = 2
 }
 
 export namespace ShiftEnum {

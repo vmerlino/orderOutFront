@@ -1,4 +1,3 @@
-
 <body>
     <div class="product-management">
         <h1>Administrar productos</h1>
@@ -10,32 +9,62 @@
                 <i class="pi pi-minus-circle"></i> Borrar
             </button>
             <button [disabled]="!selectedProduct" pButton type="button" (click)="abrirDialogo()" class="p-button p-button-raised p-button-rounded modify">
-                <i class="pi pi-info-circle" ></i> Modificar
+                <i class="pi pi-info-circle"></i> Modificar
             </button>   
         </div>
       </div>
     <div>
         <app-producto-create [displayDialog]="displayDialog" [product]="selectedProduct" (onClose)="cerrarDialogo()" (updateProducts)="updateProduct()">
         </app-producto-create>
-    <p-table  [value]="products" selectionMode="single" [(selection)]="selectedProduct" (selectionChange)="selectProduct(selectedProduct)"  styleClass="mt-5" dataKey="id">
+    <div>
+       <p-button (onClick)="popupMasivo()">Actualización masiva</p-button> 
+    </div>
+    <p-table [value]="products" styleClass="mt-5" dataKey="id">
         <ng-template pTemplate="header">
-            <tr [pSelectableRow]="selectedProduct">
+            <tr>
+                <th></th> <!-- Columna para el checkbox -->
                 <th>Producto</th>
                 <th>Categoria</th>
-                <th>imagen</th>
+                <th>Imagen</th>
                 <th>Precio</th>
+                <th>Oculto</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <p-radioButton [value]="product"  (click)="toggleSelection(product, $event)" ></p-radioButton>
+                </td>
                 <td>{{product.name}}</td>
                 <td>{{product.category.name}}</td>
                 <td>
                     <img [src]="getImages(product.id)" alt="{{product.name}}" style="width: 100px; height: 100px; object-fit: cover;">
                 </td>
                 <td>{{product.price}}</td>
+                <td><p-checkbox name="groupname" [binary]="true" [value]="product.hidden" (onChange)="changeHidden(product, $event)"></p-checkbox></td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<p-dialog header="Actualización Masiva" [(visible)]="displayPopupMasivo" [modal]="true" [style]="{width: '400px'}">
+    <div class="p-field">
+      <label for="categoria">Seleccione Categoría</label>
+      <p-dropdown [options]="categorias" [(ngModel)]="selectedCategory" placeholder="Seleccione una categoría">
+        <ng-template pTemplate="selectedItem" let-item>
+          <span>{{ item ? item.name : 'Seleccione una categoría' }}</span>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          <span>{{ item.name }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="p-field">
+      <label for="porcentaje">Porcentaje de Aumento</label>
+      <input pInputText type="number" id="porcentaje" [(ngModel)]="increasePercentage" placeholder="Ingrese el porcentaje de aumento"> %
+    </div>
+    <p-footer>
+      <button pButton type="button" label="Actualizar" (click)="updatePrices()" class="p-button-rounded p-button-success"></button>
+      <button pButton type="button" label="Cancelar" (click)="cancelUpdate()" class="p-button-rounded p-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
 </body>

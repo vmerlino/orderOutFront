@@ -1,61 +1,96 @@
 .title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 30px;
-    font-weight: 600;
-    font-weight: 500; /* Poppins Medium */
-    margin-bottom: 20px;
-    margin-left: 20px;
-    margin-top: 20px;
-  }
-  .container {
-    margin-left: 10px;
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    color: #000;
-    margin-top: 10px;
-    display: grid;
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 20px 20px 10px;
+  color: #644AB5;
+}
+
+.container {
+  margin-left: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin-top: 10px;
+  display: grid;
 }
 
 .item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    color: #80869A;
-}
-::ng-deep .input{
-    width: 100%;
-    height: 90%;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    border-radius: '20px'
-}
-::ng-deep .p-button {
-    width: 100%;
-    height: 50px;
-    font-size: 20px;
-    font-weight: 500; 
-}
-::ng-deep .p-inputnumber {
-    width: 100%;
-    margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #80869A;
 }
 
-.productName {
-    font-weight: 400; /* Regular */
+.subtotal {
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.tip {
+  margin-top: 10px;
+  font-weight: 400;
 }
 
 .total {
-    
+  font-weight: 700; /* Bold */
+  margin-top: 20px; /* Espacio adicional encima del total */
+}
+
+.totalAmount {
+  font-size: 24px; /* Tamaño de fuente más grande para el total */
+  color: #644AB5; /* Color para resaltar el total */
 }
 
 .label {
-    font-weight: 700; /* Bold */
+  font-weight: 700; /* Bold */
 }
 
-  .tabClass{
-    color: #80869A;
-  }
+.payment-title {
+  color: #644AB5;
+  margin-bottom: 10px;
+}
 
-  ::ng-deep .p-tabview .p-tabview-nav{
-    justify-content: space-around;
-  }
+.dropdown {
+  margin-bottom: 10px;
+}
+
+.cash-payment {
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+::ng-deep .input {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+::ng-deep .p-button {
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 500; 
+  background-color: #644AB5;
+  color: white;
+}
+
+::ng-deep .p-inputnumber {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.productName {
+  font-weight: 400; /* Regular */
+}
+
+.tabClass {
+  color: #80869A;
+}
+
+::ng-deep .p-tabview .p-tabview-nav {
+  justify-content: space-around;
+}

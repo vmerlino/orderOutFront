@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/model/Account';
 import { FormaPagoEnum } from 'src/app/model/FormaPagoEnum';
 import { AccountService } from 'src/app/services/account.service';
+import { WaiterService } from 'src/app/services/waiter.service';
 
 @Component({
   selector: 'app-historial-pago',
@@ -45,14 +46,17 @@ export class HistorialPagoComponent implements OnInit {
     ];
     selectedPaymentState: number;
     endDate: Date;
+    
     startDate: Date;
-  constructor(private accountService: AccountService) { }
+  waiters: string[];
+selectedWaiter: any;
+  constructor(private waiterService: WaiterService ,private accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.getWaiter()
   }
   loadPayments() {
     this.accountService.getAllAccounts(this.startDate, this.endDate).subscribe((orders: Account[]) => {
-      console.log(orders);
       this.pagos = orders;
       this.filteredPayments = this.pagos;
     });
@@ -62,16 +66,56 @@ export class HistorialPagoComponent implements OnInit {
       this.loadPayments();
     }
   }
-
+  getTotalAmount() {
+    return this.filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
+  }
+  
   getFormaDePagoName(id: any): String {
     return FormaPagoEnum.getPaymentMethodName(id);
   }
+  exportToCSV() {
+    const headers = ['Nº', 'Monto', 'Fecha', 'Forma De Pago', 'Mozo', 'Mesa'];
+    const rows = this.filteredPayments.map(payment => [
+      payment.id,
+      payment.amount,
+      payment.date,
+      this.getFormaDePagoName(payment.wayToPay),
+      payment.tableWaiter.waiter.name,
+      payment.tableWaiter.table.id
+    ]);
+  
+    let csvContent = "data:text/csv;charset=utf-8," 
+                    + headers.join(",") + "\n" 
+                    + rows.map(e => e.join(",")).join("\n");
+  
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "registros_pagos.csv");
+    document.body.appendChild(link); // Required for FF
+  
+    link.click();
+  }
+  getWaiter(){
+    this.waiterService.getAllWaiters().subscribe(value =>{
+      this.waiters = value.map(item => item.name)
+    } )
 
-  filterPayments(): void {
-    if (this.selectedPaymentState) {
-      this.filteredPayments = this.pagos.filter(payment => payment.wayToPay === this.selectedPaymentState);
-    } else {
+  }
+  filterPayments(origin: string): void {
+    if(origin == 'state'){
+      if (this.selectedPaymentState) {
+        this.filteredPayments = this.pagos.filter(payment => payment.wayToPay === this.selectedPaymentState);
+      } 
+    }
+    if(origin == 'waiter'){
+    if (this.selectedWaiter) {
+      this.filteredPayments = this.pagos.filter(payment => payment.tableWaiter.waiter.name === this.selectedWaiter);
+    } 
+  }
+    if(origin != 'waiter' && origin !='state'){
       this.filteredPayments = this.pagos;
     }
-  }
+  
+}
 }

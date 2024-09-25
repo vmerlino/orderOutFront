@@ -23,7 +23,6 @@ export class ProductDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.productQuantity = history.state.product;
-    console.log(this.productQuantity)
     this.clarification = this.productQuantity.clarification;
     this.imagen = await this.productService.getImage(
       this.productQuantity.product.id
