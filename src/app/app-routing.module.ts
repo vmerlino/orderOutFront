@@ -43,6 +43,7 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent },
   { path: 'search', component: SearchComponent },
   { path: 'home/:id', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'product-detail', component: ProductDetailComponent },
   { path: 'pedidos', component: PedidosRealizadosComponent },
   //defult

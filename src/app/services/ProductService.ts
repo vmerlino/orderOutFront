@@ -58,7 +58,10 @@ export class ProductService {
     formData.append('IsVegan', product.isVegan.toString());
     formData.append('IsGlutenFree', product.isGlutenFree.toString());
     formData.append('Making', product.making.toString());
-    formData.append('Hidden', product.hidden.toString());
+    if(product.hidden){
+
+      formData.append('Hidden', product.hidden.toString());
+    }
 
     return this.http.put<Product>(`${BACKEND_URL}/Product/UpdateProduct`, formData, {
         headers: {

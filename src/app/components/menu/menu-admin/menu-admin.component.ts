@@ -85,6 +85,13 @@ export class MenuAdminComponent implements OnInit {
         routerLink: 'admin/pedidos',
       },
       {
+        label: 'Preguntas Frecuentas',
+        icon: 'pi pi-question-circle',
+        command: () => {
+        window.open('https://docs.google.com/document/d/1DGXoHxJjBvEReDks5_cDRU7Yl3cXbBEG/edit?usp=sharing&ouid=108635851454151287334&rtpof=true&sd=true',
+        )}
+        },
+      {
         label: 'Cerrar sesión',
         icon: 'pi pi-power-off',
         styleClass: 'move-to-end',

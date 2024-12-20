@@ -1,8 +1,7 @@
 import { createReducer, on, Action, createFeatureSelector, createSelector } from '@ngrx/store';
 import { Order } from '../model/Order';
-import { addOrder } from './OrderState.actions';
+import { addOrder, clearOrders, lanzarmensaje } from './OrderState.actions'; // Importa la nueva acción
 import { localStorageSyncOrdersReducer } from './localStorageOrder.reducer';
-
 
 export interface OrdersState {
   orders: Order[];
@@ -15,9 +14,15 @@ const initialState: OrdersState = {
 export const _ordersReducer = createReducer(
   initialState,
   on(addOrder, (state, { order }) => ({
-    
     ...state,
     orders: [...state.orders, ...order],
+  })),
+  on(clearOrders, state => ({
+    ...state,
+    orders: [] // Limpia el arreglo de órdenes
+  })),
+  on(lanzarmensaje, state => ({
+    ...state // No hacemos nada aquí, el efecto se encargará del mensaje
   }))
 );
 

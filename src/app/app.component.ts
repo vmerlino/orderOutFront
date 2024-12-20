@@ -15,13 +15,16 @@ export class AppComponent implements OnInit{
   isHomePage = false;
   isLoggedIn$ : any;
   isLoggedIn = false;
+  adminPage: boolean;
 
   constructor(private router: Router, private store: Store) {
     this.isLoggedIn$ =JSON.parse(localStorage.getItem('authState') || 'null');
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
+        this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home$/) || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
+        this.adminPage = !!event.urlAfterRedirects.match(/^\/admin\/.*$/);
+
       }
     });
   }

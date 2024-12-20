@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
@@ -8,29 +8,44 @@ import { TableService } from 'src/app/services/table.service';
 import { setUser } from 'src/app/states/Auth.actions';
 import { UserState } from 'src/app/states/Auth.reducer';
 import { setTable } from 'src/app/states/TableState.actions';
-import { TableState } from 'src/app/states/TableState.reducer';
+import { selectTableState, TableState } from 'src/app/states/TableState.reducer';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   table$: Observable<Table | null>;
   usuario: string;
   mesaId: any;
+  idTable: any;
 
   constructor(
     private tableService: TableService,
     private route: ActivatedRoute,
-    private store: Store<{ table: TableState, auth: UserState }>,
+    private router: Router,
+    private store: Store<{ table: TableState; auth: UserState }>
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.mesaId = params['id'];
-      this.getTableId(this.mesaId);
-    });
+      this.route.params.subscribe((params) => {
+        if (params['id']) {
+          this.mesaId = params['id'];
+          this.getTableId(this.mesaId);
+          this.router.navigate(['/home'], { state: { idTable: params['id'] } });
+        } else {
+          const navigation = this.router.getCurrentNavigation();
+          if (navigation?.extras.state) {
+            this.idTable = navigation.extras.state['idTable'];
+            this.mesaId = this.idTable;
+          } else {
+            this.store.select(selectTableState) .subscribe(value =>{
+              this.mesaId = value.table?.id
+            })
+                }
+        }
+      });
   }
 
   async getTableId(mesaId: number) {
@@ -42,7 +57,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  setUser(){
-    this.store.dispatch(setUser({ user: this.usuario }))
+  setUser() {
+    this.store.dispatch(setUser({ user: this.usuario }));
   }
 }

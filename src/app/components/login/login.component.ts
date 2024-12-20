@@ -14,7 +14,7 @@ import { login } from 'src/app/states/Auth.actions';
 export class LoginComponent implements OnInit {
   usuario: String;
   contrasena: String;
-  error = false;
+  displayErrorDialog = false;
   constructor(
     private messageService : MessageService,
     private store: Store,
@@ -27,18 +27,16 @@ export class LoginComponent implements OnInit {
     let user = new User(this.usuario, this.contrasena);
     this.userService.login(user).subscribe(
       (value) => {
-        if(value){
-        let user2 = value.user;
-        this.store.dispatch(login({ user: user2 }));
-        this.router.navigate(['/admin/pedidos']);
-        }else{
-
-          this.messageService.add({
-            severity: 'Error',
-            summary: 'Usuario o contraseña incorrecta',
-            detail: 'Por favor verifique los datos ingresados',
-          });
+        if (value) {
+          let user2 = value.user;
+          this.store.dispatch(login({ user: user2 }));
+          this.router.navigate(['/admin/pedidos']);
         }
+      },
+      (error) => {
+console.log("erre");
+this.displayErrorDialog = true;
+
       }
     );
   }

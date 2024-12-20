@@ -1,13 +1,13 @@
 
 
-<div *ngIf="!isLoggedIn">
+<div *ngIf="!adminPage">
 <div class="background-container">
   <app-header></app-header>
   <router-outlet></router-outlet>
 </div>
 <app-menu *ngIf="!isHomePage"  class="fixed-bottom"></app-menu>
 </div>
-<div class="container"  *ngIf="!isHomePage && isLoggedIn" >
+<div class="container"  *ngIf="!isHomePage && adminPage" >
     <div class="menu">
       <app-menu-admin></app-menu-admin>
     </div>

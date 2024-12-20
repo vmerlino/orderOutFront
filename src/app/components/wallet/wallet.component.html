@@ -1,17 +1,19 @@
-<div>
+<div >
     <h1 class="title">Detalles de Pedido</h1>
     <p-tabView>
         <p-tabPanel class="tabClass" header="Efectivo / Tarjeta">
-            <div class="container">
+            <div *ngIf="orders.length>0" class="container">
                 <div *ngFor="let order of orders">
                     <div *ngFor="let product of order.products" class="item">
-                        <span class="productName">{{ product.product.name }}</span>
-                        <span class="price">X{{ product.quantity }}</span>
-                        <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
-                    </div>
-                    <div class="item subtotal">
-                        <span class="label">Subtotal:</span>
-                        <span class="totalPrice">{{ order.totalAmount | currency }}</span>
+                        <div style="width: 10%;">
+                            <span class="price">X{{ product.quantity }}</span>
+                        </div>
+                        <div style="justify-content: start; width: 60%;">
+                            <span class="productName">{{ product.product.name }}</span>
+                        </div>
+                        <div style="    text-align: end; width: 40%;">
+                            <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="item tip">
@@ -42,6 +44,7 @@
                         class="button" 
                         (click)="realizarPagoEfectivo()" 
                         pButton 
+                        [disabled]="!metodoPagoSeleccionado || (metodoPagoSeleccionado === 'efectivo' && !pagoEfectivo)"
                         type="button" 
                         label="Pedir mozo" 
                         icon="pi pi-user-plus">
@@ -50,24 +53,40 @@
             </div>
         </p-tabPanel>
         <p-tabPanel class="tabClass" header="Mercado Pago">
-            <div *ngFor="let order of orders">
-                <div *ngFor="let product of order.products" class="item">
-                    <span class="productName">{{ product.product.name }}</span>
-                    <span class="price">X{{ product.quantity }}</span>
-                    <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
+            <div *ngIf="orders.length>0" class="container">
+                <div *ngFor="let order of orders">
+                    <div *ngFor="let product of order.products" class="item">
+                        <div style="width: 10%;">
+                            <span class="price">X{{ product.quantity }}</span>
+                        </div>
+                        <div style="justify-content: start; width: 60%;">
+                            <span class="productName">{{ product.product.name }}</span>
+                        </div>
+                        <div style="    text-align: end; width: 40%;">
+                            <span class="price totalPrice">{{ product.product.price * product.quantity | currency }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="item subtotal">
-                    <span class="label">Subtotal:</span>
-                    <span class="totalPrice">{{ order.totalAmount | currency }}</span>
+                <div class="item tip">
+                    <span class="productName">Propina 10%</span> {{ getTip() | currency }}
                 </div>
-            </div>
-            <div class="total">
-                <span class="label">Total:</span>
-                <span class="totalPrice totalAmount">{{ getTotalAmounts() | currency }}</span>
-            </div>
-            <div style="margin-top: 20px;">
-                <button class="button" pButton type="button" (click)="realizarPagoMercadoPago()" label="Realizar Pago" icon="pi pi-wallet"></button>
-            </div>
+                <div class="total">
+                    <span style="    margin-right: 190px;" class="label">Total:</span>
+                    <span class="totalPrice totalAmount">{{ getTotalAmounts() | currency }}</span>
+                </div>
+                    <div style="margin-top: 20px;">
+                        <button class="button" pButton type="button" (click)="realizarPagoMercadoPago()" label="Realizar Pago" icon="pi pi-wallet"></button>
+                    </div>
+                </div>
         </p-tabPanel>
     </p-tabView>
 </div>
+<p-dialog style="background-color: white;" header="Error" [visible]="!isInvalid" [modal]="true" [closable]="false">
+    <div>
+
+        <p>el monto debe ser mayor a {{getTotalAmounts() | currency}}.</p>
+    </div>
+    <p-footer>
+      <button pButton label="OK" (click)="isInvalid = true"></button>
+    </p-footer>
+  </p-dialog>

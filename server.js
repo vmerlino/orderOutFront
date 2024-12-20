@@ -12,10 +12,7 @@ server.on('connection', (socket) => {
 
     // Enviar el mensaje a todos los clientes conectados
     server.clients.forEach((client) => {
-      console.log("conexiooon")
       if (client.readyState === WebSocket.OPEN) {
-        console.log("conexiooon2")
-
         client.send(message); // retransmitir el mensaje a los otros clientes
       }
     });

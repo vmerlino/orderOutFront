@@ -7,7 +7,7 @@
       <div style="box-shadow: 10px;" class="product-info-card">
         <div class="product-price">
           <span class="label">Precio</span>
-          <span class="value">${{ productQuantity.product.price }}</span>
+          <span class="value">{{ productQuantity.product.price | currency }}</span>
         </div>
         <div class="product-title">
           <span class="label">{{ productQuantity.product.name }}</span>

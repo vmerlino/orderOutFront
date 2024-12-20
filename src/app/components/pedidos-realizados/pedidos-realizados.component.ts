@@ -5,6 +5,7 @@ import { Order } from 'src/app/model/Order';
 import { OrderStatusEnum } from 'src/app/model/OrderStatusEnum';
 import { OrderService } from 'src/app/services/order.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
+import { clearOrders } from 'src/app/states/OrderState.actions';
 import { selectOrders } from 'src/app/states/OrderState.reducer';
 
 @Component({
@@ -19,6 +20,8 @@ export class PedidosRealizadosComponent implements OnInit {
   pedidos: Order[] = [];
   categoriasCocina = [20002, 20003, 20004, 20008];
   websocketSubscription: Subscription;
+hayMozoOrder= false;
+  pedidosAll:Order[]=[];
 
 
   constructor(private webSockertService: WebSocketService ,private store: Store, private orderService: OrderService) { }
@@ -31,19 +34,34 @@ export class PedidosRealizadosComponent implements OnInit {
     this.store.select(selectOrders).subscribe(value =>{
       value.forEach(item => {
         this.orderService.getOrderById(item.id).subscribe(value2=>{
-          this.pedidos.push(value2);
+          if(!value2.bill.isPaid && this.categoriasCocina.includes(item.products[0].product.categoryId)){
+            this.pedidos.push(value2);
+          }
+          if(!value2.bill.isPaid){
+            this.pedidosAll.push(value2);
+            console.log(this.pedidosAll)
+          }
+          if(!this.categoriasCocina.includes(item.products[0].product.categoryId)){
+            this.hayMozoOrder = true;
+          }
         })
       })
     });
-    this.webSockertService.sendMessage({ recargar: false });
+    this.webSockertService.sendMessage({ nada: false });
 
 
     this.websocketSubscription = this.webSockertService.messages$.subscribe(
       (message) => {
          message.then((value: any) =>{
-          console.log(value)
+          if (value.pagado === 'pagado') {
+            this.store.dispatch(clearOrders());
+            this.pedidos = []
+            this.ngOnInit();
+          }
           if(value.recargar){
-           this.ngOnInit();
+            console.log("state")
+            this.pedidos = []
+            this.ngOnInit();
           }
          })
       });

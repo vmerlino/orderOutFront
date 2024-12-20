@@ -1,13 +1,15 @@
 <div class="container">
-    <div *ngIf="pedidos.length > 0" class="header">
+    <div *ngIf="pedidosAll.length > 0" class="header">
         Pedidos en Curso
     </div>
-    <div *ngIf="pedidos.length == 0" class="header no-orders">
+    <div *ngIf="pedidosAll.length == 0" class="header no-orders">
         No hay pedidos en Curso
     </div>
     <div class="orders">
+        <div *ngIf="hayMozoOrder">
+            Los pedidos de Bebidas / Postres / cafeteria seran enviados en el momento y no requieren preparcion
+            </div>
         <div *ngFor="let order of pedidos"  class="order-card">
-            <div *ngIf="categoriasCocina.includes(order.products[0].product.categoryId)">
             <div class="status">
                 <i class="pi pi-check-circle status-icon"></i>
                 El pedido se envió correctamente
@@ -30,5 +32,4 @@
             </div>
         </div>
         </div>
-    </div>
 </div>

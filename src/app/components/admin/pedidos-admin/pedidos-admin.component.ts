@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import jsPDF from 'jspdf';
@@ -14,6 +15,7 @@ import { TableService } from 'src/app/services/table.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { selectUserState } from 'src/app/states/Auth.reducer';
 import { NotificationsState } from 'src/app/states/Notifications.reducer';
+import { lanzarmensaje } from 'src/app/states/OrderState.actions';
 
 @Component({
   selector: 'app-pedidos-admin',
@@ -54,12 +56,15 @@ export class PedidosAdminComponent implements OnInit {
   mesaApagar: number |null;
   orderspayment: Order[] | null;
 displayDialogLibre: any;
+  paytableefec: any;
   constructor(
+    private currencyPipe: CurrencyPipe,
     private websocketService: WebSocketService,
     private orderService: OrderService,
     private accountService: AccountService,
     private messageService: MessageService,
-    private tableService: TableService
+    private tableService: TableService,
+    private store : Store
   ) {}
   showDialog(tableId: number) {
     this.displayDialog = true;
@@ -84,29 +89,38 @@ displayDialogLibre: any;
     const mesa = this.mesasEstado.find(m => m.tableId === tableId);
     if (mesa) {
       mesa.estado = 'libre';
-      console.log(this.mesasEstado)
       this.displayDialogLibre= false;
     }
     this.hideDialog();
     this.ngOnInit();
 
+
   }
+  mesaAtendida(id: number) {
+    for (let badge of this.visibleBadges) {
+      if (badge.tableId === id) {
+        this.visibleBadges.delete(badge);
+        break; // Si ya lo encontramos, salimos del bucle
+      }
+    }
+  }
+  
   ocuparMesa(id:number){
     const mesa = this.mesasEstado.find(m => m.tableId === id);
     if (mesa) {
       mesa.estado = 'ocupada';
-      console.log(this.mesasEstado)
       this.ngOnInit();
     }
+    this.orderService.lanzarMEnsaje();
+
   }
   payTable(id: number) {
       const mesa = this.mesasEstado.find(m => m.tableId === id);
       if (mesa) {
         mesa.estado = 'pendiente';
-        console.log(this.mesasEstado)
       }
       this.hideDialog();
-
+      this.ngOnInit();
   }
   initializeMesaStates() {
     this.tables.forEach(table => {
@@ -131,7 +145,7 @@ displayDialogLibre: any;
         +this.selectedPaymentMethod!
       )
       .subscribe((value) => {
-        this.orderPay!.bill = value;
+       this.orderService.lanzarMEnsaje();
       });
 
       this.orderspayment!.forEach(item => {
@@ -141,7 +155,6 @@ displayDialogLibre: any;
       })
       this.orderPay = null;
       this.orderspayment = null;
-      
     }
   }
   toggleTable(tableId: number) {
@@ -224,7 +237,7 @@ displayDialogLibre: any;
       this.selectedPaymentMethod = null;
     }
     const request = {recargar: true}
-    //this.websocketService.sendMessage(request);
+    this.websocketService.sendMessage(request);
   }
 
   isPayTableNull(tableId: number): boolean {
@@ -350,7 +363,11 @@ displayDialogLibre: any;
     const entry = Array.from(this.visibleBadges).find(
       (data) => data.tableId === tableId
     );
-    return entry ? entry.payTable : null;
+    this.paytableefec=  entry ? entry.payTable : null;
+    if(this.paytableefec != 'tarjeta'){
+      this.paytableefec = this.currencyPipe.transform(this.paytableefec, '$', 'symbol', '1.2-2');
+    }
+    return this.paytableefec
   }
 
   loadOrders(cocina: boolean) {
@@ -496,7 +513,7 @@ displayDialogLibre: any;
   getTotalForTable(tableId: number): number {
     const ordersForTable = this.orders.filter(order => order.bill.tableWaiter.tableId === tableId);
     return ordersForTable.reduce((total, order) => {
-      return total + this.getTotalAmount(order);
+      return (total + this.getTotalAmount(order));
     }, 0);
   }
   getTableStatus(tableId: number): 'libre' | 'ocupada' | 'pendiente' {

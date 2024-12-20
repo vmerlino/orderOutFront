@@ -1,6 +1,6 @@
 <p-dialog style="width: 50%; height: 60%;" header="Pagar mesa {{mesaApagar}}" [(visible)]="displayDialog" [modal]="true" [closable]="true">
     <h3 style="margin-top: -20px;">Seleccione método de pago utilizado</h3>
-    <p-dropdown style="width: 100%; margin-bottom: 20px;" [options]="paymentMethods" [(ngModel)]="selectedPaymentMethod" placeholder="Seleccione una forma de pago"></p-dropdown>
+    <p-dropdown [ngStyle]="{'width': '100%', 'margin-bottom': '20px'}" [options]="paymentMethods" [(ngModel)]="selectedPaymentMethod" placeholder="Seleccione una forma de pago"></p-dropdown>
     <div class="dialog-footer">
         <button pButton type="button" (click)="confirmSelection()" label="Confirmar"></button>
         <button pButton type="button" (click)="hideDialog()" label="Cancelar" class="p-button-secondary"></button>
@@ -20,16 +20,22 @@
           <div style="width: 5%;">
 
               <p-badge *ngIf="isPayTableNull(tableOrders.id)" value="!" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-              <p-badge *ngIf="getPayTable(tableOrders.id)" value="${{getPayTable(tableOrders.id)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
-              
+              <p-badge *ngIf="getPayTable(tableOrders.id)" value="{{getPayTable(tableOrders.id)}}" class="notification-badge" badgeSize="large" severity="danger"></p-badge> 
+              <div  (click)="mesaAtendida(tableOrders.id)">
+
+                  <span  class="text-success" style="cursor: pointer;" *ngIf="isPayTableNull(tableOrders.id) || getPayTable(tableOrders.id) " 
+                  >
+                    ✓
+                  </span>
+              </div>
           </div>
           <!-- Estado -->
 
           <span *ngIf="getTableStatus(tableOrders.id) === 'libre'" style=" background-color: green;font-family: 'Arial', sans-serif; width: 20%; text-align: center;">
-            <p-badge  style="width: 20px; background-color: green; height: 10px;" value="Libre" >Libre </p-badge>
+            <p-badge [ngStyle]="{'width': '20px', 'background-color': 'green', 'height': '10px'}" value="Libre">Libre</p-badge>
         </span>
         <div style="width: 5%;">
-            <span *ngIf="getTableStatus(tableOrders.id) === 'libre'" 
+            <span  *ngIf="getTableStatus(tableOrders.id) === 'libre'" 
                 (click)="ocuparMesa(tableOrders.id)" class="text-success" style="cursor: pointer;">
                 ✗
             </span>
@@ -102,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="order-grid-item-bottom">
-                                    <span class="order-price">${{getTotalAmount(order)}}</span>
+                                    <span class="order-price">{{getTotalAmount(order) | currency}}</span>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +126,7 @@
                 <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
                     <div *ngIf="categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
                         <div class="pedido-info">
-                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - {{pedido.product.price | currency}}</label>
                             <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
                         </div>
                         <hr class="divider">
@@ -138,7 +144,7 @@
                 <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
                     <div *ngIf="categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
                         <div class="pedido-info">
-                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - {{pedido.product.price | currency}}</label>
                             <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
                         </div>
                         <hr class="divider">
@@ -156,7 +162,7 @@
                 <div class="p-field grid-container" *ngFor="let pedido of pedidoSelected.products">
                     <div *ngIf="!categoriasCocina.includes(pedido.product.categoryId)" class="pedido-item">
                         <div class="pedido-info">
-                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - ${{pedido.product.price}}</label>
+                            <label class="producto-label"><strong>Producto:</strong> {{pedido.product.name}}  X {{pedido.quantity}} - {{pedido.product.price | currency}}</label>
                             <label class="observaciones-label"><strong>Observaciones:</strong> {{getClarification(pedido)}}</label>
                         </div>
                         <hr class="divider">

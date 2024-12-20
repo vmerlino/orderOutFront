@@ -12,11 +12,18 @@ import { ProductService } from 'src/app/services/ProductService';
 export class ProductoCreateComponent implements OnInit {
   _productSelect: Product | null;
   @Input() displayDialog: boolean = false;
+making: any;
   @Input() set product(value: Product | null) {
     this._productSelect = value;
     if(value){
       this.accion='Modificar';
       this.nombre = value.name;
+      this.precio = value.price;
+      this.descripcion = value.description;
+      this.making = value.making;
+      this.isVegan = value.isVegan;
+      this.isGluteenFree = value.isGlutenFree;
+      this.category = value.category;
     }   
   } 
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
@@ -41,8 +48,17 @@ export class ProductoCreateComponent implements OnInit {
   }
 
   guardar() {
-    if (this.selectedFile) {
-      
+    console.log(this._productSelect)
+    if(this._productSelect != null){
+      let product = new Product(this._productSelect.id, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile, this.making );
+     console.log(product)
+      this.productService.updateProduct(product).subscribe({next: (response) => {
+        console.log('Producto creado exitosamente', response);
+        this.cerrarDialogo();
+      }})
+    }
+    else{
+      if (this.selectedFile) {
       const reader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
       const formData = new FormData();
@@ -51,11 +67,15 @@ export class ProductoCreateComponent implements OnInit {
       formData.append('description', this.descripcion);
       formData.append('isVegan', this.isVegan.toString());
       formData.append('isGluteenFree', this.isGluteenFree.toString());
+      formData.append('making', this.making );
+      
       formData.append('photo', this.selectedFile );
-      formData.append('categoryId', "1");
+      if( this.category.id){
+        let idcat = this.category.id?.toString();
+        formData.append('categoryId', idcat);
+      }
 
 
-      this.product = new Product(0, this.nombre, this.precio, this.category, this.descripcion, null, this.isVegan,this.isGluteenFree,this.selectedFile, this.selectedFile, 20 );
     this.productService.createProduct(formData).subscribe({
       next: (response) => {
         console.log('Producto creado exitosamente', response);
@@ -66,6 +86,7 @@ export class ProductoCreateComponent implements OnInit {
       }
     });
   }
+}
 }
 
   cancelar() {

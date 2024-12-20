@@ -27,6 +27,7 @@
                 <th>Categoria</th>
                 <th>Imagen</th>
                 <th>Precio</th>
+                <th>Tiempo De Preparacion</th>
                 <th>Oculto</th>
             </tr>
         </ng-template>
@@ -40,7 +41,8 @@
                 <td>
                     <img [src]="getImages(product.id)" alt="{{product.name}}" style="width: 100px; height: 100px; object-fit: cover;">
                 </td>
-                <td>{{product.price}}</td>
+                <td>{{product.price | currency}}</td>
+                <td style="padding-left: 20px;">{{product.making}}</td>
                 <td><p-checkbox name="groupname" [binary]="true" [value]="product.hidden" (onChange)="changeHidden(product, $event)"></p-checkbox></td>
             </tr>
         </ng-template>

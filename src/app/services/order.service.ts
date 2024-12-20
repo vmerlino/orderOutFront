@@ -1,17 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Order } from '../model/Order';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { BACKEND_URL } from 'src/constants';
 import { OrderDto } from '../model/Dtos/OrderDto';
+import { WebSocketService } from './web-socket.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  websocketSubscription: Subscription;
 
-  constructor(private http: HttpClient) {}
 
+  constructor(private websocketService: WebSocketService ,private http: HttpClient) {}
+lanzarMEnsaje(){
+  console.log("se lanzo msj")
+  this.websocketService.sendMessage({ pagado: "pagado" });
+
+}
 
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${BACKEND_URL}/Order/AllOrders`);

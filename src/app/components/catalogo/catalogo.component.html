@@ -76,7 +76,7 @@
         </div>
       </div>
       <div class="product-list-action">
-        <h6 class="mb-2-price">${{ product.product.price }}</h6>
+        <h6 class="mb-2-price">{{ product.product.price | currency}}</h6>
         <div class="chips-container">
           <p-chip *ngIf="product.product.isVegan" label="Vegano" styleClass="mr-2 custom-chip"></p-chip>
           <p-chip *ngIf="product.product.isGlutenFree" label="Gluten free" styleClass="mr-2 custom-chip"></p-chip>

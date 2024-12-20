@@ -20,7 +20,7 @@ import { ChipModule } from 'primeng/chip';
 import { InputNumberModule} from 'primeng/inputnumber';
 import { PasswordModule} from 'primeng/password';
 import { StoreModule } from '@ngrx/store';
-import { DatePipe } from '@angular/common';  // Importa DatePipe
+import { CurrencyPipe, DatePipe } from '@angular/common';  // Importa DatePipe
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AvatarModule} from 'primeng/avatar';
@@ -151,7 +151,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  providers: [DatePipe  ,{
+  providers: [DatePipe , CurrencyPipe ,{
     
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

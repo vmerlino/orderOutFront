@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn$ : any;
   isLoggedIn = false;
   isHomePage= false;
+  adminPage: any;
 
   constructor( private router :Router, private websocketService: WebSocketService, private store: Store<{ table: TableState }>) {
     this.table$ = this.store.select((state) =>
@@ -24,9 +25,11 @@ export class HeaderComponent implements OnInit {
   ); 
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
-      this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
+      this.isHomePage = this.router.url === '/' || !!event.urlAfterRedirects.match(/^\/home$/)  || !!event.urlAfterRedirects.match(/^\/home\/.*/) || this.router.url === '/**'|| this.router.url === '/login';
+      this.adminPage = !!event.urlAfterRedirects.match(/^\/admin\/.*$/);
+    
     }})
-    this.isLoggedIn$ =JSON.parse(localStorage.getItem('authState') || 'null');
+    this.isLoggedIn$ =JSON.parse(localStorage.getItem('authState') || 'null')
 }
 
   ngOnInit(): void {

@@ -17,6 +17,10 @@
             <input type="text" id="price" pInputText [(ngModel)]="precio" autofocus required>
         </div>
         <div class="p-field">
+          <label for="price">Tiempo de preparacion</label>
+          <input type="text" id="making" pInputText [(ngModel)]="making" autofocus required>
+      </div>
+        <div class="p-field">
           <label for="image">Imagen</label>
           <input type="file" (change)="onImageSelected($event)" accept="image/*">
         </div>

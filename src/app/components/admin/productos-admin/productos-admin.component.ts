@@ -46,6 +46,7 @@ this.selectedProduct = null;
   loadProducts() {
     this.productService.getAllProducts().subscribe(
       (products) => {
+        console.log(products)
         this.products = products;
         this.loadProductImages();
       },
@@ -80,6 +81,8 @@ this.selectedProduct = null;
     this.selectedCategory = null;
     this.increasePercentage = null;
     this.displayPopupMasivo = false;
+    this.ngOnInit();
+
   }
   updatePrices() {
     let porcentaje = this.increasePercentage! / 100;
@@ -88,7 +91,6 @@ this.selectedProduct = null;
       .subscribe((value) => {
         this.cancelUpdate();
       });
-    this.loadProducts();
   }
   addProduct(product: Product) {
     this.productService.createProduct(product).subscribe(
@@ -112,6 +114,7 @@ this.selectedProduct = null;
   }
   cerrarDialogo() {
     this.displayDialog = false;
+    this.ngOnInit();
   }
   abrirDialogo() {
     this.displayDialog = true;

@@ -79,6 +79,7 @@ export class EstadisticasProductosComponent implements OnInit {
 
   loadAccounts() {
     this.accountService.getStatistics(this.startDate ,this.endDate ).subscribe((item) => {
+      console.log(item)
       this.indicators = item.indicators;
       this.bills = item.rankingProducts;
       this.rankingTables = item.rankingTables;
@@ -92,8 +93,8 @@ export class EstadisticasProductosComponent implements OnInit {
         ],
         datasets: [
           {
-            // data: [this.indicators.rankingWayToPayDtos[0].quantity, this.indicators.rankingWayToPayDtos[1].quantity, this.indicators.rankingWayToPayDtos[2].quantity, this.indicators.rankingWayToPayDtos[3].quantity],
-            data: [300, 50, 100, 50],
+            data: [this.indicators.rankingWayToPayDtos[0].amount, this.indicators.rankingWayToPayDtos[1].amount, this.indicators.rankingWayToPayDtos[2].amount, this.indicators.rankingWayToPayDtos[3].amount],
+            //data: [300, 50, 100, 50],
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#644AB5'],
             hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#644AB5'],
           },
